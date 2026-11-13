@@ -16,6 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,450;1,9..144,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/config.js"></script>
+  <script src="js/reviews.js"></script>
   <script>
     (function () {
       var n = (window.STORE_CONFIG && STORE_CONFIG.name) || "Mystery Creations";
@@ -45,6 +46,7 @@
         <a href="#order">Build your box</a>
         <a href="#boxes">Boxes</a>
         <a href="#themes">Themes</a>
+        <a href="#reviews">Reviews</a>
         <a href="#faq">FAQ</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -183,6 +185,66 @@
       </div>
     </section>
 
+
+    <section class="section" id="reviews">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">From customers</p>
+          <h2>Reviews</h2>
+          <p>Notes from people who have ordered a box. We only post reviews we can match to a real order.</p>
+        </div>
+        <div id="reviews-list" class="reviews-list" aria-live="polite"></div>
+        <div class="review-compose">
+          <h3>Leave a review</h3>
+          <p class="review-compose-lede">If you’ve received a box, tell us how it went. We’ll check it against your order before anything is posted.</p>
+          <form class="review-form" id="review-form" novalidate>
+            <div class="review-form-row">
+              <label for="review-first">First name
+                <input id="review-first" type="text" name="first" autocomplete="given-name" required maxlength="40">
+              </label>
+              <label for="review-last">Last initial
+                <input id="review-last" type="text" name="last" autocomplete="off" required maxlength="1" pattern="[A-Za-z]" inputmode="text" spellcheck="false" aria-describedby="review-last-hint">
+              </label>
+            </div>
+            <p class="hint" id="review-last-hint">Just the first letter of your last name, like F.</p>
+            <label for="review-email">Order email
+              <input id="review-email" type="email" name="email" autocomplete="email" required aria-describedby="review-email-hint">
+            </label>
+            <p class="hint" id="review-email-hint">Used only to verify your order. We won’t publish it.</p>
+            <label for="review-theme">Theme
+              <select id="review-theme" name="theme" required>
+                <option value="">Select a theme…</option>
+              </select>
+            </label>
+            <fieldset class="star-rating">
+              <legend>Star rating</legend>
+              <div class="star-rating-options">
+                <input type="radio" id="review-star-5" name="rating" value="5" required>
+                <label for="review-star-5"><span class="visually-hidden">5 stars</span><span aria-hidden="true">★</span></label>
+                <input type="radio" id="review-star-4" name="rating" value="4">
+                <label for="review-star-4"><span class="visually-hidden">4 stars</span><span aria-hidden="true">★</span></label>
+                <input type="radio" id="review-star-3" name="rating" value="3">
+                <label for="review-star-3"><span class="visually-hidden">3 stars</span><span aria-hidden="true">★</span></label>
+                <input type="radio" id="review-star-2" name="rating" value="2">
+                <label for="review-star-2"><span class="visually-hidden">2 stars</span><span aria-hidden="true">★</span></label>
+                <input type="radio" id="review-star-1" name="rating" value="1">
+                <label for="review-star-1"><span class="visually-hidden">1 star</span><span aria-hidden="true">★</span></label>
+              </div>
+            </fieldset>
+            <label for="review-text">Your review
+              <textarea id="review-text" name="text" maxlength="500" rows="5" required></textarea>
+            </label>
+            <div class="note-meta">
+              <p class="hint">Reviews are checked against real orders before they’re posted.</p>
+              <span class="char-count" id="review-text-count" aria-live="polite">0 / 500</span>
+            </div>
+            <button class="btn btn-gold" type="submit">Send review</button>
+            <p class="form-status" id="review-status" role="status"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="faq">
       <div class="wrap">
         <div class="section-head">
@@ -192,31 +254,59 @@
         <div class="faq-list">
           <details class="faq">
             <summary>What’s inside a mystery box?</summary>
-            <p>A curated mix of themed goods chosen for the size and theme you pick. Contents are a surprise and change from order to order. Each box contains only new, genuine items purchased from authorized retailers. We don’t publish packing lists in advance; that’s the fun of it.</p>
+            <p>A curated mix of themed goods chosen for the size and theme you pick. Contents are a surprise and change from order to order. Photos and theme descriptions illustrate a mood; they don’t guarantee specific products, brands, or quantities. Each box contains only new, genuine items purchased from authorized retailers. We don’t publish packing lists in advance; that’s the fun of it.</p>
+          </details>
+          <details class="faq">
+            <summary>How do themes work?</summary>
+            <p>You choose a theme from the list when you build your box, and we select items that fit that interest. Theme names describe a mood or hobby — they are not official brand shops, and <span data-store-name>Mystery Creations</span> is not affiliated with or endorsed by any brand. Items are genuine, new products purchased from authorized retailers.</p>
           </details>
           <details class="faq">
             <summary>Is the price fixed? Is this a game of chance?</summary>
             <p>Every box is a fixed price for a fixed tier and theme you choose. What you pay is what you get: a curated themed gift box. There are no random prizes, odds, chances, rarity tiers, sweepstakes, or resale, trade-in, or buyback programs.</p>
           </details>
           <details class="faq">
+            <summary>Can I choose specific items?</summary>
+            <p>No — every box is a surprise. You choose the size and the theme, and we do the rest. If you have an allergy or restriction, write us on the contact form and we’ll do our best to accommodate.</p>
+          </details>
+          <details class="faq">
+            <summary>What does the “who this box is for” field do?</summary>
+            <p>It’s an optional note to help us personalize the box. We’ll use it as a guide, but we can’t guarantee specific requests, brands, or items, and we aren’t obligated to fulfill every ask. That field is a non-binding guide, as described in our terms.</p>
+          </details>
+          <details class="faq">
+            <summary>Can I send a box as a gift?</summary>
+            <p>Yes. At checkout, enter the recipient’s U.S. shipping address so the box goes to them. You can add an optional gift note (up to 200 characters) to tuck in the box, and optionally tell us a little about who it’s for so we can use that as a guide when we pack it.</p>
+          </details>
+          <details class="faq">
+            <summary>Can I include a gift note?</summary>
+            <p>Yes. Add an optional gift note and an optional note about who the box is for (up to 200 characters each) when you build your box. Stripe can’t prefill those fields, so we’ll copy your text when you continue — paste it into the matching fields on the Stripe checkout page: “About the recipient (optional)” and “Gift note (optional).”</p>
+          </details>
+          <details class="faq">
             <summary>How does shipping work?</summary>
             <p>We process and pack orders in 3–5 business days, then ship within the United States only, via UPS. Tracking is emailed to you when the package is on its way. Shipping is included in the box price — there is no extra shipping fee at checkout. Typical transit time is 1–5 business days after the box ships. Please enter a complete, accurate U.S. shipping address at checkout.</p>
           </details>
           <details class="faq">
-            <summary>Can I choose specific items?</summary>
-            <p>No — every box is a surprise. You choose the size and the theme, and we do the rest. You can optionally tell us a little about who the box is for; we’ll use that as a guide to help personalize it, but we can’t guarantee specific requests or items, and we aren’t obligated to fulfill every ask. If you have an allergy or restriction, write us on the contact form and we’ll do our best to accommodate. A short gift note can also be added when you build your box, and confirmed at checkout.</p>
+            <summary>Can I change or cancel an order?</summary>
+            <p>You may cancel for a full refund any time before the order ships. Write us at <a data-store-email href="mailto:help@mymysterycreations.com">help@mymysterycreations.com</a> as soon as you can. After a box has shipped, we don’t accept change-of-mind returns or changes to the theme, note, or address.</p>
           </details>
           <details class="faq">
             <summary>What’s your return and refund policy?</summary>
-            <p>Because contents are a surprise, we don’t accept change-of-mind returns. If a box arrives damaged, is missing items, or is not as described (wrong tier or theme), contact us within 14 days of delivery and include a photo. You can choose a replacement or a full refund. Refunds go back to the original payment method within 5–10 business days. If a package is lost in transit, we’ll file a UPS claim and then replace the box or refund you. You may cancel for a full refund any time before the order ships.</p>
+            <p>Because contents are a surprise, we don’t accept change-of-mind returns. Refunds go back to the original payment method within 5–10 business days. You may cancel for a full refund any time before the order ships. The full policy is in our <a href="terms.html">terms of use</a>.</p>
+          </details>
+          <details class="faq">
+            <summary>What if my box arrives damaged or items are missing?</summary>
+            <p>If a box arrives damaged, is missing items, or is not as described (wrong tier or theme), contact us within 14 days of delivery and include a photo. You can choose a replacement or a full refund. If a package is lost in transit, we’ll file a UPS claim and then replace the box or refund you.</p>
+          </details>
+          <details class="faq">
+            <summary>How are payments handled?</summary>
+            <p>Payments are processed securely by Stripe. We never see or store your card number. You’ll pay the fixed price for the box you chose, and shipping is included. After payment, Stripe emails a receipt, and you’ll return to our thank-you page.</p>
           </details>
           <details class="faq">
             <summary>Are you affiliated with any brands?</summary>
             <p>No. Theme names describe interests only. Items are genuine, new products purchased from authorized retailers; <span data-store-name>Mystery Creations</span> is not affiliated with or endorsed by any brand.</p>
           </details>
           <details class="faq">
-            <summary>Can I include a gift note?</summary>
-            <p>Yes. When you build your box you can add an optional note about who it’s for and an optional gift note (up to 200 characters each). Because Stripe can’t prefill those fields, we’ll copy your text when you continue — paste it into the matching fields on the Stripe checkout page: “About the recipient (optional)” and “Gift note (optional).” The recipient details are a guide only; we can’t guarantee specific requests or items.</p>
+            <summary>How do I get in touch?</summary>
+            <p>Write us at <a data-store-email href="mailto:help@mymysterycreations.com">help@mymysterycreations.com</a> or use the <a href="#contact">contact form</a> on this page. We also use that address for questions about an order, a return, or a review.</p>
           </details>
         </div>
       </div>
@@ -258,6 +348,7 @@
           <a href="#order">Build your box</a>
           <a href="#boxes">Boxes</a>
           <a href="#themes">Themes</a>
+          <a href="#reviews">Reviews</a>
           <a href="#faq">FAQ</a>
           <a href="#contact">Contact</a>
           <a href="terms.html">Terms</a>

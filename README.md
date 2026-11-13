@@ -6,7 +6,7 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 
 ## What’s on the site
 
-- Home page (`index.html`): hero, how it works, dropdown order form (box, theme, optional recipient note, optional gift note), compact box and theme overviews, checkout summary, FAQ, and contact
+- Home page (`index.html`): hero, how it works, dropdown order form (box, theme, optional recipient note, optional gift note), compact box and theme overviews, checkout summary, reviews (from `js/reviews.js`), FAQ, and contact
 - **Terms** (`terms.html`) and **Privacy** (`privacy.html`)
 - A **thank-you** page (`success.html`) used as the Stripe success URL: `https://mymysterycreations.com/success.html`
 - Original CSS/SVG visuals only — no official logos, trademarked artwork, or copyrighted characters
@@ -162,12 +162,38 @@ mystery-creations/
   success.html
   css/styles.css
   js/config.js      ← name, contact email, tiers, themes, Stripe payment links
+  js/reviews.js     ← approved customer reviews (leave empty until real ones arrive)
   CNAME             ← custom domain (mymysterycreations.com)
   js/app.js
   img/              ← original SVG mark and hero art
   screenshots/      ← desktop and mobile captures
   README.md
 ```
+
+
+## Customer reviews
+
+Published reviews live in `js/reviews.js` as `window.STORE_REVIEWS`. Keep this array empty until a review has been matched to a real paid order. Do not add invented, sample, or placeholder reviews.
+
+The “Leave a review” form on the site opens a mail draft to `STORE_CONFIG.contactEmail` (`help@mymysterycreations.com`). The subject is `Review – <First LastInitial>`, and the body includes the first name, last initial, order email (for verification only — not published), theme, star rating, and review text.
+
+To post an approved review:
+
+1. Confirm the order email matches a real paid order, and that the theme (and box, if you include it) is accurate.
+2. Open `js/reviews.js` and append an object to the array:
+
+```js
+{
+  name: "Jane D.",
+  theme: "Squishy",
+  tier: "The Secret",
+  rating: 5,
+  text: "The approved review text.",
+  date: "2026-11-13"
+}
+```
+
+3. Save and deploy. The reviews section renders from this array only, and the average rating is computed only when there is at least one real entry.
 
 ## Shipping and returns (summary)
 

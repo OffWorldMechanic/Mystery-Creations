@@ -101,6 +101,18 @@ a { color: var(--gold-bright); text-decoration-thickness: 1px; text-underline-of
 }
 .skip-link:focus { top: 12px; }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .wrap {
   width: min(1160px, calc(100% - 40px));
   max-width: calc(100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
@@ -1068,7 +1080,7 @@ body.has-bar .legal { padding-bottom: calc(120px + var(--bar-h) + env(safe-area-
   .tier-grid, .theme-grid { grid-template-columns: 1fr 1fr; }
   .theme-overview { grid-template-columns: 1fr 1fr; }
   .section { padding: 64px 0; }
-  .checkout-panel, .contact-form, .order-fields { padding: 22px 18px; }
+  .checkout-panel, .contact-form, .review-form, .order-fields { padding: 22px 18px; }
   .tier-overview, .theme-overview { grid-template-columns: 1fr; }
   .order-bar-inner { flex-wrap: nowrap; gap: 12px; min-height: 72px; padding-block: 8px; }
   .order-bar .btn { flex: 0 0 auto; padding: 10px 16px; min-height: 44px; }
@@ -1154,3 +1166,152 @@ a, button, .tier-card, .theme-card, summary {
   .hero-art { display: none; }
 }
 
+
+
+/* Reviews */
+.reviews-list { margin-bottom: 36px; }
+.reviews-empty {
+  max-width: 640px;
+  padding: 28px 28px 26px;
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+}
+.reviews-empty p {
+  margin: 0;
+  color: var(--cream-dim);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+.reviews-summary {
+  margin: 0 0 18px;
+  color: var(--cream-dim);
+}
+.reviews-summary p { margin: 0; }
+.reviews-summary strong { color: var(--gold-bright); }
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.review-card {
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 22px 22px 18px;
+}
+.review-stars {
+  margin: 0 0 10px;
+  color: var(--gold-bright);
+  letter-spacing: 0.12em;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+.review-text {
+  margin: 0 0 14px;
+  color: var(--cream);
+  font-size: 1rem;
+}
+.review-by {
+  margin: 0;
+  color: var(--mist);
+  font-size: 0.88rem;
+}
+.review-compose {
+  max-width: 720px;
+}
+.review-compose h3 {
+  margin: 0 0 8px;
+  font-family: var(--font-serif);
+  font-size: 1.55rem;
+  font-weight: 500;
+}
+.review-compose-lede {
+  margin: 0 0 18px;
+  color: var(--cream-dim);
+}
+.review-form {
+  display: grid;
+  gap: 14px;
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 28px;
+}
+.review-form-row {
+  display: grid;
+  grid-template-columns: 1fr 7.5rem;
+  gap: 14px;
+}
+.review-form .hint {
+  margin: -6px 0 0;
+  color: var(--mist);
+  font-size: 0.86rem;
+}
+.review-form .note-meta { margin-top: -4px; }
+.star-rating {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  gap: 8px;
+}
+.star-rating legend {
+  padding: 0;
+  font-size: 0.82rem;
+  color: var(--cream-dim);
+}
+.star-rating-options {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 2px;
+}
+.star-rating-options input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.star-rating-options label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  color: var(--mist);
+  font-size: 1.7rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.star-rating-options input:checked + label,
+.star-rating-options input:checked ~ label {
+  color: var(--gold-bright);
+}
+.star-rating-options label:hover,
+.star-rating-options label:hover ~ label,
+.star-rating-options:hover input:checked + label,
+.star-rating-options:hover input:checked ~ label {
+  color: var(--gold-bright);
+}
+.star-rating-options:hover input:checked + label:not(:hover):not(:hover ~ label),
+.star-rating-options:hover input:checked ~ label:not(:hover):not(:hover ~ label) {
+  color: var(--mist);
+}
+.star-rating-options input:focus-visible + label {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+@media (max-width: 760px) {
+  .reviews-grid, .review-form-row { grid-template-columns: 1fr; }
+  .reviews-empty, .review-card { padding: 20px 18px; }
+}

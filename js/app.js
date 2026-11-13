@@ -580,6 +580,153 @@
     }
   }
 
+
+  function starString(rating) {
+    const n = Math.max(0, Math.min(5, Math.round(Number(rating) || 0)));
+    return "★".repeat(n) + "☆".repeat(5 - n);
+  }
+
+  function formatReviewDate(iso) {
+    if (!iso) return "";
+    const parts = String(iso).split("-").map((x) => parseInt(x, 10));
+    if (parts.length < 3 || parts.some((n) => !n)) return "";
+    const d = new Date(parts[0], parts[1] - 1, parts[2]);
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  }
+
+  function approvedReviews() {
+    const raw = Array.isArray(window.STORE_REVIEWS) ? window.STORE_REVIEWS : [];
+    return raw.filter((r) => {
+      if (!r || typeof r !== "object") return false;
+      const rating = Number(r.rating);
+      const text = String(r.text || "").trim();
+      const name = String(r.name || "").trim();
+      return name && text && Number.isInteger(rating) && rating >= 1 && rating <= 5;
+    });
+  }
+
+  function renderReviews() {
+    const root = document.getElementById("reviews-list");
+    if (!root) return;
+    const reviews = approvedReviews();
+
+    if (!reviews.length) {
+      root.innerHTML = `<div class="reviews-empty">
+        <p>No reviews yet — we’re just getting started. Ordered a box? We’d love to hear how it went.</p>
+      </div>`;
+      return;
+    }
+
+    const total = reviews.reduce((sum, r) => sum + Number(r.rating), 0);
+    const avg = total / reviews.length;
+    const avgLabel = avg.toFixed(1).replace(/\.0$/, "");
+    const countLabel = reviews.length === 1 ? "1 review" : reviews.length + " reviews";
+
+    const cards = reviews.map((r) => {
+      const rating = Number(r.rating);
+      const date = formatReviewDate(r.date);
+      const meta = [r.theme, r.tier].map((x) => String(x || "").trim()).filter(Boolean).join(" · ");
+      return `<article class="review-card">
+        <p class="review-stars" aria-label="${rating} out of 5 stars"><span aria-hidden="true">${starString(rating)}</span></p>
+        <p class="review-text">${escapeHtml(r.text)}</p>
+        <p class="review-by"><strong>${escapeHtml(r.name)}</strong>${meta ? " · " + escapeHtml(meta) : ""}${date ? " · " + escapeHtml(date) : ""}</p>
+      </article>`;
+    }).join("");
+
+    root.innerHTML = `<div class="reviews-summary">
+        <p>Rated <strong>${escapeHtml(avgLabel)}</strong> out of 5, from ${escapeHtml(countLabel)}.</p>
+      </div>
+      <div class="reviews-grid">${cards}</div>`;
+  }
+
+  function setupReviewForm() {
+    const form = document.getElementById("review-form");
+    if (!form) return;
+
+    const themeSelect = document.getElementById("review-theme");
+    if (themeSelect) {
+      (config.themes || []).forEach((theme) => {
+        const opt = document.createElement("option");
+        opt.value = theme.name;
+        opt.textContent = theme.name;
+        themeSelect.appendChild(opt);
+      });
+    }
+
+    const text = document.getElementById("review-text");
+    const count = document.getElementById("review-text-count");
+    const updateCount = () => {
+      if (!text || !count) return;
+      if (text.value.length > 500) text.value = text.value.slice(0, 500);
+      count.textContent = `${text.value.length} / 500`;
+    };
+    if (text) {
+      text.addEventListener("input", updateCount);
+      updateCount();
+    }
+
+    const last = document.getElementById("review-last");
+    if (last) {
+      last.addEventListener("input", () => {
+        const letter = (last.value.match(/[A-Za-z]/) || [""])[0];
+        last.value = letter ? letter.toUpperCase() : "";
+      });
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const status = document.getElementById("review-status");
+      const first = ((form.elements.namedItem("first") || {}).value || "").trim();
+      const lastInitial = ((form.elements.namedItem("last") || {}).value || "").trim().toUpperCase();
+      const email = ((form.elements.namedItem("email") || {}).value || "").trim();
+      const theme = ((form.elements.namedItem("theme") || {}).value || "").trim();
+      const ratingEl = form.querySelector('input[name="rating"]:checked');
+      const rating = ratingEl ? ratingEl.value : "";
+      const reviewText = ((form.elements.namedItem("text") || {}).value || "").trim().slice(0, 500);
+
+      if (!first || !lastInitial || !email || !theme || !rating || !reviewText) {
+        if (status) {
+          status.className = "form-status is-err";
+          status.textContent = "Please fill in every field, including a star rating.";
+        }
+        return;
+      }
+      if (!/^[A-Z]$/.test(lastInitial)) {
+        if (status) {
+          status.className = "form-status is-err";
+          status.textContent = "Last initial should be a single letter.";
+        }
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        if (status) {
+          status.className = "form-status is-err";
+          status.textContent = "Please enter the email you used to place the order.";
+        }
+        return;
+      }
+
+      const displayName = first + " " + lastInitial + ".";
+      const subject = encodeURIComponent("Review – " + displayName);
+      const body = encodeURIComponent(
+        "A customer review submitted from the Mystery Creations site.\n\n" +
+        "Name (published as): " + displayName + "\n" +
+        "First name: " + first + "\n" +
+        "Last initial: " + lastInitial + "\n" +
+        "Order email (for verification, not published): " + email + "\n" +
+        "Theme: " + theme + "\n" +
+        "Rating: " + rating + " / 5\n\n" +
+        "Review:\n" + reviewText
+      );
+      window.location.href = `mailto:${config.contactEmail}?subject=${subject}&body=${body}`;
+      if (status) {
+        status.className = "form-status is-ok";
+        status.textContent = "Opening your email app… If nothing opens, write us at " + config.contactEmail + ".";
+      }
+    });
+  }
+
   applyBrand();
   renderTierSelect();
   renderThemeSelect();
@@ -589,4 +736,6 @@
   setupNav();
   setupContact();
   setupOrderForm();
+  renderReviews();
+  setupReviewForm();
 })();
