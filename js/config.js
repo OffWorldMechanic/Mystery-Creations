@@ -8,7 +8,8 @@ window.STORE_CONFIG = {
   tagline: "Themed mystery boxes, packed with care.",
   description:
     "Pick a size, pick a theme, and we curate a one-of-a-kind gift box. Every order is a surprise — never the same twice.",
-  contactEmail: "hello@mysterycreations.example",
+  // CONTACT EMAIL — single source of truth (HTML pages use the same address as a no-JS fallback).
+  contactEmail: "kennyfox6@gmail.com",
   instagram: "",
   // Fulfillment and business details are not shown on the storefront.
   // Stripe Checkout will collect the customer's name, email, and shipping address.
@@ -16,7 +17,7 @@ window.STORE_CONFIG = {
   /**
    * Payments
    * --------
-   * Test-mode Stripe Payment Links are filled in below (Mystery Creations sandbox).
+   * Payment Links for each tier are filled in below.
    *
    * Option A — Stripe Payment Links (simplest, no backend):
    *   Checkout appends ?client_reference_id=<tierId>--<themeId> so the paid
@@ -151,8 +152,8 @@ window.STORE_CONFIG = {
     },
     {
       id: "pokemon-fans",
-      name: "Pokémon Fans",
-      blurb: "Adventure-ready finds for trainers at heart. Officially licensed or generic items only — no knockoff characters.",
+      name: "Pocket Monster Fans",
+      blurb: "Adventure-ready finds for fans of pocket-monster worlds. Genuine items only — no knockoffs.",
       accent: "#e6b84a",
       icon: "pokemon-fans"
     },
@@ -179,15 +180,15 @@ window.STORE_CONFIG = {
     },
     {
       id: "gotham-fans",
-      name: "Batman Fans",
-      blurb: "Gotham nights, art-deco shadows, and moody city atmosphere. Fan-style only — no official marks.",
+      name: "Dark Knight Fans",
+      blurb: "Moody city nights, art-deco shadows, and a dark-knight atmosphere. Theme name only — no official marks.",
       accent: "#6b7c9c",
       icon: "gotham"
     },
     {
       id: "space-fans",
-      name: "SpaceX / Space Fans",
-      blurb: "Orbit-minded gifts for launch watchers and stargazers. Original space motifs, not company branding.",
+      name: "Space Explorer",
+      blurb: "Orbit-minded gifts for launch watchers and stargazers.",
       accent: "#6ec4d8",
       icon: "space"
     },
@@ -200,29 +201,29 @@ window.STORE_CONFIG = {
     },
     {
       id: "marvel-fans",
-      name: "Marvel Fans",
-      blurb: "Heroic color, comic-shelf energy, and everyday finds for universe watchers. Fan-style only.",
+      name: "Superhero Fans",
+      blurb: "Heroic color, comic-shelf energy, and everyday finds for superhero fans.",
       accent: "#d45a5a",
       icon: "marvel-fans"
     },
     {
       id: "star-wars-fans",
-      name: "Star Wars Fans",
-      blurb: "Far-galaxy atmosphere for saga lovers. Original motifs and licensed goods — no official marks from us.",
+      name: "Galaxy Saga Fans",
+      blurb: "Far-galaxy atmosphere for saga lovers. Theme name only — no official marks.",
       accent: "#d4c07a",
       icon: "star-wars-fans"
     },
     {
       id: "potter-fans",
-      name: "Harry Potter Fans",
-      blurb: "Cozy, bookish magic for house-sorted readers. Fan-style only — no official crests or logos.",
+      name: "Wizarding School Fans",
+      blurb: "Cozy, bookish magic for fans of a wizarding school. Theme name only — no official crests or logos.",
       accent: "#7a9a4a",
       icon: "potter-fans"
     },
     {
       id: "disney-fans",
-      name: "Disney Fans",
-      blurb: "Storybook warmth and park-day delight. Generic or officially licensed items only.",
+      name: "Fairytale & Animation Fans",
+      blurb: "Storybook warmth and classic animation energy.",
       accent: "#6a9ad8",
       icon: "disney-fans"
     },
@@ -264,12 +265,12 @@ window.STORE_CONFIG = {
     {
       id: "squishy",
       name: "Squishy",
-      blurb: "Slow-rise squishies, stress balls, mochi squish, and plush squishmallow-style squeezes — soft, silly, and very squeezeable.",
+      blurb: "Slow-rise squishies, stress balls, mochi squish, and plush squishies — soft, silly, and very squeezeable.",
       accent: "#f0a8c0",
       icon: "squishy"
     }
   ],
 
   disclaimer:
-    "This store is not affiliated with, endorsed by, or sponsored by any film studio, game publisher, sports league, musician, or company named in our theme labels. Theme names describe fandoms and interests only. Boxes contain officially licensed products and/or generic themed goods — never counterfeit or unofficial character merchandise."
+    "Items are genuine, new products purchased from authorized retailers; Mystery Creations is not affiliated with or endorsed by any brand. Theme names describe interests only."
 };

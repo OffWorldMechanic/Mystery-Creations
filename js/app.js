@@ -373,9 +373,9 @@
           <p>You’ll be sent to Stripe Checkout to pay ${money(tier.price)} for ${escapeHtml(tier.name)} in the ${escapeHtml(theme.name)} theme. Name, email, and shipping address are collected there.</p>`;
       } else {
         status.hidden = false;
-        status.innerHTML = `<span class="stripe-badge">Stripe not connected</span>
-          <h3>Payments are almost ready</h3>
-          <p>This store is wired for Stripe Payment Links or Stripe Checkout, but no payment link has been added for this tier yet. Your selection — <strong>${escapeHtml(tier.name)}</strong> · <strong>${escapeHtml(theme.name)}</strong> · <strong>${money(tier.price)}</strong> — is saved on this device. After Stripe is set up, this button will take you to a secure checkout. See the README for setup steps.</p>`;
+        status.innerHTML = `<span class="stripe-badge">Checkout</span>
+          <h3>This box isn’t available right now</h3>
+          <p>Your selection — <strong>${escapeHtml(tier.name)}</strong> · <strong>${escapeHtml(theme.name)}</strong> · <strong>${money(tier.price)}</strong> — is saved on this device. Please try another size or write us at ${escapeHtml(config.contactEmail)}.</p>`;
       }
     }
   }

@@ -602,13 +602,13 @@ a { color: var(--gold-bright); text-decoration-thickness: 1px; text-underline-of
   font-size: 0.92rem;
 }
 
-.stripe-placeholder {
+.checkout-callout {
   border: 1px dashed var(--line-strong);
   border-radius: 16px;
   padding: 22px 20px;
   background: rgba(12, 16, 22, 0.4);
 }
-.stripe-placeholder h3 {
+.checkout-callout h3 {
   margin: 0 0 8px;
   font-size: 1.05rem;
   font-weight: 500;
@@ -624,7 +624,7 @@ a { color: var(--gold-bright); text-decoration-thickness: 1px; text-underline-of
   padding: 3px 8px;
   margin-bottom: 10px;
 }
-.stripe-placeholder p { margin: 0 0 14px; color: var(--mist); font-size: 0.9rem; }
+.checkout-callout p { margin: 0 0 14px; color: var(--mist); font-size: 0.9rem; }
 .hint { color: var(--mist); font-size: 0.82rem; margin: 10px 0 0; }
 
 
@@ -1085,7 +1085,7 @@ body.has-bar .legal { padding-bottom: calc(120px + var(--bar-h) + env(safe-area-
   #order h2 { font-size: 2rem; }
   .checkout-panel { gap: 16px; }
   .summary-row { padding-bottom: 8px; }
-  .stripe-placeholder { padding: 14px 14px 12px; }
+  .checkout-callout { padding: 14px 14px 12px; }
   .checkout-note { font-size: 0.86rem; }
 }
 

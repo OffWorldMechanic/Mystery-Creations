@@ -7,10 +7,10 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 ## What’s on the site
 
 - Home page (`index.html`): hero, how it works, dropdown order form (box, theme, optional gift note), compact box and theme overviews, checkout summary, FAQ, and contact
-- Placeholder **Terms** (`terms.html`) and **Privacy** (`privacy.html`)
+- **Terms** (`terms.html`) and **Privacy** (`privacy.html`)
 - A **thank-you** page (`success.html`) you can use as the Stripe success URL
 - Original CSS/SVG visuals only — no official logos, trademarked artwork, or copyrighted characters
-- A footer disclaimer that the store is not affiliated with any brand and that boxes contain officially licensed or generic themed products
+- A footer disclaimer that items are genuine, new products from authorized retailers and that the store is not affiliated with or endorsed by any brand
 
 ## Box tiers
 
@@ -35,17 +35,17 @@ Customers pick a **tier and a theme** from dropdowns, and may add a gift note (u
 Configured in the `themes` array in `js/config.js`. Starting themes:
 
 - Anime
-- Pokémon Fans
+- Pocket Monster Fans
 - Football
 - Musician
 - Mechanic
-- Batman Fans (Gotham-style naming and artwork — no official marks)
-- SpaceX / Space Fans (generic space motifs — no company branding)
+- Dark Knight Fans
+- Space Explorer
 - Gaming
-- Marvel Fans
-- Star Wars Fans
-- Harry Potter Fans
-- Disney Fans
+- Superhero Fans
+- Galaxy Saga Fans
+- Wizarding School Fans
+- Fairytale & Animation Fans
 - Basketball
 - Baseball
 - Fishing & Outdoors
@@ -72,9 +72,9 @@ Configured in the `themes` array in `js/config.js`. Starting themes:
 
 To give the new theme its own icon, add an SVG string under the matching key in the `ICONS` object in `js/app.js`. Keep icons original — no official logos or characters.
 
-## Payments (Stripe is a placeholder until you connect it)
+## Payments
 
-Test-mode Stripe Payment Links are filled in `STORE_CONFIG.stripe.paymentLinks`. Each link collects shipping (US), phone, a required Theme dropdown, and an optional Gift note. Stripe Checkout collects the customer’s name, email, and address.
+Stripe Payment Links are filled in `STORE_CONFIG.stripe.paymentLinks`. Each link collects a U.S. shipping address, phone, a required Theme dropdown, and an optional Gift note. Shipping is included in the box price. Stripe Checkout collects the customer’s name, email, and address.
 
 The site passes this order payload:
 
@@ -95,17 +95,9 @@ The site passes this order payload:
 
 ```js
 paymentLinks: {
-  glimpse: "https://buy.stripe.com/example_glimpse",
-  whisper: "https://buy.stripe.com/example_whisper",
-  spark: "https://buy.stripe.com/example_spark",
-  curiosity: "",
-  secret: "",
-  keepsake: "",
-  trove: "",
-  chamber: "",
-  relic: "",
-  heist: "",
-  "grand-vault": ""
+  glimpse: "https://buy.stripe.com/…",
+  whisper: "https://buy.stripe.com/…",
+  // one URL per tier id
 }
 ```
 
@@ -123,7 +115,7 @@ When you have a Cloudflare Worker, Netlify Function, or similar:
 3. The site will `POST` the JSON payload above and expects `{ "url": "https://checkout.stripe.com/..." }` back.
 4. In your function, create a Checkout Session with `client_reference_id`, line-item amount/name, and metadata for `tierId` and `themeId`. Turn on shipping address collection there.
 
-Until either option is configured, the checkout panel shows a clear **“Stripe not connected”** state and the customer’s selection is saved in the browser.
+The customer’s selection is also saved in the browser if they leave and come back.
 
 ## Deploy for free
 
@@ -158,7 +150,7 @@ Edit only this line in `js/config.js`:
 name: "Mystery Creations",
 ```
 
-Also update `contactEmail` when you have a real inbox. Instagram can be added later as `instagram`.
+The store contact address lives in `STORE_CONFIG.contactEmail` in `js/config.js` (currently `kennyfox6@gmail.com`). Instagram can be added later as `instagram`.
 
 ## Project layout
 
@@ -169,18 +161,17 @@ mystery-creations/
   privacy.html
   success.html
   css/styles.css
-  js/config.js      ← name, tiers, themes, Stripe placeholders
+  js/config.js      ← name, contact email, tiers, themes, Stripe payment links
   js/app.js
   img/              ← original SVG mark and hero art
   screenshots/      ← desktop and mobile captures
   README.md
 ```
 
-## What is still a placeholder
+## Shipping and returns (summary)
 
-- Stripe Payment Links / Checkout endpoint (not connected; no charges can be taken yet)
-- Contact email (`hello@mysterycreations.example`)
-- Shipping rates and timing in the FAQ
-- Return policy language (clearly marked as a placeholder)
-- Terms and Privacy (reasonable draft language, not formal legal advice)
-- Fulfillment-bot handoff (not part of this static site)
+Shipping is included in the box price. Orders are processed and packed in 3–5 business days and ship via UPS within the United States, with tracking emailed to the customer. Typical transit is 1–5 business days after shipping.
+
+Change-of-mind returns are not accepted. A box that arrives damaged, is missing items, or is not as described (wrong tier or theme), reported within 14 days of delivery with a photo, receives a replacement or a full refund (customer’s choice). Refunds go to the original payment method within 5–10 business days. Lost packages are handled through a UPS claim, then a replacement or refund. Orders may be cancelled for a full refund before they ship.
+
+These terms are also published on the store FAQ and in `terms.html`.
