@@ -13,9 +13,7 @@
 
   const state = {
     tierId: null,
-    themeId: null,
-    recipient: "",
-    giftNote: ""
+    themeId: null
   };
 
   try {
@@ -23,8 +21,6 @@
     if (saved) {
       if (saved.tierId) state.tierId = saved.tierId;
       if (saved.themeId) state.themeId = saved.themeId;
-      if (typeof saved.recipient === "string") state.recipient = saved.recipient.slice(0, 200);
-      if (typeof saved.giftNote === "string") state.giftNote = saved.giftNote.slice(0, 200);
     }
   } catch (_) { /* ignore */ }
 
@@ -294,84 +290,6 @@
     }).join("");
   }
 
-  function getGiftNote() {
-    const el = document.getElementById("gift-note");
-    const raw = el ? el.value : state.giftNote;
-    return String(raw || "").slice(0, 200);
-  }
-
-  function getRecipient() {
-    const el = document.getElementById("recipient");
-    const raw = el ? el.value : state.recipient;
-    return String(raw || "").slice(0, 200);
-  }
-
-  function updateFieldCounter(elId, countId, key, getter) {
-    const el = document.getElementById(elId);
-    const count = document.getElementById(countId);
-    const value = getter();
-    if (el && el.value !== value) el.value = value;
-    if (count) count.textContent = `${value.length} / 200`;
-    state[key] = value;
-    persist();
-  }
-
-  function updateNoteCounter() {
-    updateFieldCounter("gift-note", "gift-note-count", "giftNote", getGiftNote);
-  }
-
-  function updateRecipientCounter() {
-    updateFieldCounter("recipient", "recipient-count", "recipient", getRecipient);
-  }
-
-  function showToast(message, duration) {
-    const toast = document.getElementById("toast");
-    if (!toast) return Promise.resolve();
-    toast.textContent = message;
-    toast.hidden = false;
-    toast.classList.add("is-visible");
-    const hold = typeof duration === "number" ? duration : 1400;
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        toast.classList.remove("is-visible");
-        window.setTimeout(() => {
-          toast.hidden = true;
-          resolve();
-        }, 280);
-      }, hold);
-    });
-  }
-
-  async function copyCheckoutFields(recipient, giftNote) {
-    const hasRecipient = !!recipient;
-    const hasNote = !!giftNote;
-    if (!hasRecipient && !hasNote) return;
-
-    let text;
-    let successMessage;
-    let failMessage;
-    if (hasRecipient && hasNote) {
-      text = "About the recipient (optional):\n" + recipient + "\n\nGift note (optional):\n" + giftNote;
-      successMessage = "Copied — paste each part into the matching field at checkout";
-      failMessage = "At checkout, paste your recipient details and gift note into the matching fields";
-    } else if (hasRecipient) {
-      text = recipient;
-      successMessage = "Copied — paste it at checkout under About the recipient (optional)";
-      failMessage = "Add your recipient details at checkout under About the recipient (optional)";
-    } else {
-      text = giftNote;
-      successMessage = "Note copied — paste it at checkout under Gift note (optional)";
-      failMessage = "Add your note at checkout under Gift note (optional)";
-    }
-
-    let copied = false;
-    try {
-      await navigator.clipboard.writeText(text);
-      copied = true;
-    } catch (_) { /* fall through */ }
-    await showToast(copied ? successMessage : failMessage, hasRecipient && hasNote ? 2000 : 1400);
-  }
-
   function updateSummary() {
     const tier = getTier();
     const theme = getTheme();
@@ -419,7 +337,7 @@
 
     const status = document.getElementById("checkout-status");
     const stripe = config.stripe || {};
-    const link = tier && stripe.paymentLinks ? (stripe.paymentLinks[tier.id] || "").trim() : "";
+    const link = getPaymentLink(tier, theme);
     const endpoint = (stripe.checkoutEndpoint || "").trim();
 
     if (status) {
@@ -427,12 +345,12 @@
         status.hidden = false;
         status.innerHTML = `<span class="stripe-badge">Checkout</span>
           <h3>Select a size and a theme to continue</h3>
-          <p>Your box is a two-part choice. Once both are selected, you can check out. Stripe will collect your name, email, and shipping address.</p>`;
+          <p>Your box is a two-part choice. Once both are selected, you can check out. Stripe will collect your name, email, shipping address, and optional notes.</p>`;
       } else if (link || endpoint) {
         status.hidden = false;
         status.innerHTML = `<span class="stripe-badge">Stripe ready</span>
           <h3>Pay securely with Stripe</h3>
-          <p>You’ll be sent to Stripe Checkout to pay ${money(tier.price)} for ${escapeHtml(tier.name)} in the ${escapeHtml(theme.name)} theme. Name, email, and shipping address are collected there.</p>`;
+          <p>You’ll be sent to Stripe Checkout to pay ${money(tier.price)} for ${escapeHtml(tier.name)} in the ${escapeHtml(theme.name)} theme. Name, email, shipping address, and optional notes are collected there.</p>`;
       } else {
         status.hidden = false;
         status.innerHTML = `<span class="stripe-badge">Checkout</span>
@@ -440,6 +358,16 @@
           <p>Your selection — <strong>${escapeHtml(tier.name)}</strong> · <strong>${escapeHtml(theme.name)}</strong> · <strong>${money(tier.price)}</strong> — is saved on this device. Please try another size or write us at ${escapeHtml(config.contactEmail)}.</p>`;
       }
     }
+  }
+
+  function getPaymentLink(tier, theme) {
+    if (!tier || !theme) return "";
+    const map = window.STORE_PAYMENT_LINKS || {};
+    const byTier = map[tier.id];
+    if (byTier && typeof byTier === "object") {
+      return String(byTier[theme.id] || "").trim();
+    }
+    return "";
   }
 
   function checkoutReference(tier, theme) {
@@ -453,7 +381,7 @@
 
     const stripe = config.stripe || {};
     const endpoint = (stripe.checkoutEndpoint || "").trim();
-    const link = (stripe.paymentLinks && stripe.paymentLinks[tier.id] || "").trim();
+    const link = getPaymentLink(tier, theme);
 
     const payload = {
       tierId: tier.id,
@@ -464,8 +392,6 @@
       priceCents: Math.round(tier.price * 100),
       currency: stripe.currency || "usd",
       storeName: config.name,
-      giftNote: getGiftNote(),
-      recipient: getRecipient(),
       clientReferenceId: checkoutReference(tier, theme)
     };
 
@@ -490,12 +416,7 @@
 
     if (link) {
       const url = new URL(link, window.location.href);
-      // Payment Links do not support prefilling custom fields via URL.
-      // client_reference_id carries "<tierId>--<themeId>" for fulfillment.
       url.searchParams.set("client_reference_id", payload.clientReferenceId);
-      if (payload.recipient || payload.giftNote) {
-        await copyCheckoutFields(payload.recipient, payload.giftNote);
-      }
       window.location.href = url.toString();
       return;
     }
@@ -558,9 +479,6 @@
     const form = document.getElementById("order-form");
     const tierSelect = document.getElementById("tier-select");
     const themeSelect = document.getElementById("theme-select");
-    const note = document.getElementById("gift-note");
-    const recipient = document.getElementById("recipient");
-
     if (tierSelect) {
       tierSelect.addEventListener("change", () => {
         state.tierId = tierSelect.value || null;
@@ -576,16 +494,6 @@
         renderThemeHint();
         updateSummary();
       });
-    }
-    if (recipient) {
-      recipient.value = state.recipient || "";
-      recipient.addEventListener("input", updateRecipientCounter);
-      updateRecipientCounter();
-    }
-    if (note) {
-      note.value = state.giftNote || "";
-      note.addEventListener("input", updateNoteCounter);
-      updateNoteCounter();
     }
     if (form) {
       form.addEventListener("submit", (e) => {

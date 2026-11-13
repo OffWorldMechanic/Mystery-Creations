@@ -6,7 +6,7 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 
 ## What’s on the site
 
-- Home page (`index.html`): hero, how it works, dropdown order form (box, theme, optional recipient note, optional gift note), compact box and theme overviews, checkout summary, reviews (from `js/reviews.js`), FAQ, and contact
+- Home page (`index.html`): hero, how it works, dropdown order form (box and theme), compact box and theme overviews, checkout summary, reviews (from `js/reviews.js`), FAQ, and contact
 - **Terms** (`terms.html`) and **Privacy** (`privacy.html`)
 - A **thank-you** page (`success.html`) used as the Stripe success URL: `https://mymysterycreations.com/success.html`
 - Original CSS/SVG visuals only — no official logos, trademarked artwork, or copyrighted characters
@@ -28,7 +28,7 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 | `heist` | The Heist | Huge | $400 |
 | `grand-vault` | The Grand Vault | Legendary | $500 |
 
-Customers pick a **tier and a theme** from dropdowns, and may add a short note about who the box is for and a gift note (up to 200 characters each). The recipient note is a non-binding guide for personalization — it does not guarantee specific items. Checkout passes the tier, theme, recipient note, gift note, and price.
+Customers pick a **tier and a theme** from dropdowns and continue to a Stripe Payment Link for that exact combination. Optional notes about who the box is for and a gift message are entered once, at checkout. The recipient note is a non-binding guide for personalization — it does not guarantee specific items.
 
 ## Themes
 
@@ -77,13 +77,13 @@ To give the new theme its own icon, add an SVG string under the matching key in 
 
 ## Payments
 
-Stripe Payment Links are filled in `STORE_CONFIG.stripe.paymentLinks`. Each link collects a U.S. shipping address, phone, a required Theme dropdown, an optional “About the recipient” text field, and an optional Gift note. Shipping is included in the box price. Stripe Checkout collects the customer’s name, email, and address. Payment Links cannot prefill custom fields, so the site copies the recipient note and gift note to the clipboard when the customer continues to checkout.
+Per-combination Stripe Payment Links are filled in `js/links.js` as `window.STORE_PAYMENT_LINKS` (keyed by tier id, then theme id). Each link is for one box size and one theme, and collects a U.S. shipping address, phone, an optional “who this box is for” note, and an optional gift note. Shipping is included in the box price. Stripe Checkout also collects the customer’s name, email, and address.
 
 The site passes this order payload:
 
 ```js
 {
-  tierId, themeId, tierName, themeName, recipient, giftNote,
+  tierId, themeId, tierName, themeName,
   price, priceCents, currency, storeName,
   clientReferenceId  // "<tierId>--<themeId>", e.g. "secret--musician"
 }
@@ -92,29 +92,19 @@ The site passes this order payload:
 ### Option A — Stripe Payment Links (no backend)
 
 1. Create a Stripe account and add your bank details in the Stripe Dashboard.
-2. Create **one Payment Link per box tier** (one for $20, one for $30, and so on). Enable shipping address collection and any tax settings you need.
-3. Optional but useful: add a custom field in the Payment Link for “Theme”, or rely on `client_reference_id` (the site always appends it).
-4. Paste each Payment Link URL into `STORE_CONFIG.stripe.paymentLinks` in `js/config.js`, keyed by tier id:
-
-```js
-paymentLinks: {
-  glimpse: "https://buy.stripe.com/…",
-  whisper: "https://buy.stripe.com/…",
-  // one URL per tier id
-}
-```
-
-5. Set each Payment Link’s success URL to `https://mymysterycreations.com/success.html`, and the cancel URL to `https://mymysterycreations.com/#checkout`.
-6. When a customer checks out, the site redirects to the link for that tier and appends  
+2. Create **one Payment Link per box size and theme** (one for each combination). Reuse the existing price for that tier. Bake the theme into the link’s metadata (`tierId`, `themeId`, `themeLabel`, `boxPrice`) and checkout copy. Collect a U.S. shipping address, phone, and two optional text fields only: who the box is for, and a gift note. There is no theme dropdown at checkout.
+3. Put each Payment Link URL in `js/links.js` as `window.STORE_PAYMENT_LINKS[tierId][themeId]`.
+4. Set each Payment Link’s success URL to `https://mymysterycreations.com/success.html?session_id={CHECKOUT_SESSION_ID}`.
+5. When a customer checks out, the site redirects to the link for that exact size and theme and appends  
    `?client_reference_id=<tierId>--<themeId>`  
-   so the paid order carries both the box size and the theme.
+   so the paid order carries both the box size and the theme. Optional notes are entered once, at Stripe Checkout.
 
 ### Option B — Stripe Checkout Sessions (small backend)
 
 When you have a Cloudflare Worker, Netlify Function, or similar:
 
 1. Set `STORE_CONFIG.stripe.checkoutEndpoint` to that function’s URL.
-2. Leave Payment Links blank (or fill them as a fallback).
+2. Leave `STORE_PAYMENT_LINKS` blank if the endpoint should be used instead.
 3. The site will `POST` the JSON payload above and expects `{ "url": "https://checkout.stripe.com/..." }` back.
 4. In your function, create a Checkout Session with `client_reference_id`, line-item amount/name, and metadata for `tierId` and `themeId`. Turn on shipping address collection there.
 
@@ -164,7 +154,8 @@ mystery-creations/
   privacy.html
   success.html
   css/styles.css
-  js/config.js      ← name, contact email, tiers, themes, Stripe payment links
+  js/config.js      ← name, contact email, tiers, themes
+  js/links.js       ← Stripe Payment Link for each tier × theme
   js/reviews.js     ← approved customer reviews (leave empty until real ones arrive)
   CNAME             ← custom domain (mymysterycreations.com)
   js/app.js

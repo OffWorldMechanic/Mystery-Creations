@@ -19,13 +19,10 @@ window.STORE_CONFIG = {
    * --------
    * Payment Links for each tier are filled in below.
    *
-   * Option A — Stripe Payment Links (simplest, no backend):
-   *   Checkout appends ?client_reference_id=<tierId>--<themeId> so the paid
-   *   order carries both the box size and the selected theme. Payment Links
-   *   cannot prefill custom fields via URL; the customer also confirms
-   *   the theme and may paste a recipient note and gift note on Stripe Checkout.
-   *   Dropdown values are alphanumeric (hyphens stripped from theme ids, e.g. pokemon-fans
-   *   → pokemonfans) because Stripe rejects hyphens in option values.
+   * Option A — Stripe Payment Links (one link per tier and theme):
+   *   The map lives in js/links.js as window.STORE_PAYMENT_LINKS[tierId][themeId].
+   *   Checkout appends ?client_reference_id=<tierId>--<themeId>. Optional notes
+   *   about who the box is for and a gift message are entered at Stripe Checkout.
    *
    * Option B — Stripe Checkout Sessions (recommended once you have a small backend):
    *   Set stripe.checkoutEndpoint to your function URL (e.g. a Cloudflare Worker
