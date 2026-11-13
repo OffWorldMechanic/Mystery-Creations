@@ -51,6 +51,7 @@ Configured in the `themes` array in `js/config.js`. Starting themes:
 - Fishing & Outdoors
 - Cars & Racing
 - Cozy Self-Care
+- Squishy
 
 ### Adding a theme later
 

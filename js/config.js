@@ -260,6 +260,13 @@ window.STORE_CONFIG = {
       blurb: "Soft evenings, warm light, and small comforts meant to slow the day down.",
       accent: "#d4a0b4",
       icon: "cozy-self-care"
+    },
+    {
+      id: "squishy",
+      name: "Squishy",
+      blurb: "Slow-rise squishies, stress balls, mochi squish, and plush squishmallow-style squeezes — soft, silly, and very squeezeable.",
+      accent: "#f0a8c0",
+      icon: "squishy"
     }
   ],
 

@@ -124,6 +124,12 @@
       <path d="M8 22c0-5 3.2-8 8-8s8 3 8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
       <path d="M10 22h12v2a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4v-2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
       <path d="M16 8c0 2-1.5 3.5-1.5 3.5S16 13 16 8c0-2 2-3 2-3s-2 1-2 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+    </svg>`,
+    squishy: `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M8 18c0-6 3.2-10 8-10s8 4 8 10c0 5-2.8 8.5-8 8.5S8 23 8 18z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M12.2 17.2c.2-1.2 1-1.8 1.8-1.8M18 15.4c.9 0 1.7.6 1.9 1.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M13.5 21c1.2 1.3 3.8 1.3 5 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M7 14c-1.4.6-2.2 1.8-2.2 3.2M25 14c1.4.6 2.2 1.8 2.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
     </svg>`
   };
 
