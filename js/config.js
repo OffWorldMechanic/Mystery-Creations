@@ -16,13 +16,15 @@ window.STORE_CONFIG = {
   /**
    * Payments
    * --------
-   * Stripe is not connected yet. When you are ready:
+   * Test-mode Stripe Payment Links are filled in below (Mystery Creations sandbox).
    *
    * Option A — Stripe Payment Links (simplest, no backend):
-   *   Create one Payment Link per box tier in the Stripe Dashboard, then paste
-   *   each URL into stripe.paymentLinks keyed by the tier id below.
    *   Checkout appends ?client_reference_id=<tierId>--<themeId> so the paid
-   *   order carries both the box size and the selected theme.
+   *   order carries both the box size and the selected theme. Payment Links
+   *   cannot prefill the Theme dropdown via URL; the customer also confirms
+   *   the theme on Stripe Checkout (required custom field). Dropdown values
+   *   are alphanumeric (hyphens stripped from theme ids, e.g. pokemon-fans
+   *   → pokemonfans) because Stripe rejects hyphens in option values.
    *
    * Option B — Stripe Checkout Sessions (recommended once you have a small backend):
    *   Set stripe.checkoutEndpoint to your function URL (e.g. a Cloudflare Worker
@@ -34,16 +36,16 @@ window.STORE_CONFIG = {
   stripe: {
     currency: "usd",
     paymentLinks: {
-      whisper: "",
-      spark: "",
-      curiosity: "",
-      secret: "",
-      keepsake: "",
-      trove: "",
-      chamber: "",
-      relic: "",
-      heist: "",
-      "grand-vault": ""
+      whisper: "https://buy.stripe.com/test_cNi4gA4Ta0q9fEN9sFcjS00",
+      spark: "https://buy.stripe.com/test_00w9AUclC7SBdwF0W9cjS01",
+      curiosity: "https://buy.stripe.com/test_fZu5kE1GYb4NeAJ9sFcjS02",
+      secret: "https://buy.stripe.com/test_aFa6oIadufl364d8oBcjS03",
+      keepsake: "https://buy.stripe.com/test_5kQ7sM0CU7SB9gpgV7cjS04",
+      trove: "https://buy.stripe.com/test_7sY5kE85m0q978hfR3cjS05",
+      chamber: "https://buy.stripe.com/test_5kQ14oadufl3dwFcERcjS06",
+      relic: "https://buy.stripe.com/test_bJe9AU1GY0q9gIR5cpcjS07",
+      heist: "https://buy.stripe.com/test_4gM4gA1GYdcVaktgV7cjS08",
+      "grand-vault": "https://buy.stripe.com/test_7sY14o71ic8RgIRdIVcjS09"
     },
     checkoutEndpoint: "",
     successUrl: "./success.html",

@@ -294,6 +294,8 @@
 
     if (link) {
       const url = new URL(link, window.location.href);
+      // Payment Links do not support prefilling custom fields via URL.
+      // client_reference_id carries "<tierId>--<themeId>" for fulfillment.
       url.searchParams.set("client_reference_id", payload.clientReferenceId);
       window.location.href = url.toString();
       return;
