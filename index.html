@@ -108,7 +108,7 @@
         <div class="section-head">
           <p class="eyebrow">Build your box</p>
           <h2>Choose your box</h2>
-          <p>Pick a size and a theme from the lists below, add an optional gift note, and continue to secure checkout. Stripe collects your name, email, phone, and shipping address.</p>
+          <p>Pick a size and a theme from the lists below, optionally tell us who the box is for, add a gift note, and continue to secure checkout. Stripe collects your name, email, phone, and shipping address.</p>
         </div>
         <form class="order-form" id="order-form">
           <div class="order-fields">
@@ -127,10 +127,18 @@
               <p class="theme-hint" id="theme-hint" hidden></p>
             </div>
             <div class="field">
+              <label for="recipient">Tell us a little about who this box is for <span class="optional">(optional)</span></label>
+              <textarea id="recipient" name="recipient" maxlength="200" rows="3" placeholder="e.g. my 12-year-old nephew, loves trading cards and plushies"></textarea>
+              <div class="note-meta">
+                <p class="hint">This helps us personalize your box. We’ll use it as a guide, but we can’t guarantee specific requests or items. You’ll paste this at checkout under “About the recipient (optional).” We’ll copy it when you continue.</p>
+                <span class="char-count" id="recipient-count" aria-live="polite">0 / 200</span>
+              </div>
+            </div>
+            <div class="field">
               <label for="gift-note">Gift note <span class="optional">(optional)</span></label>
               <textarea id="gift-note" name="giftnote" maxlength="200" rows="4" placeholder="A short message to tuck in the box…"></textarea>
               <div class="note-meta">
-                <p class="hint">You’ll confirm or paste your note at checkout under “Gift note (optional).” We’ll copy it for you when you continue.</p>
+                <p class="hint">You’ll confirm or paste your note at checkout under “Gift note (optional).” We’ll copy your gift note and recipient details when you continue.</p>
                 <span class="char-count" id="gift-note-count" aria-live="polite">0 / 200</span>
               </div>
             </div>
@@ -196,7 +204,7 @@
           </details>
           <details class="faq">
             <summary>Can I choose specific items?</summary>
-            <p>No — every box is a surprise. You choose the size and the theme, and we do the rest. If you have an allergy or restriction, write us on the contact form and we’ll do our best to accommodate. A short gift note can be added when you build your box, and confirmed at checkout.</p>
+            <p>No — every box is a surprise. You choose the size and the theme, and we do the rest. You can optionally tell us a little about who the box is for; we’ll use that as a guide to help personalize it, but we can’t guarantee specific requests or items, and we aren’t obligated to fulfill every ask. If you have an allergy or restriction, write us on the contact form and we’ll do our best to accommodate. A short gift note can also be added when you build your box, and confirmed at checkout.</p>
           </details>
           <details class="faq">
             <summary>What’s your return and refund policy?</summary>
@@ -208,7 +216,7 @@
           </details>
           <details class="faq">
             <summary>Can I include a gift note?</summary>
-            <p>Yes. Add an optional note (up to 200 characters) when you build your box. Because Stripe can’t prefill that field, we’ll copy the note for you — paste it into “Gift note (optional)” on the Stripe checkout page.</p>
+            <p>Yes. When you build your box you can add an optional note about who it’s for and an optional gift note (up to 200 characters each). Because Stripe can’t prefill those fields, we’ll copy your text when you continue — paste it into the matching fields on the Stripe checkout page: “About the recipient (optional)” and “Gift note (optional).” The recipient details are a guide only; we can’t guarantee specific requests or items.</p>
           </details>
         </div>
       </div>

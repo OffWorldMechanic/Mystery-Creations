@@ -6,7 +6,7 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 
 ## What’s on the site
 
-- Home page (`index.html`): hero, how it works, dropdown order form (box, theme, optional gift note), compact box and theme overviews, checkout summary, FAQ, and contact
+- Home page (`index.html`): hero, how it works, dropdown order form (box, theme, optional recipient note, optional gift note), compact box and theme overviews, checkout summary, FAQ, and contact
 - **Terms** (`terms.html`) and **Privacy** (`privacy.html`)
 - A **thank-you** page (`success.html`) used as the Stripe success URL: `https://mymysterycreations.com/success.html`
 - Original CSS/SVG visuals only — no official logos, trademarked artwork, or copyrighted characters
@@ -28,7 +28,7 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 | `heist` | The Heist | Huge | $400 |
 | `grand-vault` | The Grand Vault | Legendary | $500 |
 
-Customers pick a **tier and a theme** from dropdowns, and may add a gift note (up to 200 characters). Checkout passes the tier, theme, note, and price.
+Customers pick a **tier and a theme** from dropdowns, and may add a short note about who the box is for and a gift note (up to 200 characters each). The recipient note is a non-binding guide for personalization — it does not guarantee specific items. Checkout passes the tier, theme, recipient note, gift note, and price.
 
 ## Themes
 
@@ -74,13 +74,13 @@ To give the new theme its own icon, add an SVG string under the matching key in 
 
 ## Payments
 
-Stripe Payment Links are filled in `STORE_CONFIG.stripe.paymentLinks`. Each link collects a U.S. shipping address, phone, a required Theme dropdown, and an optional Gift note. Shipping is included in the box price. Stripe Checkout collects the customer’s name, email, and address.
+Stripe Payment Links are filled in `STORE_CONFIG.stripe.paymentLinks`. Each link collects a U.S. shipping address, phone, a required Theme dropdown, an optional “About the recipient” text field, and an optional Gift note. Shipping is included in the box price. Stripe Checkout collects the customer’s name, email, and address. Payment Links cannot prefill custom fields, so the site copies the recipient note and gift note to the clipboard when the customer continues to checkout.
 
 The site passes this order payload:
 
 ```js
 {
-  tierId, themeId, tierName, themeName, giftNote,
+  tierId, themeId, tierName, themeName, recipient, giftNote,
   price, priceCents, currency, storeName,
   clientReferenceId  // "<tierId>--<themeId>", e.g. "secret--musician"
 }
@@ -162,6 +162,7 @@ mystery-creations/
   success.html
   css/styles.css
   js/config.js      ← name, contact email, tiers, themes, Stripe payment links
+  CNAME             ← custom domain (mymysterycreations.com)
   js/app.js
   img/              ← original SVG mark and hero art
   screenshots/      ← desktop and mobile captures

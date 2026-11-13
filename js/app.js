@@ -14,6 +14,7 @@
   const state = {
     tierId: null,
     themeId: null,
+    recipient: "",
     giftNote: ""
   };
 
@@ -22,6 +23,7 @@
     if (saved) {
       if (saved.tierId) state.tierId = saved.tierId;
       if (saved.themeId) state.themeId = saved.themeId;
+      if (typeof saved.recipient === "string") state.recipient = saved.recipient.slice(0, 200);
       if (typeof saved.giftNote === "string") state.giftNote = saved.giftNote.slice(0, 200);
     }
   } catch (_) { /* ignore */ }
@@ -283,22 +285,37 @@
     return String(raw || "").slice(0, 200);
   }
 
-  function updateNoteCounter() {
-    const el = document.getElementById("gift-note");
-    const count = document.getElementById("gift-note-count");
-    const value = getGiftNote();
+  function getRecipient() {
+    const el = document.getElementById("recipient");
+    const raw = el ? el.value : state.recipient;
+    return String(raw || "").slice(0, 200);
+  }
+
+  function updateFieldCounter(elId, countId, key, getter) {
+    const el = document.getElementById(elId);
+    const count = document.getElementById(countId);
+    const value = getter();
     if (el && el.value !== value) el.value = value;
     if (count) count.textContent = `${value.length} / 200`;
-    state.giftNote = value;
+    state[key] = value;
     persist();
   }
 
-  function showToast(message) {
+  function updateNoteCounter() {
+    updateFieldCounter("gift-note", "gift-note-count", "giftNote", getGiftNote);
+  }
+
+  function updateRecipientCounter() {
+    updateFieldCounter("recipient", "recipient-count", "recipient", getRecipient);
+  }
+
+  function showToast(message, duration) {
     const toast = document.getElementById("toast");
     if (!toast) return Promise.resolve();
     toast.textContent = message;
     toast.hidden = false;
     toast.classList.add("is-visible");
+    const hold = typeof duration === "number" ? duration : 1400;
     return new Promise((resolve) => {
       window.setTimeout(() => {
         toast.classList.remove("is-visible");
@@ -306,8 +323,38 @@
           toast.hidden = true;
           resolve();
         }, 280);
-      }, 1400);
+      }, hold);
     });
+  }
+
+  async function copyCheckoutFields(recipient, giftNote) {
+    const hasRecipient = !!recipient;
+    const hasNote = !!giftNote;
+    if (!hasRecipient && !hasNote) return;
+
+    let text;
+    let successMessage;
+    let failMessage;
+    if (hasRecipient && hasNote) {
+      text = "About the recipient (optional):\n" + recipient + "\n\nGift note (optional):\n" + giftNote;
+      successMessage = "Copied — paste each part into the matching field at checkout";
+      failMessage = "At checkout, paste your recipient details and gift note into the matching fields";
+    } else if (hasRecipient) {
+      text = recipient;
+      successMessage = "Copied — paste it at checkout under About the recipient (optional)";
+      failMessage = "Add your recipient details at checkout under About the recipient (optional)";
+    } else {
+      text = giftNote;
+      successMessage = "Note copied — paste it at checkout under Gift note (optional)";
+      failMessage = "Add your note at checkout under Gift note (optional)";
+    }
+
+    let copied = false;
+    try {
+      await navigator.clipboard.writeText(text);
+      copied = true;
+    } catch (_) { /* fall through */ }
+    await showToast(copied ? successMessage : failMessage, hasRecipient && hasNote ? 2000 : 1400);
   }
 
   function updateSummary() {
@@ -403,6 +450,7 @@
       currency: stripe.currency || "usd",
       storeName: config.name,
       giftNote: getGiftNote(),
+      recipient: getRecipient(),
       clientReferenceId: checkoutReference(tier, theme)
     };
 
@@ -430,15 +478,8 @@
       // Payment Links do not support prefilling custom fields via URL.
       // client_reference_id carries "<tierId>--<themeId>" for fulfillment.
       url.searchParams.set("client_reference_id", payload.clientReferenceId);
-      if (payload.giftNote) {
-        let copied = false;
-        try {
-          await navigator.clipboard.writeText(payload.giftNote);
-          copied = true;
-        } catch (_) { /* fall through */ }
-        await showToast(copied
-          ? "Note copied — paste it at checkout"
-          : "Add your note at checkout under Gift note (optional)");
+      if (payload.recipient || payload.giftNote) {
+        await copyCheckoutFields(payload.recipient, payload.giftNote);
       }
       window.location.href = url.toString();
       return;
@@ -503,6 +544,7 @@
     const tierSelect = document.getElementById("tier-select");
     const themeSelect = document.getElementById("theme-select");
     const note = document.getElementById("gift-note");
+    const recipient = document.getElementById("recipient");
 
     if (tierSelect) {
       tierSelect.addEventListener("change", () => {
@@ -519,6 +561,11 @@
         renderThemeHint();
         updateSummary();
       });
+    }
+    if (recipient) {
+      recipient.value = state.recipient || "";
+      recipient.addEventListener("input", updateRecipientCounter);
+      updateRecipientCounter();
     }
     if (note) {
       note.value = state.giftNote || "";

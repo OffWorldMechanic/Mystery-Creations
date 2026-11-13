@@ -673,6 +673,9 @@ a { color: var(--gold-bright); text-decoration-thickness: 1px; text-underline-of
   min-height: 104px;
   line-height: 1.45;
 }
+.order-form textarea#recipient {
+  min-height: 88px;
+}
 .tier-summary {
   display: grid;
   grid-template-columns: auto 1fr;
