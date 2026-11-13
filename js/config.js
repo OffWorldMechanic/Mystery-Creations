@@ -9,7 +9,7 @@ window.STORE_CONFIG = {
   description:
     "Pick a size, pick a theme, and we curate a one-of-a-kind gift box. Every order is a surprise — never the same twice.",
   // CONTACT EMAIL — single source of truth (HTML pages use the same address as a no-JS fallback).
-  contactEmail: "kennyfox6@gmail.com",
+  contactEmail: "help@mymysterycreations.com",
   instagram: "",
   // Fulfillment and business details are not shown on the storefront.
   // Stripe Checkout will collect the customer's name, email, and shipping address.

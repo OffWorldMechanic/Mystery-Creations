@@ -8,7 +8,7 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 
 - Home page (`index.html`): hero, how it works, dropdown order form (box, theme, optional gift note), compact box and theme overviews, checkout summary, FAQ, and contact
 - **Terms** (`terms.html`) and **Privacy** (`privacy.html`)
-- A **thank-you** page (`success.html`) you can use as the Stripe success URL
+- A **thank-you** page (`success.html`) used as the Stripe success URL: `https://mymysterycreations.com/success.html`
 - Original CSS/SVG visuals only — no official logos, trademarked artwork, or copyrighted characters
 - A footer disclaimer that items are genuine, new products from authorized retailers and that the store is not affiliated with or endorsed by any brand
 
@@ -101,7 +101,7 @@ paymentLinks: {
 }
 ```
 
-5. Set each Payment Link’s success URL to your deployed `success.html`, and the cancel URL to `index.html#checkout`.
+5. Set each Payment Link’s success URL to `https://mymysterycreations.com/success.html`, and the cancel URL to `https://mymysterycreations.com/#checkout`.
 6. When a customer checks out, the site redirects to the link for that tier and appends  
    `?client_reference_id=<tierId>--<themeId>`  
    so the paid order carries both the box size and the theme.
@@ -123,7 +123,7 @@ The customer’s selection is also saved in the browser if they leave and come b
 
 1. Create a GitHub repository and upload this folder (the files can live at the repo root).
 2. In the repo: **Settings → Pages → Deploy from a branch** (usually `main` / root).
-3. Your site will be at `https://<user>.github.io/<repo>/`.
+3. The published site is [https://mymysterycreations.com/](https://mymysterycreations.com/). A `CNAME` file at the repo root sets that custom domain. Asset paths stay relative, so they resolve from the domain root.
 
 A `.nojekyll` file is included so GitHub Pages won’t run Jekyll on the files.
 
@@ -150,7 +150,7 @@ Edit only this line in `js/config.js`:
 name: "Mystery Creations",
 ```
 
-The store contact address lives in `STORE_CONFIG.contactEmail` in `js/config.js` (currently `kennyfox6@gmail.com`). Instagram can be added later as `instagram`.
+The store contact address lives in `STORE_CONFIG.contactEmail` in `js/config.js` (currently `help@mymysterycreations.com`). Instagram can be added later as `instagram`.
 
 ## Project layout
 
