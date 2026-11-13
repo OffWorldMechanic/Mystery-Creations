@@ -42,13 +42,14 @@
       </button>
       <nav class="nav" id="site-nav" aria-label="Primary">
         <a href="#how">How it works</a>
+        <a href="#order">Build your box</a>
         <a href="#boxes">Boxes</a>
         <a href="#themes">Themes</a>
         <a href="#faq">FAQ</a>
         <a href="#contact">Contact</a>
       </nav>
       <div class="header-cta">
-        <a class="btn btn-gold" href="#boxes">Build your box</a>
+        <a class="btn btn-gold" href="#order">Build your box</a>
       </div>
     </div>
   </header>
@@ -61,7 +62,7 @@
           <h1><span data-store-name>Mystery Creations</span><br><em>themed boxes, packed with wonder.</em></h1>
           <p class="lede" data-store-description>Pick a size, pick a theme, and we curate a one-of-a-kind gift box. Every order is a surprise — never the same twice.</p>
           <div class="hero-actions">
-            <a class="btn btn-gold" href="#boxes">Choose your box</a>
+            <a class="btn btn-gold" href="#order">Choose your box</a>
             <a class="btn btn-ghost" href="#how">See how it works</a>
           </div>
         </div>
@@ -86,12 +87,12 @@
           <article class="step">
             <div class="step-num">01</div>
             <h3>Pick a size</h3>
-            <p>Ten boxes, from a pocket-sized whisper at $30 to the legendary Grand Vault at $500. Choose the scale that fits the moment.</p>
+            <p>Eleven boxes, from a mini Glimpse at $20 to the legendary Grand Vault at $500. Choose the scale that fits the moment.</p>
           </article>
           <article class="step">
             <div class="step-num">02</div>
             <h3>Pick a theme</h3>
-            <p>Anime, Pokémon Fans, Football, Musician, Mechanic, Batman Fans, or Space Fans. We’ll add more themes over time.</p>
+            <p>Seventeen fan-style themes, from Anime and Gaming to Cozy Self-Care. We’ll add more over time.</p>
           </article>
           <article class="step">
             <div class="step-num">03</div>
@@ -102,49 +103,75 @@
       </div>
     </section>
 
+    <section class="section" id="order">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Build your box</p>
+          <h2>Choose your box</h2>
+          <p>Pick a size and a theme from the lists below, add an optional gift note, and continue to secure checkout. Stripe collects your name, email, phone, and shipping address.</p>
+        </div>
+        <form class="order-form" id="order-form">
+          <div class="order-fields">
+            <div class="field">
+              <label for="tier-select">Choose your box</label>
+              <select id="tier-select" name="tier" required autocomplete="off">
+                <option value="">Select a box…</option>
+              </select>
+              <div class="tier-summary" id="tier-summary" hidden></div>
+            </div>
+            <div class="field">
+              <label for="theme-select">Choose a theme</label>
+              <select id="theme-select" name="theme" required autocomplete="off">
+                <option value="">Select a theme…</option>
+              </select>
+              <p class="theme-hint" id="theme-hint" hidden></p>
+            </div>
+            <div class="field">
+              <label for="gift-note">Gift note <span class="optional">(optional)</span></label>
+              <textarea id="gift-note" name="giftnote" maxlength="200" rows="4" placeholder="A short message to tuck in the box…"></textarea>
+              <div class="note-meta">
+                <p class="hint">You’ll confirm or paste your note at checkout under “Gift note (optional).” We’ll copy it for you when you continue.</p>
+                <span class="char-count" id="gift-note-count" aria-live="polite">0 / 200</span>
+              </div>
+            </div>
+          </div>
+          <div class="checkout-panel" id="checkout">
+            <div class="order-summary">
+              <div class="summary-row"><span>Box</span><strong data-summary-tier>Choose a box size</strong></div>
+              <div class="summary-row"><span>Size</span><strong data-summary-size>—</strong></div>
+              <div class="summary-row"><span>Theme</span><strong data-summary-theme>Choose a theme</strong></div>
+              <div class="summary-row summary-total"><span>Total</span><strong data-summary-price>—</strong></div>
+              <p class="checkout-note">One box per checkout keeps packing simple. Want another? Place a second order after the first.</p>
+            </div>
+            <div>
+              <div class="stripe-placeholder" id="checkout-status"></div>
+              <button class="btn btn-gold btn-wide is-disabled" type="submit" data-checkout-btn disabled>Continue to checkout</button>
+              <p class="hint">Payments run through Stripe. No account is required on this site. You’ll return here after payment.</p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
     <section class="section" id="boxes">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow">Ten sizes</p>
-          <h2>Choose your box</h2>
-          <p>Every tier is a different size and spend. Select one, then pick a theme below.</p>
+          <p class="eyebrow">Eleven sizes</p>
+          <h2>Box sizes at a glance</h2>
+          <p>A quiet look at every tier, from $20 to $500. Use the dropdowns above to place an order.</p>
         </div>
-        <div class="tier-grid" id="tier-grid" role="group" aria-label="Box sizes"></div>
+        <div class="tier-overview" id="tier-overview"></div>
       </div>
     </section>
 
     <section class="section" id="themes">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow">Seven starting themes</p>
-          <h2>Choose a theme</h2>
+          <p class="eyebrow">Seventeen themes</p>
+          <h2>Theme ideas</h2>
           <p>Fan-style collections built around an interest — not official brand shops. More themes will be added later.</p>
         </div>
-        <div class="theme-grid" id="theme-grid" role="group" aria-label="Themes"></div>
-      </div>
-    </section>
-
-    <section class="section" id="checkout">
-      <div class="wrap">
-        <div class="section-head">
-          <p class="eyebrow">Checkout</p>
-          <h2>Your mystery box</h2>
-          <p>Review your size and theme, then continue to secure payment. Stripe collects your name, email, and shipping address.</p>
-        </div>
-        <div class="checkout-panel">
-          <div class="order-summary">
-            <div class="summary-row"><span>Box</span><strong data-summary-tier>Choose a box size</strong></div>
-            <div class="summary-row"><span>Size</span><strong data-summary-size>—</strong></div>
-            <div class="summary-row"><span>Theme</span><strong data-summary-theme>Choose a theme</strong></div>
-            <div class="summary-row summary-total"><span>Total</span><strong data-summary-price>—</strong></div>
-            <p class="checkout-note">One box per checkout keeps packing simple. Want another? Place a second order after the first.</p>
-          </div>
-          <div>
-            <div class="stripe-placeholder" id="checkout-status"></div>
-            <button class="btn btn-gold btn-wide is-disabled" type="button" data-checkout-btn disabled>Continue to checkout</button>
-            <p class="hint">Payments run through Stripe. No account is required on this site. You’ll return here after payment once Stripe is connected.</p>
-          </div>
-        </div>
+        <div class="theme-overview" id="theme-overview"></div>
       </div>
     </section>
 
@@ -165,7 +192,7 @@
           </details>
           <details class="faq">
             <summary>Can I choose specific items?</summary>
-            <p>No — every box is a surprise. You choose the size and the theme, and we do the rest. If you have an allergy, restriction, or a gift note, mention it in your order comments or on the contact form and we’ll do our best to accommodate.</p>
+            <p>No — every box is a surprise. You choose the size and the theme, and we do the rest. If you have an allergy or restriction, write us on the contact form and we’ll do our best to accommodate. A short gift note can be added when you build your box, and confirmed at checkout.</p>
           </details>
           <details class="faq">
             <summary>What’s your return policy?</summary>
@@ -176,8 +203,12 @@
             <p>No. Theme names describe fandoms and interests only. <span data-store-name>Mystery Creations</span> is not affiliated with, endorsed by, or sponsored by any studio, publisher, league, artist, or company mentioned in our themes.</p>
           </details>
           <details class="faq">
+            <summary>Can I include a gift note?</summary>
+            <p>Yes. Add an optional note (up to 200 characters) when you build your box. Because Stripe can’t prefill that field, we’ll copy the note for you — paste it into “Gift note (optional)” on the Stripe checkout page.</p>
+          </details>
+          <details class="faq">
             <summary>When can I place an order?</summary>
-            <p>The storefront is ready to browse. Secure checkout will open as soon as Stripe is connected. Your size and theme selection can be saved on this device in the meantime.</p>
+            <p>You can check out now through Stripe. Your size, theme, and gift note are saved on this device if you leave and come back.</p>
           </details>
         </div>
       </div>
@@ -216,6 +247,7 @@
         </div>
         <nav class="footer-links" aria-label="Footer">
           <a href="#how">How it works</a>
+          <a href="#order">Build your box</a>
           <a href="#boxes">Boxes</a>
           <a href="#themes">Themes</a>
           <a href="#faq">FAQ</a>
@@ -237,6 +269,8 @@
       <a class="btn btn-gold" href="#checkout">Checkout</a>
     </div>
   </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
   <script src="js/app.js"></script>
 </body>

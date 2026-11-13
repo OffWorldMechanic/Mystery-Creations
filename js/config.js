@@ -21,21 +21,22 @@ window.STORE_CONFIG = {
    * Option A — Stripe Payment Links (simplest, no backend):
    *   Checkout appends ?client_reference_id=<tierId>--<themeId> so the paid
    *   order carries both the box size and the selected theme. Payment Links
-   *   cannot prefill the Theme dropdown via URL; the customer also confirms
-   *   the theme on Stripe Checkout (required custom field). Dropdown values
+   *   cannot prefill custom fields via URL; the customer also confirms
+   *   the theme and may paste a gift note on Stripe Checkout. Dropdown values
    *   are alphanumeric (hyphens stripped from theme ids, e.g. pokemon-fans
    *   → pokemonfans) because Stripe rejects hyphens in option values.
    *
    * Option B — Stripe Checkout Sessions (recommended once you have a small backend):
    *   Set stripe.checkoutEndpoint to your function URL (e.g. a Cloudflare Worker
    *   or Netlify/Stripe function). The site POSTs JSON:
-   *   { tierId, themeId, tierName, themeName, priceCents, currency, storeName }
+   *   { tierId, themeId, tierName, themeName, giftNote, priceCents, currency, storeName }
    *   and expects { url } pointing at the Stripe Checkout Session.
    *   Stripe Checkout itself collects name, email, and shipping address.
    */
   stripe: {
     currency: "usd",
     paymentLinks: {
+      glimpse: "https://buy.stripe.com/test_00w5kE99qa0JfEN8oBcjS0a",
       whisper: "https://buy.stripe.com/test_cNi4gA4Ta0q9fEN9sFcjS00",
       spark: "https://buy.stripe.com/test_00w9AUclC7SBdwF0W9cjS01",
       curiosity: "https://buy.stripe.com/test_fZu5kE1GYb4NeAJ9sFcjS02",
@@ -53,6 +54,13 @@ window.STORE_CONFIG = {
   },
 
   tiers: [
+    {
+      id: "glimpse",
+      name: "The Glimpse",
+      price: 20,
+      size: "Mini",
+      blurb: "A tiny peek of themed joy — a sweet first look or a just-because treat."
+    },
     {
       id: "whisper",
       name: "The Whisper",
@@ -182,6 +190,76 @@ window.STORE_CONFIG = {
       blurb: "Orbit-minded gifts for launch watchers and stargazers. Original space motifs, not company branding.",
       accent: "#6ec4d8",
       icon: "space"
+    },
+    {
+      id: "gaming",
+      name: "Gaming",
+      blurb: "Controller-side comforts and collectible energy for people who live in save files.",
+      accent: "#6ea8ff",
+      icon: "gaming"
+    },
+    {
+      id: "marvel-fans",
+      name: "Marvel Fans",
+      blurb: "Heroic color, comic-shelf energy, and everyday finds for universe watchers. Fan-style only.",
+      accent: "#d45a5a",
+      icon: "marvel-fans"
+    },
+    {
+      id: "star-wars-fans",
+      name: "Star Wars Fans",
+      blurb: "Far-galaxy atmosphere for saga lovers. Original motifs and licensed goods — no official marks from us.",
+      accent: "#d4c07a",
+      icon: "star-wars-fans"
+    },
+    {
+      id: "potter-fans",
+      name: "Harry Potter Fans",
+      blurb: "Cozy, bookish magic for house-sorted readers. Fan-style only — no official crests or logos.",
+      accent: "#7a9a4a",
+      icon: "potter-fans"
+    },
+    {
+      id: "disney-fans",
+      name: "Disney Fans",
+      blurb: "Storybook warmth and park-day delight. Generic or officially licensed items only.",
+      accent: "#6a9ad8",
+      icon: "disney-fans"
+    },
+    {
+      id: "basketball",
+      name: "Basketball",
+      blurb: "Hardwood energy, gym-bag staples, and game-night spirit. Not affiliated with any league or team.",
+      accent: "#e08a3a",
+      icon: "basketball"
+    },
+    {
+      id: "baseball",
+      name: "Baseball",
+      blurb: "Diamond days, ballpark snacks energy, and summer-night nostalgia. Not affiliated with any league or team.",
+      accent: "#c45c4a",
+      icon: "baseball"
+    },
+    {
+      id: "fishing-outdoors",
+      name: "Fishing & Outdoors",
+      blurb: "Early mornings, quiet water, and trail-ready goods for people who pack a tackle box.",
+      accent: "#5a9a7a",
+      icon: "fishing-outdoors"
+    },
+    {
+      id: "cars-racing",
+      name: "Cars & Racing",
+      blurb: "Garage weekends, pit-lane focus, and the smell of rubber on a warm day.",
+      accent: "#d06050",
+      icon: "cars-racing"
+    },
+    {
+      id: "cozy-self-care",
+      name: "Cozy Self-Care",
+      blurb: "Soft evenings, warm light, and small comforts meant to slow the day down.",
+      accent: "#d4a0b4",
+      icon: "cozy-self-care"
     }
   ],
 

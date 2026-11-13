@@ -13,14 +13,16 @@
 
   const state = {
     tierId: null,
-    themeId: null
+    themeId: null,
+    giftNote: ""
   };
 
   try {
     const saved = JSON.parse(localStorage.getItem("mc-selection") || "null");
-    if (saved && saved.tierId && saved.themeId) {
-      state.tierId = saved.tierId;
-      state.themeId = saved.themeId;
+    if (saved) {
+      if (saved.tierId) state.tierId = saved.tierId;
+      if (saved.themeId) state.themeId = saved.themeId;
+      if (typeof saved.giftNote === "string") state.giftNote = saved.giftNote.slice(0, 200);
     }
   } catch (_) { /* ignore */ }
 
@@ -73,12 +75,61 @@
       <path d="M16 4l3 9 9 3-9 3-3 9-3-9-9-3 9-3 3-9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
       <circle cx="16" cy="16" r="3" fill="currentColor"/>
       <path d="M25 8c3 3 3 8 0 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>`,
+    gaming: `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <rect x="4" y="12" width="24" height="12" rx="6" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M10 18h4M12 16v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="20" cy="17" r="1.2" fill="currentColor"/>
+      <circle cx="23" cy="20" r="1.2" fill="currentColor"/>
+    </svg>`,
+    "marvel-fans": `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M6 26V8h5l5 12 5-12h5v18" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M10 26V16" stroke="currentColor" stroke-width="1.6"/>
+    </svg>`,
+    "star-wars-fans": `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <circle cx="16" cy="16" r="10" stroke="currentColor" stroke-width="1.5"/>
+      <ellipse cx="16" cy="16" rx="10" ry="4" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M16 6v20M6 16h20" stroke="currentColor" stroke-width="1.3"/>
+    </svg>`,
+    "potter-fans": `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M8 26c2-8 4-16 8-16s6 8 8 16" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M12 20h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M16 6l1 3-1 1-1-1 1-3z" fill="currentColor"/>
+    </svg>`,
+    "disney-fans": `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <circle cx="11" cy="12" r="5" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="21" cy="12" r="5" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="16" cy="18" r="6.5" stroke="currentColor" stroke-width="1.5"/>
+    </svg>`,
+    basketball: `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <circle cx="16" cy="16" r="10" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M16 6c-3 3.5-3 16.5 0 20M6 16c3.5-3 16.5-3 20 0M8.5 9.5c6 2 9 5 14 13M8.5 22.5c6-2 9-5 14-13" stroke="currentColor" stroke-width="1.3"/>
+    </svg>`,
+    baseball: `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <circle cx="16" cy="16" r="10" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M9 8.5c3 3 4 12 0 15.5M23 8.5c-3 3-4 12 0 15.5" stroke="currentColor" stroke-width="1.4"/>
+    </svg>`,
+    "fishing-outdoors": `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M6 8h6l14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M26 22c0 3-2.5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M8 20c2 2 6 2 8 0 2 3 6 4 10 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>`,
+    "cars-racing": `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M6 18l3-5h10l5 5v4H6v-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <circle cx="11" cy="23" r="2.2" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="22" cy="23" r="2.2" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M14 13v5" stroke="currentColor" stroke-width="1.4"/>
+    </svg>`,
+    "cozy-self-care": `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M8 22c0-5 3.2-8 8-8s8 3 8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M10 22h12v2a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4v-2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M16 8c0 2-1.5 3.5-1.5 3.5S16 13 16 8c0-2 2-3 2-3s-2 1-2 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
     </svg>`
   };
 
   function boxSvg(price) {
     /* Scale the illustrated box with price so size feels real */
-    const t = Math.min(1, Math.max(0, (price - 30) / 470));
+    const t = Math.min(1, Math.max(0, (price - 20) / 480));
     const w = 28 + t * 34;
     const h = 18 + t * 28;
     const lid = 6 + t * 6;
@@ -122,59 +173,134 @@
     }
   }
 
-  function renderTiers() {
-    const root = document.getElementById("tier-grid");
-    if (!root) return;
-    root.innerHTML = "";
-    (config.tiers || []).forEach((tier) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "tier-card" + (state.tierId === tier.id ? " is-selected" : "");
-      btn.setAttribute("aria-pressed", state.tierId === tier.id ? "true" : "false");
-      btn.dataset.tierId = tier.id;
-      btn.innerHTML = `
-        <div class="box-visual" style="color: var(--gold-bright)">${boxSvg(tier.price)}</div>
+  function optionLabel(tier) {
+    return `${tier.name} — ${money(tier.price)} (${tier.size})`;
+  }
+
+  function renderTierSelect() {
+    const select = document.getElementById("tier-select");
+    if (!select) return;
+    const current = select.value;
+    select.innerHTML = `<option value="">Select a box…</option>` +
+      (config.tiers || []).map((tier) =>
+        `<option value="${escapeHtml(tier.id)}">${escapeHtml(optionLabel(tier))}</option>`
+      ).join("");
+    if (state.tierId && (config.tiers || []).some((t) => t.id === state.tierId)) {
+      select.value = state.tierId;
+    } else if (current) {
+      select.value = current;
+    }
+    renderTierSummary();
+  }
+
+  function renderTierSummary() {
+    const card = document.getElementById("tier-summary");
+    if (!card) return;
+    const tier = getTier();
+    if (!tier) {
+      card.hidden = true;
+      card.innerHTML = "";
+      return;
+    }
+    card.hidden = false;
+    card.innerHTML = `
+      <div class="box-visual" style="color: var(--gold-bright)">${boxSvg(tier.price)}</div>
+      <div class="tier-summary-copy">
         <div class="tier-size">${escapeHtml(tier.size)}</div>
         <h3>${escapeHtml(tier.name)}</h3>
         <p class="tier-price">${money(tier.price)}</p>
         <p class="blurb">${escapeHtml(tier.blurb)}</p>
-        <div class="selected-mark">${state.tierId === tier.id ? "Selected" : ""}</div>
-      `;
-      btn.addEventListener("click", () => {
-        state.tierId = tier.id;
-        persist();
-        renderTiers();
-        updateSummary();
-      });
-      root.appendChild(btn);
-    });
+      </div>
+    `;
   }
 
-  function renderThemes() {
-    const root = document.getElementById("theme-grid");
+  function renderThemeSelect() {
+    const select = document.getElementById("theme-select");
+    if (!select) return;
+    select.innerHTML = `<option value="">Select a theme…</option>` +
+      (config.themes || []).map((theme) =>
+        `<option value="${escapeHtml(theme.id)}">${escapeHtml(theme.name)}</option>`
+      ).join("");
+    if (state.themeId && (config.themes || []).some((t) => t.id === state.themeId)) {
+      select.value = state.themeId;
+    }
+    renderThemeHint();
+  }
+
+  function renderThemeHint() {
+    const hint = document.getElementById("theme-hint");
+    if (!hint) return;
+    const theme = getTheme();
+    if (!theme) {
+      hint.hidden = true;
+      hint.textContent = "";
+      return;
+    }
+    hint.hidden = false;
+    hint.textContent = theme.blurb;
+  }
+
+  function renderTierOverview() {
+    const root = document.getElementById("tier-overview");
     if (!root) return;
-    root.innerHTML = "";
-    (config.themes || []).forEach((theme) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "theme-card" + (state.themeId === theme.id ? " is-selected" : "");
-      btn.setAttribute("aria-pressed", state.themeId === theme.id ? "true" : "false");
-      btn.style.setProperty("--theme-accent", theme.accent || "#d4b05a");
-      btn.dataset.themeId = theme.id;
+    root.innerHTML = (config.tiers || []).map((tier) => `
+      <article class="overview-tier">
+        <div class="box-visual" style="color: var(--gold-bright)">${boxSvg(tier.price)}</div>
+        <div>
+          <div class="tier-size">${escapeHtml(tier.size)}</div>
+          <h3>${escapeHtml(tier.name)}</h3>
+          <p class="tier-price">${money(tier.price)}</p>
+          <p class="blurb">${escapeHtml(tier.blurb)}</p>
+        </div>
+      </article>
+    `).join("");
+  }
+
+  function renderThemeOverview() {
+    const root = document.getElementById("theme-overview");
+    if (!root) return;
+    root.innerHTML = (config.themes || []).map((theme) => {
       const icon = ICONS[theme.icon] || ICONS.anime;
-      btn.innerHTML = `
-        <div class="theme-icon">${icon}</div>
-        <h3>${escapeHtml(theme.name)}</h3>
-        <p>${escapeHtml(theme.blurb)}</p>
-        <div class="selected-mark">${state.themeId === theme.id ? "Selected" : ""}</div>
+      return `
+        <article class="overview-theme" style="--theme-accent: ${escapeHtml(theme.accent || "#d4b05a")}">
+          <div class="theme-icon">${icon}</div>
+          <h3>${escapeHtml(theme.name)}</h3>
+          <p>${escapeHtml(theme.blurb)}</p>
+        </article>
       `;
-      btn.addEventListener("click", () => {
-        state.themeId = theme.id;
-        persist();
-        renderThemes();
-        updateSummary();
-      });
-      root.appendChild(btn);
+    }).join("");
+  }
+
+  function getGiftNote() {
+    const el = document.getElementById("gift-note");
+    const raw = el ? el.value : state.giftNote;
+    return String(raw || "").slice(0, 200);
+  }
+
+  function updateNoteCounter() {
+    const el = document.getElementById("gift-note");
+    const count = document.getElementById("gift-note-count");
+    const value = getGiftNote();
+    if (el && el.value !== value) el.value = value;
+    if (count) count.textContent = `${value.length} / 200`;
+    state.giftNote = value;
+    persist();
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById("toast");
+    if (!toast) return Promise.resolve();
+    toast.textContent = message;
+    toast.hidden = false;
+    toast.classList.add("is-visible");
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        toast.classList.remove("is-visible");
+        window.setTimeout(() => {
+          toast.hidden = true;
+          resolve();
+        }, 280);
+      }, 1400);
     });
   }
 
@@ -270,6 +396,7 @@
       priceCents: Math.round(tier.price * 100),
       currency: stripe.currency || "usd",
       storeName: config.name,
+      giftNote: getGiftNote(),
       clientReferenceId: checkoutReference(tier, theme)
     };
 
@@ -297,6 +424,16 @@
       // Payment Links do not support prefilling custom fields via URL.
       // client_reference_id carries "<tierId>--<themeId>" for fulfillment.
       url.searchParams.set("client_reference_id", payload.clientReferenceId);
+      if (payload.giftNote) {
+        let copied = false;
+        try {
+          await navigator.clipboard.writeText(payload.giftNote);
+          copied = true;
+        } catch (_) { /* fall through */ }
+        await showToast(copied
+          ? "Note copied — paste it at checkout"
+          : "Add your note at checkout under Gift note (optional)");
+      }
       window.location.href = url.toString();
       return;
     }
@@ -355,17 +492,48 @@
     });
   }
 
+  function setupOrderForm() {
+    const form = document.getElementById("order-form");
+    const tierSelect = document.getElementById("tier-select");
+    const themeSelect = document.getElementById("theme-select");
+    const note = document.getElementById("gift-note");
+
+    if (tierSelect) {
+      tierSelect.addEventListener("change", () => {
+        state.tierId = tierSelect.value || null;
+        persist();
+        renderTierSummary();
+        updateSummary();
+      });
+    }
+    if (themeSelect) {
+      themeSelect.addEventListener("change", () => {
+        state.themeId = themeSelect.value || null;
+        persist();
+        renderThemeHint();
+        updateSummary();
+      });
+    }
+    if (note) {
+      note.value = state.giftNote || "";
+      note.addEventListener("input", updateNoteCounter);
+      updateNoteCounter();
+    }
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        startCheckout();
+      });
+    }
+  }
+
   applyBrand();
-  renderTiers();
-  renderThemes();
+  renderTierSelect();
+  renderThemeSelect();
+  renderTierOverview();
+  renderThemeOverview();
   updateSummary();
   setupNav();
   setupContact();
-
-  document.querySelectorAll("[data-checkout-btn]").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      startCheckout();
-    });
-  });
+  setupOrderForm();
 })();

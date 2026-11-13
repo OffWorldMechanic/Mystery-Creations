@@ -6,7 +6,7 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 
 ## What’s on the site
 
-- Home page (`index.html`): hero, how it works, ten box tiers, seven themes, cart/checkout summary, FAQ, and contact
+- Home page (`index.html`): hero, how it works, dropdown order form (box, theme, optional gift note), compact box and theme overviews, checkout summary, FAQ, and contact
 - Placeholder **Terms** (`terms.html`) and **Privacy** (`privacy.html`)
 - A **thank-you** page (`success.html`) you can use as the Stripe success URL
 - Original CSS/SVG visuals only — no official logos, trademarked artwork, or copyrighted characters
@@ -16,6 +16,7 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 
 | ID | Name | Size | Price |
 | --- | --- | --- | --- |
+| `glimpse` | The Glimpse | Mini | $20 |
 | `whisper` | The Whisper | Pocket | $30 |
 | `spark` | The Spark | Small | $50 |
 | `curiosity` | The Curiosity | Compact | $75 |
@@ -27,7 +28,7 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 | `heist` | The Heist | Huge | $400 |
 | `grand-vault` | The Grand Vault | Legendary | $500 |
 
-Customers must pick a **tier and a theme**. Checkout passes both, plus the price.
+Customers pick a **tier and a theme** from dropdowns, and may add a gift note (up to 200 characters). Checkout passes the tier, theme, note, and price.
 
 ## Themes
 
@@ -40,6 +41,16 @@ Configured in the `themes` array in `js/config.js`. Starting themes:
 - Mechanic
 - Batman Fans (Gotham-style naming and artwork — no official marks)
 - SpaceX / Space Fans (generic space motifs — no company branding)
+- Gaming
+- Marvel Fans
+- Star Wars Fans
+- Harry Potter Fans
+- Disney Fans
+- Basketball
+- Baseball
+- Fishing & Outdoors
+- Cars & Racing
+- Cozy Self-Care
 
 ### Adding a theme later
 
@@ -52,23 +63,23 @@ Configured in the `themes` array in `js/config.js`. Starting themes:
   name: "Gardening",        // customer-facing label
   blurb: "For people who talk to their plants.",
   accent: "#7aa86d",        // plaque highlight color
-  icon: "anime"             // one of: anime, pokemon-fans, football, musician, mechanic, gotham, space
+  icon: "anime"             // key in the ICONS set in app.js (or add a new original SVG there)
 }
 ```
 
-3. Save and refresh. The theme grid is built from this array, so no HTML edit is required.
+3. Save and refresh. The theme dropdown and overview are built from this array, so no HTML edit is required.
 
 To give the new theme its own icon, add an SVG string under the matching key in the `ICONS` object in `js/app.js`. Keep icons original — no official logos or characters.
 
 ## Payments (Stripe is a placeholder until you connect it)
 
-Checkout is already wired, but **no Stripe links are filled in yet**, so the button will not charge anyone. Stripe Checkout itself should collect the customer’s name, email, and shipping address once you turn it on.
+Test-mode Stripe Payment Links are filled in `STORE_CONFIG.stripe.paymentLinks`. Each link collects shipping (US), phone, a required Theme dropdown, and an optional Gift note. Stripe Checkout collects the customer’s name, email, and address.
 
 The site passes this order payload:
 
 ```js
 {
-  tierId, themeId, tierName, themeName,
+  tierId, themeId, tierName, themeName, giftNote,
   price, priceCents, currency, storeName,
   clientReferenceId  // "<tierId>--<themeId>", e.g. "secret--musician"
 }
@@ -77,12 +88,13 @@ The site passes this order payload:
 ### Option A — Stripe Payment Links (no backend)
 
 1. Create a Stripe account and add your bank details in the Stripe Dashboard.
-2. Create **one Payment Link per box tier** (one for $30, one for $50, and so on). Enable shipping address collection and any tax settings you need.
+2. Create **one Payment Link per box tier** (one for $20, one for $30, and so on). Enable shipping address collection and any tax settings you need.
 3. Optional but useful: add a custom field in the Payment Link for “Theme”, or rely on `client_reference_id` (the site always appends it).
 4. Paste each Payment Link URL into `STORE_CONFIG.stripe.paymentLinks` in `js/config.js`, keyed by tier id:
 
 ```js
 paymentLinks: {
+  glimpse: "https://buy.stripe.com/example_glimpse",
   whisper: "https://buy.stripe.com/example_whisper",
   spark: "https://buy.stripe.com/example_spark",
   curiosity: "",

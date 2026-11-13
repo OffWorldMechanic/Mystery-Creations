@@ -627,6 +627,178 @@ a { color: var(--gold-bright); text-decoration-thickness: 1px; text-underline-of
 .stripe-placeholder p { margin: 0 0 14px; color: var(--mist); font-size: 0.9rem; }
 .hint { color: var(--mist); font-size: 0.82rem; margin: 10px 0 0; }
 
+
+/* Order form (dropdown checkout) */
+.order-form {
+  display: grid;
+  gap: 28px;
+}
+.order-fields {
+  display: grid;
+  gap: 22px;
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 28px 28px 24px;
+}
+.order-form .field {
+  display: grid;
+  gap: 8px;
+}
+.order-form label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 0.92rem;
+  color: var(--cream);
+  font-weight: 500;
+}
+.order-form .optional {
+  color: var(--mist);
+  font-weight: 400;
+}
+.order-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 48px;
+  padding: 12px 44px 12px 14px;
+  background-color: var(--ink);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23f0d78a' stroke-width='1.8' viewBox='0 0 16 16'%3E%3Cpath d='M3 6l5 5 5-5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  cursor: pointer;
+}
+.order-form textarea {
+  min-height: 104px;
+  line-height: 1.45;
+}
+.tier-summary {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: start;
+  margin-top: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(12, 16, 22, 0.45);
+}
+.tier-summary .box-visual { color: var(--gold-bright); }
+.tier-summary h3 {
+  margin: 2px 0 0;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+.tier-summary .tier-price {
+  margin: 4px 0 6px;
+  color: var(--gold-bright);
+  font-weight: 500;
+}
+.tier-summary .blurb {
+  margin: 0;
+  color: var(--cream-dim);
+  font-size: 0.92rem;
+}
+.theme-hint {
+  margin: 0;
+  color: var(--cream-dim);
+  font-size: 0.9rem;
+}
+.note-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+.note-meta .hint { margin: 0; flex: 1; }
+.char-count {
+  color: var(--mist);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Compact read-only overviews */
+.tier-overview {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+.overview-tier {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px 18px;
+}
+.overview-tier h3 {
+  margin: 2px 0 0;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+.overview-tier .tier-price {
+  margin: 2px 0 6px;
+  color: var(--gold-bright);
+  font-weight: 500;
+}
+.overview-tier .blurb {
+  margin: 0;
+  color: var(--cream-dim);
+  font-size: 0.88rem;
+}
+.theme-overview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.overview-theme {
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--theme-accent, var(--gold));
+  border-radius: 16px;
+  padding: 16px 18px 18px;
+}
+.overview-theme h3 {
+  margin: 8px 0 6px;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+.overview-theme p {
+  margin: 0;
+  color: var(--cream-dim);
+  font-size: 0.88rem;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--bar-h) + 20px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%) translateY(12px);
+  z-index: 80;
+  background: #1c2433;
+  color: var(--cream);
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-size: 0.92rem;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  max-width: min(92vw, 420px);
+  text-align: center;
+}
+.toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 /* FAQ */
 .faq-list { display: grid; gap: 10px; max-width: 800px; }
 
@@ -839,7 +1011,7 @@ body.has-bar .legal { padding-bottom: calc(120px + var(--bar-h) + env(safe-area-
 
 @media (max-width: 1040px) {
   .tier-grid { grid-template-columns: repeat(3, 1fr); }
-  .theme-grid { grid-template-columns: repeat(3, 1fr); }
+  .theme-grid, .theme-overview { grid-template-columns: repeat(3, 1fr); }
   .hero-grid, .checkout-panel, .contact-grid { grid-template-columns: 1fr; }
   .hero-art { min-height: 0; order: -1; margin-bottom: 8px; }
   .hero-frame { width: min(52vw, 210px); }
@@ -891,8 +1063,10 @@ body.has-bar .legal { padding-bottom: calc(120px + var(--bar-h) + env(safe-area-
   }
   .steps { grid-template-columns: 1fr; }
   .tier-grid, .theme-grid { grid-template-columns: 1fr 1fr; }
+  .theme-overview { grid-template-columns: 1fr 1fr; }
   .section { padding: 64px 0; }
-  .checkout-panel, .contact-form { padding: 22px 18px; }
+  .checkout-panel, .contact-form, .order-fields { padding: 22px 18px; }
+  .tier-overview, .theme-overview { grid-template-columns: 1fr; }
   .order-bar-inner { flex-wrap: nowrap; gap: 12px; min-height: 72px; padding-block: 8px; }
   .order-bar .btn { flex: 0 0 auto; padding: 10px 16px; min-height: 44px; }
   .order-bar-copy h2 { font-size: 0.98rem; }
@@ -901,13 +1075,14 @@ body.has-bar .legal { padding-bottom: calc(120px + var(--bar-h) + env(safe-area-
 
 @media (max-width: 480px) {
   .tier-grid { grid-template-columns: 1fr; }
-  .theme-grid { grid-template-columns: 1fr; }
+  .theme-grid, .theme-overview { grid-template-columns: 1fr; }
+  .note-meta { flex-direction: column; }
   .hero-actions { flex-direction: column; align-items: stretch; }
 }
 
 @media (max-width: 760px) {
-  #checkout .section-head { margin-bottom: 18px; }
-  #checkout h2 { font-size: 2rem; }
+  #order .section-head { margin-bottom: 18px; }
+  #order h2 { font-size: 2rem; }
   .checkout-panel { gap: 16px; }
   .summary-row { padding-bottom: 8px; }
   .stripe-placeholder { padding: 14px 14px 12px; }
