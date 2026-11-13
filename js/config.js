@@ -268,6 +268,27 @@ window.STORE_CONFIG = {
       blurb: "Slow-rise squishies, stress balls, mochi squish, and plush squishies — soft, silly, and very squeezeable.",
       accent: "#f0a8c0",
       icon: "squishy"
+    },
+    {
+      id: "halloween",
+      name: "Halloween",
+      blurb: "Autumn nights, carved pumpkins, and a little friendly fright — treats and trinkets for spooky-season fans.",
+      accent: "#e08a3a",
+      icon: "halloween"
+    },
+    {
+      id: "christmas",
+      name: "Christmas",
+      blurb: "Cozy winter light, wrapping-paper rustle, and small comforts for the holiday table.",
+      accent: "#c45c4a",
+      icon: "christmas"
+    },
+    {
+      id: "stpatricksday",
+      name: "St. Patrick's Day Party",
+      blurb: "Green-and-gold festivities, gathering energy, and luck-of-the-season party favors.",
+      accent: "#3d8c5a",
+      icon: "stpatricksday"
     }
   ],
 

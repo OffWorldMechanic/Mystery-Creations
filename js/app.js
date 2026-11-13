@@ -132,6 +132,21 @@
       <path d="M12.2 17.2c.2-1.2 1-1.8 1.8-1.8M18 15.4c.9 0 1.7.6 1.9 1.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
       <path d="M13.5 21c1.2 1.3 3.8 1.3 5 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
       <path d="M7 14c-1.4.6-2.2 1.8-2.2 3.2M25 14c1.4.6 2.2 1.8 2.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>`,
+    halloween: `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M16 7c0-2 1.4-3.2 2.6-3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M7.5 14c1-6 4.2-8.5 8.5-8.5s7.5 2.5 8.5 8.5c1 5.6-1.8 12.5-8.5 12.5S6.5 19.6 7.5 14z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M12.2 15.2l2.2-2.6 1 2.8M16.6 15.4l2.2-2.8 1.1 2.8" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M13 20c.8 1.4 2 2.1 3 2.1s2.2-.7 3-2.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>`,
+    christmas: `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M16 5l7 8h-4l5 6h-4.5l5 7H7.5l5-7H8l5-6h-4l7-8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M13 26h6v3h-6v-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+    </svg>`,
+    stpatricksday: `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M16 17c-3.2-3.4-7.6-2.2-7.6 1.4 0 2.4 2 4 4.2 3.2 1.2-.4 2.4-1.8 3.4-3.4 1 1.6 2.2 3 3.4 3.4 2.2.8 4.2-.8 4.2-3.2 0-3.6-4.4-4.8-7.6-1.4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M16 18c0 3 .2 6.5 1.6 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M16 8.5c-1.8-2.4-5.2-2-5.4.6-.2 1.8 1.4 3 3.2 2.6.8-.2 1.6-1.2 2.2-2.2.6 1 1.4 2 2.2 2.2 1.8.4 3.4-.8 3.2-2.6-.2-2.6-3.6-3-5.4-.6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
     </svg>`
   };
 

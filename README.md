@@ -52,6 +52,9 @@ Configured in the `themes` array in `js/config.js`. Starting themes:
 - Cars & Racing
 - Cozy Self-Care
 - Squishy
+- Halloween
+- Christmas
+- St. Patrick's Day Party
 
 ### Adding a theme later
 
