@@ -52,13 +52,6 @@ window.STORE_CONFIG = {
 
   tiers: [
     {
-      id: "glimpse",
-      name: "The Glimpse",
-      price: 25,
-      size: "Mini",
-      blurb: "A tiny peek of themed joy — a sweet first look or a just-because treat."
-    },
-    {
       id: "whisper",
       name: "The Whisper",
       price: 30,
