@@ -8,6 +8,71 @@
     return;
   }
 
+  const UTM_STORAGE_KEY = "mc-utm";
+
+  function captureCampaignParams() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const utm = {};
+      params.forEach((value, key) => {
+        if (/^utm_/i.test(key) && String(value).trim()) {
+          utm[key.toLowerCase()] = String(value).trim();
+        }
+      });
+      if (Object.keys(utm).length) {
+        sessionStorage.setItem(UTM_STORAGE_KEY, JSON.stringify(utm));
+      }
+    } catch (_) { /* ignore */ }
+  }
+
+  function getCampaignParams() {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(UTM_STORAGE_KEY) || "null");
+      if (saved && typeof saved === "object" && !Array.isArray(saved)) return saved;
+    } catch (_) { /* ignore */ }
+    return {};
+  }
+
+  function setupAnalytics() {
+    const endpoint = config.analytics && typeof config.analytics.goatcounter === "string"
+      ? config.analytics.goatcounter.trim()
+      : "";
+    if (!endpoint) return;
+
+    const stored = getCampaignParams();
+    const live = new URLSearchParams(window.location.search);
+    const query = new URLSearchParams();
+    Object.keys(stored).forEach((key) => {
+      if (/^utm_/i.test(key) && stored[key]) query.set(key, stored[key]);
+    });
+    live.forEach((value, key) => {
+      if (/^utm_/i.test(key) && value) query.set(key, value);
+    });
+
+    window.goatcounter = window.goatcounter || {};
+    if (query.toString()) {
+      const previous = window.goatcounter.query;
+      window.goatcounter.query = function () {
+        const base = typeof previous === "function" ? previous() : (window.location.search || "");
+        const merged = new URLSearchParams(String(base).replace(/^\?/, ""));
+        query.forEach((value, key) => {
+          if (!merged.has(key)) merged.set(key, value);
+        });
+        const result = merged.toString();
+        return result ? "?" + result : "";
+      };
+    }
+
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://gc.zgo.at/count.js";
+    script.setAttribute("data-goatcounter", endpoint);
+    document.head.appendChild(script);
+  }
+
+  captureCampaignParams();
+  setupAnalytics();
+
   const money = (n) =>
     new Intl.NumberFormat("en-US", { style: "currency", currency: (config.stripe && config.stripe.currency) || "usd" }).format(n);
 
@@ -179,6 +244,15 @@
         if (!el.textContent.trim()) el.textContent = config.contactEmail;
       } else {
         el.textContent = config.contactEmail;
+      }
+    });
+    const marketingEmail = (config.marketingEmail || "").trim() || "marketing@mymysterycreations.com";
+    document.querySelectorAll("[data-store-marketing-email]").forEach((el) => {
+      if (el.tagName === "A") {
+        el.href = "mailto:" + marketingEmail + "?subject=" + encodeURIComponent("Partnership inquiry");
+        el.textContent = marketingEmail;
+      } else {
+        el.textContent = marketingEmail;
       }
     });
     document.querySelectorAll("[data-disclaimer]").forEach((el) => {
@@ -415,7 +489,7 @@
     }
 
     if (link) {
-      const url = new URL(link, window.location.href);
+      const url = new URL(link);
       url.searchParams.set("client_reference_id", payload.clientReferenceId);
       window.location.href = url.toString();
       return;
@@ -650,6 +724,109 @@
     });
   }
 
+  function setupSocialLinks() {
+    const roots = document.querySelectorAll("[data-social-links]");
+    if (!roots.length) return;
+    const networks = [
+      { key: "instagram", label: "Instagram", base: "https://www.instagram.com/" },
+      { key: "tiktok", label: "TikTok", base: "https://www.tiktok.com/@" },
+      { key: "x", label: "X", base: "https://x.com/" },
+      { key: "facebook", label: "Facebook", base: "https://www.facebook.com/" },
+      { key: "youtube", label: "YouTube", base: "https://www.youtube.com/" }
+    ];
+    function hrefFor(base, value) {
+      const v = String(value || "").trim();
+      if (!v) return "";
+      if (/^https?:\/\//i.test(v)) return v;
+      return base + v.replace(/^@/, "");
+    }
+    const links = networks.map((network) => {
+      const href = hrefFor(network.base, config[network.key]);
+      return href ? { href, label: network.label } : null;
+    }).filter(Boolean);
+    roots.forEach((root) => {
+      if (!links.length) {
+        root.hidden = true;
+        root.innerHTML = "";
+        return;
+      }
+      root.hidden = false;
+      root.innerHTML = links.map((link) =>
+        `<a href="${escapeHtml(link.href)}" rel="noopener me" target="_blank">${escapeHtml(link.label)}</a>`
+      ).join("");
+    });
+  }
+
+  function setupWaitlist() {
+    const form = document.getElementById("waitlist-form");
+    if (!form) return;
+
+    const themeSelect = document.getElementById("waitlist-theme");
+    if (themeSelect) {
+      (config.themes || []).forEach((theme) => {
+        const opt = document.createElement("option");
+        opt.value = theme.name;
+        opt.textContent = theme.name;
+        themeSelect.appendChild(opt);
+      });
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const status = document.getElementById("waitlist-status");
+      const email = ((form.elements.namedItem("email") || {}).value || "").trim();
+      const theme = ((form.elements.namedItem("theme") || {}).value || "").trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        if (status) {
+          status.className = "form-status is-err";
+          status.textContent = "Please enter a valid email address.";
+        }
+        return;
+      }
+
+      const payload = {
+        email,
+        theme: theme || "No preference"
+      };
+
+      const endpoint = (config.waitlistEndpoint || "").trim();
+      if (endpoint) {
+        try {
+          const res = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) throw new Error("Waitlist endpoint returned " + res.status);
+          if (status) {
+            status.className = "form-status is-ok";
+            status.textContent = "You’re on the list. We’ll email you when boxes go on sale.";
+          }
+          form.reset();
+        } catch (err) {
+          console.error(err);
+          if (status) {
+            status.className = "form-status is-err";
+            status.textContent = "We couldn’t add you to the list. Please try again, or write us at " + config.contactEmail + ".";
+          }
+        }
+        return;
+      }
+
+      const subject = encodeURIComponent("Launch list signup");
+      const body = encodeURIComponent(
+        "Launch list signup from the Mystery Creations site.\n\n" +
+        "Email: " + email + "\n" +
+        "Theme interest: " + payload.theme + "\n"
+      );
+      window.location.href = `mailto:${config.contactEmail}?subject=${subject}&body=${body}`;
+      if (status) {
+        status.className = "form-status is-ok";
+        status.textContent = "Opening your email app… If nothing opens, write us at " + config.contactEmail + ".";
+      }
+    });
+  }
+
   applyBrand();
   renderTierSelect();
   renderThemeSelect();
@@ -661,4 +838,6 @@
   setupOrderForm();
   renderReviews();
   setupReviewForm();
+  setupSocialLinks();
+  setupWaitlist();
 })();

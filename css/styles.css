@@ -925,6 +925,32 @@ textarea { min-height: 140px; resize: vertical; }
   padding: 8px 6px;
 }
 
+.footer-social {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin: 0 0 16px;
+}
+.footer-social[hidden] { display: none; }
+.footer-social a {
+  color: var(--cream-dim);
+  text-decoration: none;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.footer-marketing {
+  margin: 0 0 20px;
+  color: var(--mist);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.footer-marketing a {
+  color: var(--cream-dim);
+  text-underline-offset: 3px;
+}
 
 .disclaimer {
   border-top: 1px solid var(--line);
@@ -1314,4 +1340,56 @@ a, button, .tier-card, .theme-card, summary {
 @media (max-width: 760px) {
   .reviews-grid, .review-form-row { grid-template-columns: 1fr; }
   .reviews-empty, .review-card { padding: 20px 18px; }
+}
+
+
+/* Launch waitlist */
+.waitlist-section {
+  position: relative;
+  z-index: 2;
+}
+.waitlist-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  align-items: start;
+  background: var(--ink-2);
+  border: 1px solid var(--line-strong);
+  border-radius: 24px;
+  padding: 36px;
+  box-shadow: 0 0 0 1px rgba(212, 176, 90, 0.08), var(--shadow);
+}
+.waitlist-copy h2 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  line-height: 1.15;
+  margin: 0 0 12px;
+  color: var(--cream);
+}
+.waitlist-copy p {
+  margin: 0;
+  color: var(--cream-dim);
+  max-width: 42ch;
+}
+.waitlist-form {
+  display: grid;
+  gap: 14px;
+}
+.waitlist-form .optional {
+  color: var(--mist);
+  font-weight: 400;
+}
+.waitlist-form .hint {
+  margin: 0;
+  color: var(--mist);
+  font-size: 0.86rem;
+}
+
+@media (max-width: 760px) {
+  .waitlist-card {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+    gap: 22px;
+  }
 }

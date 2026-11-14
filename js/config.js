@@ -10,7 +10,18 @@ window.STORE_CONFIG = {
     "Pick a size, pick a theme, and we curate a one-of-a-kind gift box. Every order is a surprise — never the same twice.",
   // CONTACT EMAIL — single source of truth (HTML pages use the same address as a no-JS fallback).
   contactEmail: "help@mymysterycreations.com",
+  marketingEmail: "marketing@mymysterycreations.com",
   instagram: "",
+  tiktok: "",
+  x: "",
+  facebook: "",
+  youtube: "",
+  // Launch list form: when waitlistEndpoint is set, the form POSTs { email, theme }.
+  // When it is empty, the form opens a mailto: to contactEmail instead.
+  waitlistEndpoint: "",
+  // Leave goatcounter empty to load no analytics script. When ready, set it to
+  // your GoatCounter endpoint, for example "https://yourcode.goatcounter.com/count".
+  analytics: { goatcounter: "" },
   // Fulfillment and business details are not shown on the storefront.
   // Stripe Checkout will collect the customer's name, email, and shipping address.
 

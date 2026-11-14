@@ -6,9 +6,11 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 
 ## What’s on the site
 
-- Home page (`index.html`): hero, how it works, dropdown order form (box and theme), compact box and theme overviews, checkout summary, reviews (from `js/reviews.js`), FAQ, and contact
+- Home page (`index.html`): hero, launch waitlist, how it works, dropdown order form (box and theme), compact box and theme overviews, checkout summary, reviews (from `js/reviews.js`), FAQ, and contact
 - **Terms** (`terms.html`) and **Privacy** (`privacy.html`)
-- A **thank-you** page (`success.html`) used as the Stripe success URL: `https://mymysterycreations.com/success.html`
+- A **thank-you** page (`success.html`) used as the Stripe success URL: `https://mymysterycreations.com/success.html` (this page is marked `noindex` and is not in the sitemap)
+- `robots.txt`, `sitemap.xml`, and a 1200×630 share image at `img/og-image.png`
+- Open Graph / Twitter card tags and JSON-LD (store, FAQ, and box products) on the public pages
 - Original CSS/SVG visuals only — no official logos, trademarked artwork, or copyrighted characters
 - A footer disclaimer that items are genuine, new products from authorized retailers and that the store is not affiliated with or endorsed by any brand
 
@@ -74,6 +76,16 @@ Configured in the `themes` array in `js/config.js`. Starting themes:
 3. Save and refresh. The theme dropdown and overview are built from this array, so no HTML edit is required.
 
 To give the new theme its own icon, add an SVG string under the matching key in the `ICONS` object in `js/app.js`. Keep icons original — no official logos or characters.
+
+## Launch list, social links, and analytics
+
+The home page has a launch-list form at `#waitlist` (`https://mymysterycreations.com/#waitlist`). By default it opens a `mailto:` to `contactEmail` with the subject `Launch list signup`. To send signups to a form endpoint later, set `STORE_CONFIG.waitlistEndpoint`; the form will POST `{ email, theme }`.
+
+Partnership and promotion inquiries go to `STORE_CONFIG.marketingEmail` (`marketing@mymysterycreations.com`). The footer on every page links that address with the subject `Partnership inquiry`.
+
+Fill in `instagram`, `tiktok`, `x`, `facebook`, or `youtube` in `js/config.js` when those accounts exist. The footer only renders the ones that have a value.
+
+`STORE_CONFIG.analytics.goatcounter` is an empty placeholder. Leave it blank to load no analytics. When you have a GoatCounter site, set it to your count endpoint (for example `https://yourcode.goatcounter.com/count`). Campaign `utm_*` query parameters are stored in `sessionStorage` and passed to GoatCounter once it is enabled; they are not applied to Stripe checkout links.
 
 ## Payments
 
