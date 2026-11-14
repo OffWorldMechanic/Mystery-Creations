@@ -688,37 +688,53 @@
             <h3 id="gift-menu-title">Mystery Gift: one single surprise item (not a box)</h3>
             <p>One surprise item matched to your theme, shipped free and directly from a retailer to the recipient as a gift, with no price inside. Usually arrives within 2–7 business days.</p>
           </header>
-          <div class="gift-panel">
-            <div class="order-form">
+          <form class="order-form" id="gift-order-form">
+            <div class="order-fields">
               <div class="field">
                 <label for="gift-theme-select">1. Choose a theme</label>
-                <select id="gift-theme-select" name="gift-theme" autocomplete="off">
+                <select id="gift-theme-select" name="gift-theme" required autocomplete="off">
                   <option value="">Select a theme…</option>
                 </select>
               </div>
+              <div class="field">
+                <label for="gift-price-select">2. Choose a Mystery Gift price</label>
+                <select id="gift-price-select" name="gift-price" required autocomplete="off">
+                  <option value="">Choose a Mystery Gift price</option>
+                </select>
+              </div>
             </div>
-          <div class="checkout-steps" aria-label="What you’ll add at secure checkout">
-            <p class="checkout-steps-head"><span class="stripe-badge">At checkout</span></p>
-            <p class="checkout-steps-lede">Next, at secure checkout you’ll add: 1) a short description of the recipient (their interests, age, likes) so we can match the gift, and 2) an optional gift note. 100 characters each.</p>
-            <ol>
-              <li>
-                <strong>Describe the recipient</strong>
-                <span class="at-checkout">at checkout · optional · 100 characters</span>
-                <span class="example">Example: “Dad, 60s, loves fishing and old westerns”</span>
-              </li>
-              <li>
-                <strong>Gift note</strong>
-                <span class="at-checkout">at checkout · optional · 100 characters</span>
-                <span class="example">Example: “Happy birthday! Love, Sam”</span>
-              </li>
-            </ol>
-          </div>
-            <p class="gift-step">2. Pick a price for one single surprise item to continue to checkout</p>
-            <div class="gift-prices" id="gift-prices" role="group" aria-label="Single-item Mystery Gift price"></div>
+            <div class="checkout-steps" aria-label="What you’ll add at secure checkout">
+              <p class="checkout-steps-head"><span class="stripe-badge">At checkout</span></p>
+              <p class="checkout-steps-lede">Next, at secure checkout you’ll add: 1) a short description of the recipient (their interests, age, likes) so we can match the gift, and 2) an optional gift note. 100 characters each.</p>
+              <ol>
+                <li>
+                  <strong>Describe the recipient</strong>
+                  <span class="at-checkout">at checkout · optional · 100 characters</span>
+                  <span class="example">Example: “Dad, 60s, loves fishing and old westerns”</span>
+                </li>
+                <li>
+                  <strong>Gift note</strong>
+                  <span class="at-checkout">at checkout · optional · 100 characters</span>
+                  <span class="example">Example: “Happy birthday! Love, Sam”</span>
+                </li>
+              </ol>
+            </div>
             <p class="gift-single-note" id="gift-single-note"><strong>This is one single item, not a box.</strong> Want multiple gifts? See our <a href="#box-order">Mystery Boxes from $50</a>.</p>
-            <p class="checkout-note" id="gift-status" aria-live="polite">Choose a theme, then pick a price for your Single-item Mystery Gift (one single surprise item).</p>
-            <p class="hint">Payments run through Stripe. You’ll enter the recipient’s U.S. address at checkout.</p>
-          </div>
+            <div class="checkout-panel" id="gift-checkout">
+              <div class="order-summary">
+                <div class="summary-row"><span>Mystery Gift</span><strong data-gift-summary-item>One single surprise item</strong></div>
+                <div class="summary-row"><span>Price</span><strong data-gift-summary-price>Choose a price</strong></div>
+                <div class="summary-row"><span>Theme</span><strong data-gift-summary-theme>Choose a theme</strong></div>
+                <div class="summary-row summary-total"><span>Total</span><strong data-gift-summary-total>—</strong></div>
+                <p class="checkout-note" id="gift-status" aria-live="polite">Choose a theme and a Mystery Gift price, then continue to checkout. Your selected Mystery Gift, theme, and price go with you to Stripe.</p>
+              </div>
+              <div>
+                <div class="checkout-callout" id="gift-checkout-status"></div>
+                <button class="btn btn-gold btn-wide is-disabled" type="submit" data-gift-checkout-btn disabled>Continue to checkout</button>
+                <p class="hint">Payments run through Stripe. You’ll enter the recipient’s U.S. address at checkout. No account is required on this site.</p>
+              </div>
+            </div>
+          </form>
         </article>
         <div class="order-or" aria-hidden="true"><span>or, for multiple gifts</span></div>
         <article class="order-menu box-menu" id="box-order" aria-labelledby="box-menu-title">
@@ -853,7 +869,7 @@
           <article class="step">
             <div class="step-num">02</div>
             <h3>Pick a theme</h3>
-            <p>Twenty-one themes, from Anime and Gaming to seasonal picks like Halloween and Christmas. We’ll add more over time.</p>
+            <p>Twenty-two themes, from Anime and Gaming to seasonal picks like Halloween and Christmas, plus Watches. We’ll add more over time.</p>
           </article>
           <article class="step">
             <div class="step-num">03</div>
@@ -878,7 +894,7 @@
     <section class="section" id="themes">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow">Twenty-one themes</p>
+          <p class="eyebrow">Twenty-two themes</p>
           <h2>Theme ideas</h2>
           <p>Collections built around an interest — not official brand shops. Items are genuine, new products purchased from authorized retailers; Mystery Creations is not affiliated with or endorsed by any brand.</p>
         </div>

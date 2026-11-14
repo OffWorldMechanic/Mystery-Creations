@@ -21,7 +21,8 @@ window.STORE_PAYMENT_LINKS = {
     "squishy": "https://buy.stripe.com/cNi4gA2Fv4A7eX685q0x23c",
     "halloween": "https://buy.stripe.com/dRm8wQ1BreaH8yIclG0x23n",
     "christmas": "https://buy.stripe.com/6oU8wQ2Fv4A7eX60CY0x23y",
-    "stpatricksday": "https://buy.stripe.com/5kQaEYdk9eaH3eobhC0x23J"
+    "stpatricksday": "https://buy.stripe.com/5kQaEYdk9eaH3eobhC0x23J",
+    "watches": "https://buy.stripe.com/bJebJ25RH5Eb3eo85q0x31R"
   },
   "curiosity": {
     "anime": "https://buy.stripe.com/9B65kE3Jz9UrbKU1H20x203",
@@ -44,7 +45,8 @@ window.STORE_PAYMENT_LINKS = {
     "squishy": "https://buy.stripe.com/aFadRa1Br0jR9CMdpK0x23d",
     "halloween": "https://buy.stripe.com/9B64gAfsh1nV5mwfxS0x23o",
     "christmas": "https://buy.stripe.com/cNi4gA6VL0jRbKUgBW0x23z",
-    "stpatricksday": "https://buy.stripe.com/00w14ocg55EbcOY1H20x23K"
+    "stpatricksday": "https://buy.stripe.com/00w14ocg55EbcOY1H20x23K",
+    "watches": "https://buy.stripe.com/fZudRafshaYvg1agBW0x31S"
   },
   "secret": {
     "anime": "https://buy.stripe.com/eVq3cw2Fv7MjdT24Te0x204",
@@ -67,7 +69,8 @@ window.STORE_PAYMENT_LINKS = {
     "squishy": "https://buy.stripe.com/eVq6oIfsh8QncOY4Te0x23e",
     "halloween": "https://buy.stripe.com/3cI8wQcg5aYv7uE71m0x23p",
     "christmas": "https://buy.stripe.com/dRmcN6dk90jR6qA3Pa0x23A",
-    "stpatricksday": "https://buy.stripe.com/dRm3cw1Br7Mj7uE3Pa0x23L"
+    "stpatricksday": "https://buy.stripe.com/dRm3cw1Br7Mj7uE3Pa0x23L",
+    "watches": "https://buy.stripe.com/4gMdRaa7X7MjdT285q0x31T"
   },
   "keepsake": {
     "anime": "https://buy.stripe.com/eVq9AUeod8QnbKU5Xi0x205",
@@ -90,7 +93,8 @@ window.STORE_PAYMENT_LINKS = {
     "squishy": "https://buy.stripe.com/dRmaEYgwl5EbaGQ3Pa0x23f",
     "halloween": "https://buy.stripe.com/dRm8wQ5RH8QnaGQ5Xi0x23q",
     "christmas": "https://buy.stripe.com/cNi5kEgwl4A76qAady0x23B",
-    "stpatricksday": "https://buy.stripe.com/bJebJ27ZPd6Dg1a3Pa0x23M"
+    "stpatricksday": "https://buy.stripe.com/bJebJ27ZPd6Dg1a3Pa0x23M",
+    "watches": "https://buy.stripe.com/5kQ4gAa7X9Ur16gbhC0x31U"
   },
   "trove": {
     "anime": "https://buy.stripe.com/6oU6oI4NDaYv9CM5Xi0x206",
@@ -113,7 +117,8 @@ window.STORE_PAYMENT_LINKS = {
     "squishy": "https://buy.stripe.com/00w3cw0xn1nVeX6ady0x23g",
     "halloween": "https://buy.stripe.com/5kQbJ2eod5Eb16getO0x23r",
     "christmas": "https://buy.stripe.com/00wfZibc12rZ16g71m0x23C",
-    "stpatricksday": "https://buy.stripe.com/28E9AU2Fv5Eb8yI0CY0x23N"
+    "stpatricksday": "https://buy.stripe.com/28E9AU2Fv5Eb8yI0CY0x23N",
+    "watches": "https://buy.stripe.com/3cIfZi5RHfeLdT299u0x31V"
   },
   "chamber": {
     "anime": "https://buy.stripe.com/6oUcN6bc10jR5mw2L60x207",
@@ -136,7 +141,8 @@ window.STORE_PAYMENT_LINKS = {
     "squishy": "https://buy.stripe.com/14AaEY1Br0jRaGQ5Xi0x23h",
     "halloween": "https://buy.stripe.com/6oU28sdk93w316g71m0x23s",
     "christmas": "https://buy.stripe.com/14A8wQfshaYv9CM2L60x23D",
-    "stpatricksday": "https://buy.stripe.com/14A28sa7X8Qn6qAbhC0x23O"
+    "stpatricksday": "https://buy.stripe.com/14A28sa7X8Qn6qAbhC0x23O",
+    "watches": "https://buy.stripe.com/6oU3cw1Br2rZ7uEetO0x31W"
   },
   "relic": {
     "anime": "https://buy.stripe.com/6oUfZidk96If6qA71m0x208",
@@ -159,7 +165,8 @@ window.STORE_PAYMENT_LINKS = {
     "squishy": "https://buy.stripe.com/8x23cw3Jz0jRbKUdpK0x23i",
     "halloween": "https://buy.stripe.com/5kQ3cwfsh9Ur02cclG0x23t",
     "christmas": "https://buy.stripe.com/bJe4gA2Fv6If7uE99u0x23E",
-    "stpatricksday": "https://buy.stripe.com/9B6cN61Br4A7aGQ99u0x23P"
+    "stpatricksday": "https://buy.stripe.com/9B6cN61Br4A7aGQ99u0x23P",
+    "watches": "https://buy.stripe.com/28E9AU6VLeaHdT2bhC0x31X"
   },
   "heist": {
     "anime": "https://buy.stripe.com/bJeaEY93T1nV4is1H20x209",
@@ -182,7 +189,8 @@ window.STORE_PAYMENT_LINKS = {
     "squishy": "https://buy.stripe.com/8x2dRagwl4A7aGQ85q0x23j",
     "halloween": "https://buy.stripe.com/5kQ00kgwl3w3aGQ1H20x23u",
     "christmas": "https://buy.stripe.com/dRm6oI4ND3w39CMdpK0x23F",
-    "stpatricksday": "https://buy.stripe.com/7sY00k7ZPaYv16g99u0x23Q"
+    "stpatricksday": "https://buy.stripe.com/7sY00k7ZPaYv16g99u0x23Q",
+    "watches": "https://buy.stripe.com/9B65kEa7X5Eb7uEfxS0x31Y"
   },
   "grand-vault": {
     "anime": "https://buy.stripe.com/14AcN63JzaYvg1a0CY0x20a",
@@ -205,7 +213,8 @@ window.STORE_PAYMENT_LINKS = {
     "squishy": "https://buy.stripe.com/3cI9AUbc1giP7uE1H20x23k",
     "halloween": "https://buy.stripe.com/8x2aEY5RH6IfcOY71m0x23v",
     "christmas": "https://buy.stripe.com/6oU8wQfsh5Eb7uEfxS0x23G",
-    "stpatricksday": "https://buy.stripe.com/cNi6oI3Jz7Mj3eodpK0x23R"
+    "stpatricksday": "https://buy.stripe.com/cNi6oI3Jz7Mj3eodpK0x23R",
+    "watches": "https://buy.stripe.com/aFa7sMa7X3w34is2L60x31Z"
   }
 };
 
@@ -232,7 +241,8 @@ window.STORE_GIFT_LINKS = {
     "squishy": "https://buy.stripe.com/6oU00keodfeLaGQ85q0x30n",
     "halloween": "https://buy.stripe.com/aFa5kEgwl9Ur2akady0x30g",
     "christmas": "https://buy.stripe.com/5kQ6oI7ZPd6D8yI2L60x309",
-    "stpatricksday": "https://buy.stripe.com/4gM4gAcg5giP4is5Xi0x30p"
+    "stpatricksday": "https://buy.stripe.com/4gM4gAcg5giP4is5Xi0x30p",
+    "watches": "https://buy.stripe.com/14AaEYfsh1nV6qA2L60x31M"
   },
   "gift-10": {
     "anime": "https://buy.stripe.com/bJe9AU7ZPaYv6qAady0x30q",
@@ -255,7 +265,8 @@ window.STORE_GIFT_LINKS = {
     "squishy": "https://buy.stripe.com/3cI9AUa7X8Qn6qAgBW0x30I",
     "halloween": "https://buy.stripe.com/00w9AU4NDd6D5mwady0x30B",
     "christmas": "https://buy.stripe.com/4gM28s4NDfeL4is0CY0x30u",
-    "stpatricksday": "https://buy.stripe.com/7sYcN693T9Ur2ak3Pa0x30K"
+    "stpatricksday": "https://buy.stripe.com/7sYcN693T9Ur2ak3Pa0x30K",
+    "watches": "https://buy.stripe.com/4gMbJ2a7X2rZ8yIgBW0x31N"
   },
   "gift-15": {
     "anime": "https://buy.stripe.com/7sY7sMa7Xc2zdT299u0x30L",
@@ -278,7 +289,8 @@ window.STORE_GIFT_LINKS = {
     "squishy": "https://buy.stripe.com/9B67sMgwl9UreX671m0x313",
     "halloween": "https://buy.stripe.com/6oUeVe2Fv7Mj5mwetO0x30W",
     "christmas": "https://buy.stripe.com/00wdRabc1aYvdT285q0x30P",
-    "stpatricksday": "https://buy.stripe.com/aFaeVedk98Qn7uEetO0x315"
+    "stpatricksday": "https://buy.stripe.com/aFaeVedk98Qn7uEetO0x315",
+    "watches": "https://buy.stripe.com/4gMbJ20xn1nV8yI1H20x31O"
   },
   "gift-20": {
     "anime": "https://buy.stripe.com/14A6oI0xn2rZ4is2L60x316",
@@ -301,7 +313,8 @@ window.STORE_GIFT_LINKS = {
     "squishy": "https://buy.stripe.com/00w5kE0xnd6DcOY5Xi0x31o",
     "halloween": "https://buy.stripe.com/eVq7sMa7X3w316g0CY0x31h",
     "christmas": "https://buy.stripe.com/9B6bJ2dk92rZ4isclG0x31a",
-    "stpatricksday": "https://buy.stripe.com/9B6aEY0xnaYv8yI85q0x31q"
+    "stpatricksday": "https://buy.stripe.com/9B6aEY0xnaYv8yI85q0x31q",
+    "watches": "https://buy.stripe.com/fZu9AUa7X3w37uEetO0x31P"
   },
   "gift-25": {
     "anime": "https://buy.stripe.com/5kQ6oIgwl2rZ7uEady0x31r",
@@ -324,6 +337,7 @@ window.STORE_GIFT_LINKS = {
     "squishy": "https://buy.stripe.com/aFacN6a7X4A7eX63Pa0x31J",
     "halloween": "https://buy.stripe.com/4gM4gA6VLfeL9CMgBW0x31C",
     "christmas": "https://buy.stripe.com/3cI4gA5RHfeL6qAgBW0x31v",
-    "stpatricksday": "https://buy.stripe.com/14A14ogwleaH4isfxS0x31L"
+    "stpatricksday": "https://buy.stripe.com/14A14ogwleaH4isfxS0x31L",
+    "watches": "https://buy.stripe.com/dRm4gA6VLeaH3eo85q0x31Q"
   }
 };

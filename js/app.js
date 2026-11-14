@@ -212,6 +212,12 @@
       <path d="M16 17c-3.2-3.4-7.6-2.2-7.6 1.4 0 2.4 2 4 4.2 3.2 1.2-.4 2.4-1.8 3.4-3.4 1 1.6 2.2 3 3.4 3.4 2.2.8 4.2-.8 4.2-3.2 0-3.6-4.4-4.8-7.6-1.4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
       <path d="M16 18c0 3 .2 6.5 1.6 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
       <path d="M16 8.5c-1.8-2.4-5.2-2-5.4.6-.2 1.8 1.4 3 3.2 2.6.8-.2 1.6-1.2 2.2-2.2.6 1 1.4 2 2.2 2.2 1.8.4 3.4-.8 3.2-2.6-.2-2.6-3.6-3-5.4-.6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+    </svg>`,
+    watches: `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <circle cx="16" cy="16" r="8.5" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M13 6.2h6M13 25.8h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M16 16l-2.2-3.4M16 16l3.6 1.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="16" cy="16" r="1.1" fill="currentColor"/>
     </svg>`
   };
 
@@ -846,9 +852,15 @@
   }
 
   /* ---------- Mystery Gifts ---------- */
-  const giftState = { themeId: null };
+  const giftState = { themeId: null, tierId: null };
   function giftTiers() {
     return ((config.gifts && config.gifts.tiers) || []).slice();
+  }
+  function getGiftTier() {
+    return giftTiers().find((g) => g.id === giftState.tierId) || null;
+  }
+  function getGiftTheme() {
+    return (config.themes || []).find((t) => t.id === giftState.themeId) || null;
   }
   function getGiftLink(giftTierId, themeId) {
     const map = window.STORE_GIFT_LINKS || {};
@@ -856,47 +868,81 @@
     return byTier && typeof byTier === "object" ? String(byTier[themeId] || "").trim() : "";
   }
   function setupGifts() {
-    const select = document.getElementById("gift-theme-select");
-    const prices = document.getElementById("gift-prices");
+    const form = document.getElementById("gift-order-form");
+    const themeSelect = document.getElementById("gift-theme-select");
+    const priceSelect = document.getElementById("gift-price-select");
     const status = document.getElementById("gift-status");
-    if (!select || !prices) return;
+    const btn = document.querySelector("[data-gift-checkout-btn]");
+    if (!themeSelect || !priceSelect) return;
     (config.themes || []).forEach((t) => {
       const opt = document.createElement("option");
       opt.value = t.id;
       opt.textContent = t.name;
-      select.appendChild(opt);
+      themeSelect.appendChild(opt);
     });
-    prices.innerHTML = giftTiers().map((g) =>
-      `<button class="btn btn-ghost gift-price is-disabled" type="button" data-gift-tier="${escapeHtml(g.id)}" disabled>${money(g.price)}</button>`
-    ).join("");
+    priceSelect.innerHTML = `<option value="">Choose a Mystery Gift price</option>` +
+      giftTiers().map((g) =>
+        `<option value="${escapeHtml(g.id)}">${escapeHtml("Mystery Gift — " + money(g.price))}</option>`
+      ).join("");
+    function setText(sel, text) {
+      document.querySelectorAll(sel).forEach((el) => { el.textContent = text; });
+    }
     function refresh() {
-      const theme = (config.themes || []).find((t) => t.id === giftState.themeId) || null;
-      prices.querySelectorAll("[data-gift-tier]").forEach((btn) => {
-        const ok = !!(theme && getGiftLink(btn.dataset.giftTier, theme.id));
-        btn.disabled = !ok;
-        btn.classList.toggle("is-disabled", !ok);
-        const g = giftTiers().find((x) => x.id === btn.dataset.giftTier);
-        btn.setAttribute("aria-label", theme ? `Buy a ${money(g.price)} ${theme.name} Single-item Mystery Gift (one single surprise item)` : `${money(g.price)} Single-item Mystery Gift (choose a theme first)`);
-      });
+      const theme = getGiftTheme();
+      const tier = getGiftTier();
+      const link = (theme && tier) ? getGiftLink(tier.id, theme.id) : "";
+      const ready = !!(link);
+      setText("[data-gift-summary-item]", "One single surprise item");
+      setText("[data-gift-summary-price]", tier ? money(tier.price) : "Choose a price");
+      setText("[data-gift-summary-theme]", theme ? theme.name : "Choose a theme");
+      setText("[data-gift-summary-total]", tier ? money(tier.price) + " · Free shipping" : "—");
+      if (btn) {
+        btn.disabled = !ready;
+        btn.classList.toggle("is-disabled", !ready);
+      }
       if (status) {
-        status.textContent = theme
-          ? `Pick a price for your ${theme.name} Single-item Mystery Gift: one single surprise item, shipped direct. Free shipping. You’ll enter the recipient’s address and an optional gift note at secure Stripe checkout.`
-          : "Choose a theme, then pick a price for your Single-item Mystery Gift (one single surprise item).";
+        if (ready) {
+          status.textContent = `Ready: ${money(tier.price)} ${theme.name} Single-item Mystery Gift (one single surprise item). Continue to checkout to pay — your Mystery Gift, theme, and price go with you to Stripe. Free shipping.`;
+        } else if (theme && !tier) {
+          status.textContent = `Choose a Mystery Gift price for your ${theme.name} Single-item Mystery Gift (one single surprise item).`;
+        } else if (tier && !theme) {
+          status.textContent = `Choose a theme for your ${money(tier.price)} Single-item Mystery Gift (one single surprise item).`;
+        } else {
+          status.textContent = "Choose a theme and a Mystery Gift price, then continue to checkout. Your selected Mystery Gift, theme, and price go with you to Stripe.";
+        }
       }
     }
-    select.addEventListener("change", () => {
-      giftState.themeId = select.value || null;
+    themeSelect.addEventListener("change", () => {
+      giftState.themeId = themeSelect.value || null;
       refresh();
     });
-    prices.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-gift-tier]");
-      if (!btn || btn.disabled || !giftState.themeId) return;
-      const link = getGiftLink(btn.dataset.giftTier, giftState.themeId);
-      if (!link) return;
-      const url = new URL(link);
-      url.searchParams.set("client_reference_id", `${btn.dataset.giftTier}--${giftState.themeId}`);
-      window.location.href = url.toString();
+    priceSelect.addEventListener("change", () => {
+      giftState.tierId = priceSelect.value || null;
+      refresh();
     });
+    function startGiftCheckout() {
+      const theme = getGiftTheme();
+      const tier = getGiftTier();
+      const callout = document.getElementById("gift-checkout-status");
+      if (!theme || !tier) {
+        if (callout) callout.textContent = "Choose a theme and a Mystery Gift price to continue.";
+        return;
+      }
+      const link = getGiftLink(tier.id, theme.id);
+      if (!link) {
+        if (callout) callout.textContent = "That Mystery Gift isn’t available for this theme yet. Please choose another combination.";
+        return;
+      }
+      const url = new URL(link);
+      url.searchParams.set("client_reference_id", `${tier.id}--${theme.id}`);
+      window.location.href = url.toString();
+    }
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        startGiftCheckout();
+      });
+    }
     refresh();
   }
 
@@ -910,7 +956,12 @@
       document.querySelectorAll(".order-menu").forEach((m) => m.classList.toggle("is-picked", m === menu));
       const sel = menu.querySelector("select");
       if (giftPick) {
-        document.querySelectorAll("[data-gift-tier]").forEach((b) => b.classList.toggle("is-suggested", b.dataset.giftTier === giftPick));
+        const priceSel = document.getElementById("gift-price-select");
+        if (priceSel && [...priceSel.options].some((o) => o.value === giftPick)) {
+          priceSel.value = giftPick;
+          giftState.tierId = giftPick;
+          priceSel.dispatchEvent(new Event("change"));
+        }
       }
       if (sel) setTimeout(() => { try { sel.focus({ preventScroll: true }); } catch (_) { /* ignore */ } }, 350);
     }

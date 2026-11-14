@@ -301,6 +301,13 @@ window.STORE_CONFIG = {
       blurb: "Green-and-gold festivities, gathering energy, and luck-of-the-season party favors.",
       accent: "#3d8c5a",
       icon: "stpatricksday"
+    },
+    {
+      id: "watches",
+      name: "Watches",
+      blurb: "Timepieces, watch straps, and clock-face finds for people who love a good watch. Theme name only — not an official brand shop.",
+      accent: "#c4b07a",
+      icon: "watches"
     }
   ],
 
