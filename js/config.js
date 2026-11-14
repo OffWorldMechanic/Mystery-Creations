@@ -54,7 +54,7 @@ window.STORE_CONFIG = {
     {
       id: "glimpse",
       name: "The Glimpse",
-      price: 20,
+      price: 25,
       size: "Mini",
       blurb: "A tiny peek of themed joy — a sweet first look or a just-because treat."
     },

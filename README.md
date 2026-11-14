@@ -18,7 +18,7 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 
 | ID | Name | Size | Price |
 | --- | --- | --- | --- |
-| `glimpse` | The Glimpse | Mini | $20 |
+| `glimpse` | The Glimpse | Mini | $25 |
 | `whisper` | The Whisper | Pocket | $30 |
 | `spark` | The Spark | Small | $50 |
 | `curiosity` | The Curiosity | Compact | $75 |
