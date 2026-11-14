@@ -155,7 +155,7 @@ Edit only this line in `js/config.js`:
 name: "Mystery Creations",
 ```
 
-The store contact address lives in `STORE_CONFIG.contactEmail` in `js/config.js` (currently `help@mymysterycreations.com`). Instagram can be added later as `instagram`.
+The store contact address lives in `STORE_CONFIG.contactEmail` in `js/config.js` (currently `help@mymysterycreations.com`). Instagram is set as `instagram` (https://www.instagram.com/beckywiththebox/).
 
 ## Project layout
 

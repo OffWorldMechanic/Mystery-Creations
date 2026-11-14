@@ -11,7 +11,7 @@ window.STORE_CONFIG = {
   // CONTACT EMAIL — single source of truth (HTML pages use the same address as a no-JS fallback).
   contactEmail: "help@mymysterycreations.com",
   marketingEmail: "marketing@mymysterycreations.com",
-  instagram: "",
+  instagram: "https://www.instagram.com/beckywiththebox/",
   tiktok: "",
   x: "",
   facebook: "",
