@@ -824,7 +824,7 @@
           if (!res.ok) throw new Error("Waitlist endpoint returned " + res.status);
           if (status) {
             status.className = "form-status is-ok";
-            status.textContent = "You’re on the list. We’ll email you when boxes go on sale.";
+            status.textContent = "You’re on the list. We’ll email you about new themes, deals and subscriber promos. Perk: as a subscriber, you may receive occasional surprise upgrades during promotions announced by email.";
           }
           form.reset();
         } catch (err) {
@@ -846,7 +846,7 @@
       window.location.href = `mailto:${config.contactEmail}?subject=${subject}&body=${body}`;
       if (status) {
         status.className = "form-status is-ok";
-        status.textContent = "Opening your email app… If nothing opens, write us at " + config.contactEmail + ".";
+        status.textContent = "Opening your email app. Send that email to join the list (if nothing opens, write us at " + config.contactEmail + "). Perk: as a subscriber, you may receive occasional surprise upgrades during promotions announced by email.";
       }
     });
   }
