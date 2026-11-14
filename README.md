@@ -1,6 +1,6 @@
 # Mystery Creations
 
-A static, mobile-friendly storefront for single-item Mystery Gifts ($5–$25, the lead offer) and themed multi-gift boxes ($50–$500). Plain HTML, CSS, and JavaScript — no build step. Ready to deploy for free on GitHub Pages or Cloudflare Pages.
+A static, mobile-friendly storefront for **Mystery Gifts** (one single surprise item, not a box; $5–$25, the lead offer) and **Mystery Boxes** (multiple themed gifts hand-packed in one box; $50–$500). Plain HTML, CSS, and JavaScript — no build step. Ready to deploy for free on GitHub Pages or Cloudflare Pages.
 
 The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.name`. Change that value and the title, header, footer, contact copy, and legal pages follow it (the HTML also includes the current name as a no-JS fallback).
 
@@ -13,6 +13,15 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 - Open Graph / Twitter card tags and JSON-LD (store, FAQ, and box products) on the public pages
 - Original CSS/SVG visuals only — no official logos, trademarked artwork, or copyrighted characters
 - A footer disclaimer that items are genuine, new products from authorized retailers and that the store is not affiliated with or endorsed by any brand
+
+## Naming: Mystery Gift vs. Mystery Box
+
+Always use the two product names with "Mystery" in them; never drop the word "Mystery" from a product name (it is always "Mystery Gift" or "Mystery Box").
+
+- **Mystery Gift**: one single surprise item (not a box), $5–$25, shipped free and directly from a retailer to the recipient, no price inside, usually 2–7 business days. Never call a Mystery Gift a box.
+- **Mystery Box**: multiple themed gifts hand-packed in one box at our shop with a hand-tied ribbon, $50–$500, free USPS Ground Advantage, ships within 5 business days, arrives in 7–12. Every box contains multiple gifts. Tier cards show a relative sense of quantity (`contents` in `js/config.js`: "A handful of gifts", "A generous mix of gifts", "A big haul of gifts"); never publish exact item counts or values.
+- The home page has a "Mystery Gift vs. Mystery Box" comparison block (`#compare`) right after the gifts section, and the FAQ has "What’s the difference between a Mystery Gift and a Mystery Box?" (HTML and JSON-LD).
+- Optional checkout text fields (who it’s for, gift note) are limited to 100 characters.
 
 ## Box tiers
 
@@ -201,8 +210,8 @@ To post an approved review:
 
 ## Shipping and returns (summary)
 
-Shipping is free on every order (U.S. only). Mystery Gifts ($5–$25, one item) ship directly from a retailer to the recipient, gift-wrapped when available, with no price inside, and usually arrive within 2–7 business days. Gift boxes ($50–$500) are hand-packed at our shop in a quality gift box with a hand-tied ribbon and shipped via USPS Ground Advantage. Ships within 5 business days, arrives in 7–12 business days, with tracking emailed to the customer.
+Shipping is free on every order (U.S. only). Mystery Gifts ($5–$25, one single item) ship directly from a retailer to the recipient, gift-wrapped when available, with no price inside, and usually arrive within 2–7 business days. Mystery Boxes ($50–$500) are hand-packed at our shop in a quality gift box with a hand-tied ribbon and shipped via USPS Ground Advantage. Ships within 5 business days, arrives in 7–12 business days, with tracking emailed to the customer.
 
-Change-of-mind returns are not accepted. A gift or box that arrives damaged, wrong, or not as described, or that never arrives, reported within 14 days, receives a replacement or a full refund. Refunds go to the original payment method within 7 business days. Lost box packages are handled through a carrier claim, then a replacement or refund. Orders may be cancelled for a full refund before they ship. Footer links "Shipping" and "Refunds" point to `terms.html#shipping` and `terms.html#refunds`.
+Change-of-mind returns are not accepted. A Mystery Gift or Mystery Box that arrives damaged, wrong, or not as described, or that never arrives, reported within 14 days, receives a replacement or a full refund. Refunds go to the original payment method within 7 business days. Lost packages are handled through a carrier claim, then a replacement or refund. Orders may be cancelled for a full refund before they ship. Footer links "Shipping" and "Refunds" point to `terms.html#shipping` and `terms.html#refunds`.
 
 These terms are also published on the store FAQ and in `terms.html`.

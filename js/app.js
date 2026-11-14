@@ -266,7 +266,7 @@
     if (titleBase) {
       document.title = titleBase.replace("{name}", name);
     } else if (!document.title || document.title.indexOf(name) === -1) {
-      document.title = name + " — Themed Mystery Boxes";
+      document.title = name + " — Mystery Gifts & Mystery Boxes";
     }
   }
 
@@ -278,7 +278,7 @@
     const select = document.getElementById("tier-select");
     if (!select) return;
     const current = select.value;
-    select.innerHTML = `<option value="">Select a box…</option>` +
+    select.innerHTML = `<option value="">Select a Mystery Box…</option>` +
       (config.tiers || []).map((tier) =>
         `<option value="${escapeHtml(tier.id)}">${escapeHtml(optionLabel(tier))}</option>`
       ).join("");
@@ -306,6 +306,7 @@
         <div class="tier-size">${escapeHtml(tier.size)}</div>
         <h3>${escapeHtml(tier.name)}</h3>
         <p class="tier-price">${money(tier.price)}</p>
+        ${contentsNote(tier)}
         ${shippingNote(tier)}
         <p class="blurb">${escapeHtml(tier.blurb)}</p>
       </div>
@@ -341,6 +342,10 @@
   function shippingNote() {
     return `<p class="tier-ship">Free shipping</p>`;
   }
+  function contentsNote(tier) {
+    const haul = tier && tier.contents ? ` <span class="tier-haul">${escapeHtml(tier.contents)}.</span>` : "";
+    return `<p class="tier-contents"><strong>Mystery Box:</strong> Multiple themed gifts, hand-packed in one box.${haul}</p>`;
+  }
   function renderTierOverview() {
     const root = document.getElementById("tier-overview");
     if (!root) return;
@@ -351,6 +356,7 @@
           <div class="tier-size">${escapeHtml(tier.size)}</div>
           <h3>${escapeHtml(tier.name)}</h3>
           <p class="tier-price">${money(tier.price)}</p>
+          ${contentsNote(tier)}
           ${shippingNote(tier)}
           <p class="blurb">${escapeHtml(tier.blurb)}</p>
         </div>
@@ -382,7 +388,7 @@
       document.querySelectorAll(sel).forEach((el) => { el.textContent = text; });
     };
 
-    setText("[data-summary-tier]", tier ? tier.name : "Choose a box size");
+    setText("[data-summary-tier]", tier ? tier.name : "Choose a Mystery Box size");
     setText("[data-summary-size]", tier ? tier.size : "—");
     setText("[data-summary-theme]", theme ? theme.name : "Choose a theme");
     setText("[data-summary-price]", tier ? money(tier.price) : "—");
@@ -428,16 +434,16 @@
         status.hidden = false;
         status.innerHTML = `<span class="stripe-badge">Checkout</span>
           <h3>Select a size and a theme to continue</h3>
-          <p>Your box is a two-part choice. Once both are selected, you can check out. Stripe will collect your name, email, shipping address, and optional notes.</p>`;
+          <p>Your Mystery Box is a two-part choice: a size and a theme. Every box contains multiple gifts. Once both are selected, you can check out. Stripe will collect your name, email, shipping address, and optional notes.</p>`;
       } else if (link || endpoint) {
         status.hidden = false;
         status.innerHTML = `<span class="stripe-badge">Stripe ready</span>
           <h3>Pay securely with Stripe</h3>
-          <p>You’ll be sent to Stripe Checkout to pay ${money(tier.price)} with free shipping for ${escapeHtml(tier.name)} in the ${escapeHtml(theme.name)} theme. Name, email, shipping address, and optional notes are collected there.</p>`;
+          <p>You’ll be sent to Stripe Checkout to pay ${money(tier.price)} with free shipping for ${escapeHtml(tier.name)} Mystery Box (multiple gifts in one box) in the ${escapeHtml(theme.name)} theme. Name, email, shipping address, and optional notes are collected there.</p>`;
       } else {
         status.hidden = false;
         status.innerHTML = `<span class="stripe-badge">Checkout</span>
-          <h3>This box isn’t available right now</h3>
+          <h3>This Mystery Box isn’t available right now</h3>
           <p>Your selection — <strong>${escapeHtml(tier.name)}</strong> · <strong>${escapeHtml(theme.name)}</strong> · <strong>${money(tier.price)}</strong> — is saved on this device. Please try another size or write us at ${escapeHtml(config.contactEmail)}.</p>`;
       }
     }
@@ -619,7 +625,7 @@
 
     if (!reviews.length) {
       root.innerHTML = `<div class="reviews-empty">
-        <p>No reviews yet — we’re just getting started. Ordered a box? We’d love to hear how it went.</p>
+        <p>No reviews yet — we’re just getting started. Ordered a Mystery Gift or a Mystery Box? We’d love to hear how it went.</p>
       </div>`;
       return;
     }
@@ -868,12 +874,12 @@
         btn.disabled = !ok;
         btn.classList.toggle("is-disabled", !ok);
         const g = giftTiers().find((x) => x.id === btn.dataset.giftTier);
-        btn.setAttribute("aria-label", theme ? `Buy a ${money(g.price)} ${theme.name} Mystery Gift` : `${money(g.price)} Mystery Gift (choose a theme first)`);
+        btn.setAttribute("aria-label", theme ? `Buy a ${money(g.price)} ${theme.name} Single-item Mystery Gift (one single surprise item)` : `${money(g.price)} Single-item Mystery Gift (choose a theme first)`);
       });
       if (status) {
         status.textContent = theme
-          ? `Pick a price for your ${theme.name} Mystery Gift. Free shipping. You’ll enter the recipient’s address and an optional gift note at secure Stripe checkout.`
-          : "Choose a theme, then pick a price.";
+          ? `Pick a price for your ${theme.name} Single-item Mystery Gift: one single surprise item, shipped direct. Free shipping. You’ll enter the recipient’s address and an optional gift note at secure Stripe checkout.`
+          : "Choose a theme, then pick a price for your Single-item Mystery Gift (one single surprise item).";
       }
     }
     select.addEventListener("change", () => {

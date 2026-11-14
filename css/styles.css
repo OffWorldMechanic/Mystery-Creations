@@ -1437,3 +1437,35 @@ a, button, .tier-card, .theme-card, summary {
 .legal ul { padding-left: 1.2rem; display: grid; gap: 8px; }
 .footer-location { margin: 10px 0 0; opacity: 0.8; font-size: 0.9rem; }
 .contact-location { margin-top: 10px; opacity: 0.85; }
+
+/* v6: Mystery Gift (one item) vs. Mystery Box (multiple gifts) clarity */
+.hero-split { margin: 16px 0 0; font-size: 0.95rem; color: var(--cream-dim); }
+.hero-split strong { color: var(--gold-bright); }
+.hero-art { flex-direction: column; gap: 14px; }
+.hero-caption { margin: 0; text-align: center; font-size: 0.9rem; color: var(--cream-dim); max-width: 26em; }
+.gift-single-note {
+  margin: 0; padding: 12px 14px; border: 1px solid var(--line-strong); border-radius: 12px;
+  background: rgba(240, 215, 138, 0.06); color: var(--cream);
+}
+.gift-single-note strong { color: var(--gold-bright); }
+.gift-points strong, .step p strong, .tier-contents strong, .faq p strong { color: var(--gold-bright); font-weight: 600; }
+.tier-contents { margin: 0.2rem 0 0.2rem; font-size: 0.88rem; color: var(--cream); }
+.tier-haul { color: var(--cream-dim); }
+.compare-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.compare-card {
+  background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0;
+}
+.compare-card h3 { margin: 0; font-family: var(--font-serif); font-size: 1.45rem; font-weight: 500; color: var(--gold-bright); }
+.compare-card dl { margin: 0; display: grid; gap: 10px; flex: 1; }
+.compare-card dl > div { display: grid; grid-template-columns: 8.5em minmax(0, 1fr); gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.compare-card dl > div:last-child { border-bottom: 0; padding-bottom: 0; }
+.compare-card dt { color: var(--gold); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.compare-card dd { margin: 0; color: var(--cream); overflow-wrap: anywhere; }
+.compare-card .btn { align-self: flex-start; }
+@media (max-width: 760px) {
+  .compare-grid { grid-template-columns: minmax(0, 1fr); }
+  .compare-card { padding: 18px; }
+  .compare-card dl > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .compare-card .btn { align-self: stretch; text-align: center; }
+}

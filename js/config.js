@@ -7,7 +7,7 @@ window.STORE_CONFIG = {
   name: "Mystery Creations",
   tagline: "Mystery gifts from $5, shipped free.",
   description:
-    "Pick a theme and a price, and we send one surprise item matched to it, shipped directly from a retailer to the recipient as a gift, with no price inside. Free shipping on every order.",
+    "A Single-item Mystery Gift is one single surprise item, not a box. Pick a theme and a price, and we send one surprise item matched to it, shipped directly from a retailer to the recipient as a gift, with no price inside. Free shipping on every order.",
   // CONTACT EMAIL — single source of truth (HTML pages use the same address as a no-JS fallback).
   contactEmail: "help@mymysterycreations.com",
   // Business location shown on the site: city and state only (no street address or ZIP).
@@ -52,10 +52,10 @@ window.STORE_CONFIG = {
     cancelUrl: "./index.html#checkout"
   },
 
-  // Shipping: every Mystery Gift and every gift box ships free (U.S. only).
+  // Shipping: every Mystery Gift and every Mystery Box ships free (U.S. only).
 
   /**
-   * Mystery Gifts — one surprise item per order, matched to a theme, shipped directly
+   * Mystery Gifts — ONE single surprise item per order (never a box), matched to a theme, shipped directly
    * from a retailer to the recipient as a gift (no price inside). Always free shipping.
    * Links live in js/links.js as window.STORE_GIFT_LINKS[giftTierId][themeId].
    */
@@ -69,9 +69,12 @@ window.STORE_CONFIG = {
     ]
   },
 
+  // Mystery Boxes: every box contains multiple themed gifts, hand-packed in one box.
+  // `contents` is a relative sense of quantity only, never an item count.
   tiers: [
     {
       id: "spark",
+      contents: "A handful of gifts",
       name: "The Spark",
       price: 50,
       size: "Small",
@@ -79,6 +82,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "curiosity",
+      contents: "A handful of gifts",
       name: "The Curiosity",
       price: 75,
       size: "Compact",
@@ -86,6 +90,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "secret",
+      contents: "A generous mix of gifts",
       name: "The Secret",
       price: 100,
       size: "Medium",
@@ -93,6 +98,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "keepsake",
+      contents: "A generous mix of gifts",
       name: "The Keepsake",
       price: 150,
       size: "Medium-plus",
@@ -100,6 +106,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "trove",
+      contents: "A generous mix of gifts",
       name: "The Trove",
       price: 200,
       size: "Generous",
@@ -107,6 +114,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "chamber",
+      contents: "A big haul of gifts",
       name: "The Chamber",
       price: 250,
       size: "Large",
@@ -114,6 +122,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "relic",
+      contents: "A big haul of gifts",
       name: "The Relic",
       price: 300,
       size: "Extra large",
@@ -121,6 +130,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "heist",
+      contents: "A big haul of gifts",
       name: "The Heist",
       price: 400,
       size: "Huge",
@@ -128,6 +138,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "grand-vault",
+      contents: "A big haul of gifts",
       name: "The Grand Vault",
       price: 500,
       size: "Legendary",
