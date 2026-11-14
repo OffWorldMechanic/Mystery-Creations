@@ -86,7 +86,7 @@ To give the new theme its own icon, add an SVG string under the matching key in 
 
 ## Email list, social links, and analytics
 
-The home page has a email-list form at `#waitlist` (`https://mymysterycreations.com/#waitlist`). By default it opens a `mailto:` to `contactEmail` with the subject `Email list signup`. To send signups to a form endpoint later, set `STORE_CONFIG.waitlistEndpoint`; the form will POST `{ email, theme }`.
+The home page has an email-list form at `#waitlist` (`https://mymysterycreations.com/#waitlist`). It is a beehiiv embedded subscribe form (v3 loader at `https://subscribe-forms.beehiiv.com/v3/loader.js` with form id `fd0375d0-bceb-43df-ba1f-9305e86fa76a`), so sign-ups land in the beehiiv publication "Mystery Creations". The optional theme dropdown is the beehiiv custom field `Theme interest`. Change the form's look, fields, or success message in beehiiv (Subscribers > Subscribe forms), then save it there; the embed code does not change. No beehiiv API key is used on the site.
 
 Partnership and promotion inquiries go to `STORE_CONFIG.marketingEmail` (`marketing@mymysterycreations.com`). The footer on every page links that address with the subject `Partnership inquiry`.
 

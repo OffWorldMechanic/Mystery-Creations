@@ -19,9 +19,8 @@ window.STORE_CONFIG = {
   facebook: "",
   youtube: "",
   pinterest: "https://www.pinterest.com/mymysterycreations/",
-  // Email list form: when waitlistEndpoint is set, the form POSTs { email, theme }.
-  // When it is empty, the form opens a mailto: to contactEmail instead.
-  waitlistEndpoint: "",
+  // Email list: the #waitlist section embeds a beehiiv subscribe form (publication "Mystery Creations").
+  // Form id fd0375d0-bceb-43df-ba1f-9305e86fa76a; edit its design in beehiiv > Subscribers > Subscribe forms.
   // GoatCounter (cookie-free page-view counts). Dashboard: https://mymysterycreations.goatcounter.com/
   // Set to "" to load no analytics script.
   analytics: { goatcounter: "https://mymysterycreations.goatcounter.com/count" },

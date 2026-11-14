@@ -1388,6 +1388,33 @@ a, button, .tier-card, .theme-card, summary {
   color: var(--mist);
   font-weight: 400;
 }
+.waitlist-embed {
+  min-width: 0;
+  overflow: hidden;
+}
+/* beehiiv's v3 loader injects a wrapper + iframe after the script and resizes it. */
+.waitlist-embed iframe {
+  display: block;
+  width: 100%;
+  max-width: 100% !important;
+  min-height: 180px;
+  max-height: 640px !important;
+  margin: 0;
+  border: 0;
+  border-radius: 12px;
+  /* The form itself is transparent; give the iframe the card color so
+     a light canvas does not flash white behind navy fields and cream labels. */
+  background-color: var(--ink-2);
+  color-scheme: dark;
+}
+.waitlist-perk-after {
+  margin: 0;
+  color: var(--cream-dim);
+}
+.waitlist-perk-after strong {
+  color: var(--gold-bright);
+  font-weight: 600;
+}
 .waitlist-form .hint {
   margin: 0;
   color: var(--mist);

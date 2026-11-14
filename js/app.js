@@ -781,75 +781,8 @@
     });
   }
 
-  function setupWaitlist() {
-    const form = document.getElementById("waitlist-form");
-    if (!form) return;
-
-    const themeSelect = document.getElementById("waitlist-theme");
-    if (themeSelect) {
-      (config.themes || []).forEach((theme) => {
-        const opt = document.createElement("option");
-        opt.value = theme.name;
-        opt.textContent = theme.name;
-        themeSelect.appendChild(opt);
-      });
-    }
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const status = document.getElementById("waitlist-status");
-      const email = ((form.elements.namedItem("email") || {}).value || "").trim();
-      const theme = ((form.elements.namedItem("theme") || {}).value || "").trim();
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        if (status) {
-          status.className = "form-status is-err";
-          status.textContent = "Please enter a valid email address.";
-        }
-        return;
-      }
-
-      const payload = {
-        email,
-        theme: theme || "No preference"
-      };
-
-      const endpoint = (config.waitlistEndpoint || "").trim();
-      if (endpoint) {
-        try {
-          const res = await fetch(endpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
-          if (!res.ok) throw new Error("Waitlist endpoint returned " + res.status);
-          if (status) {
-            status.className = "form-status is-ok";
-            status.textContent = "You’re on the list. We’ll email you about new themes, deals and subscriber promos. Perk: as a subscriber, you may receive occasional surprise upgrades during promotions announced by email.";
-          }
-          form.reset();
-        } catch (err) {
-          console.error(err);
-          if (status) {
-            status.className = "form-status is-err";
-            status.textContent = "We couldn’t add you to the list. Please try again, or write us at " + config.contactEmail + ".";
-          }
-        }
-        return;
-      }
-
-      const subject = encodeURIComponent("Email list signup");
-      const body = encodeURIComponent(
-        "Email list signup from the Mystery Creations site.\n\n" +
-        "Email: " + email + "\n" +
-        "Theme interest: " + payload.theme + "\n"
-      );
-      window.location.href = `mailto:${config.contactEmail}?subject=${subject}&body=${body}`;
-      if (status) {
-        status.className = "form-status is-ok";
-        status.textContent = "Opening your email app. Send that email to join the list (if nothing opens, write us at " + config.contactEmail + "). Perk: as a subscriber, you may receive occasional surprise upgrades during promotions announced by email.";
-      }
-    });
-  }
+  // Email list (#waitlist) is a beehiiv embedded subscribe form (iframe in index.html).
+  // No mailto fallback and no client-side API key.
 
   /* ---------- Mystery Gifts ---------- */
   const giftState = { themeId: null, tierId: null };
@@ -1018,5 +951,4 @@
   renderReviews();
   setupReviewForm();
   setupSocialLinks();
-  setupWaitlist();
 })();
