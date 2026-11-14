@@ -5,15 +5,17 @@
  */
 window.STORE_CONFIG = {
   name: "Mystery Creations",
-  tagline: "Themed mystery boxes, packed with care.",
+  tagline: "Mystery gifts from $5, shipped free.",
   description:
-    "Pick a size, pick a theme, and we curate a one-of-a-kind gift box. Every order is a surprise — never the same twice.",
+    "Pick a theme and a price, and we send one surprise item matched to it, shipped directly from a retailer to the recipient as a gift, with no price inside. Free shipping on every order.",
   // CONTACT EMAIL — single source of truth (HTML pages use the same address as a no-JS fallback).
   contactEmail: "help@mymysterycreations.com",
+  // Business location shown on the site: city and state only (no street address or ZIP).
+  location: "Laguna Vista, Texas",
   marketingEmail: "marketing@mymysterycreations.com",
   instagram: "https://www.instagram.com/beckywiththebox/",
   tiktok: "",
-  x: "",
+  x: "https://x.com/BeckyWithTheBox",
   facebook: "",
   youtube: "",
   pinterest: "https://www.pinterest.com/mymysterycreations/",
@@ -50,14 +52,24 @@ window.STORE_CONFIG = {
     cancelUrl: "./index.html#checkout"
   },
 
+  // Shipping: every Mystery Gift and every gift box ships free (U.S. only).
+
+  /**
+   * Mystery Gifts — one surprise item per order, matched to a theme, shipped directly
+   * from a retailer to the recipient as a gift (no price inside). Always free shipping.
+   * Links live in js/links.js as window.STORE_GIFT_LINKS[giftTierId][themeId].
+   */
+  gifts: {
+    tiers: [
+      { id: "gift-5", price: 5 },
+      { id: "gift-10", price: 10 },
+      { id: "gift-15", price: 15 },
+      { id: "gift-20", price: 20 },
+      { id: "gift-25", price: 25 }
+    ]
+  },
+
   tiers: [
-    {
-      id: "whisper",
-      name: "The Whisper",
-      price: 30,
-      size: "Pocket",
-      blurb: "A small, delightful tease — perfect as a stocking stuffer or desk-side surprise."
-    },
     {
       id: "spark",
       name: "The Spark",

@@ -1,12 +1,12 @@
 # Mystery Creations
 
-A static, mobile-friendly storefront for themed mystery gift boxes. Plain HTML, CSS, and JavaScript — no build step. Ready to deploy for free on GitHub Pages or Cloudflare Pages.
+A static, mobile-friendly storefront for single-item Mystery Gifts ($5–$25, the lead offer) and themed multi-gift boxes ($50–$500). Plain HTML, CSS, and JavaScript — no build step. Ready to deploy for free on GitHub Pages or Cloudflare Pages.
 
 The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.name`. Change that value and the title, header, footer, contact copy, and legal pages follow it (the HTML also includes the current name as a no-JS fallback).
 
 ## What’s on the site
 
-- Home page (`index.html`): hero, email list (new themes and deals), how it works, dropdown order form (box and theme), compact box and theme overviews, checkout summary, reviews (from `js/reviews.js`), FAQ, and contact
+- Home page (`index.html`): Mystery Gifts hero and gift picker (first), email list (new themes and deals), how it works, dropdown order form (box and theme), compact box and theme overviews, checkout summary, reviews (from `js/reviews.js`), FAQ, and contact
 - **Terms** (`terms.html`) and **Privacy** (`privacy.html`)
 - A **thank-you** page (`success.html`) used as the Stripe success URL: `https://mymysterycreations.com/success.html` (this page is marked `noindex` and is not in the sitemap)
 - `robots.txt`, `sitemap.xml`, and a 1200×630 share image at `img/og-image.png`
@@ -18,7 +18,6 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 
 | ID | Name | Size | Price |
 | --- | --- | --- | --- |
-| `whisper` | The Whisper | Pocket | $30 |
 | `spark` | The Spark | Small | $50 |
 | `curiosity` | The Curiosity | Compact | $75 |
 | `secret` | The Secret | Medium | $100 |
@@ -82,13 +81,13 @@ The home page has a email-list form at `#waitlist` (`https://mymysterycreations.
 
 Partnership and promotion inquiries go to `STORE_CONFIG.marketingEmail` (`marketing@mymysterycreations.com`). The footer on every page links that address with the subject `Partnership inquiry`.
 
-Fill in `instagram`, `tiktok`, `x`, `facebook`, or `youtube` in `js/config.js` when those accounts exist. The footer only renders the ones that have a value.
+Fill in `tiktok`, `facebook`, or `youtube` in `js/config.js` when those accounts exist. The footer only renders the ones that have a value.
 
 `STORE_CONFIG.analytics.goatcounter` is set to `https://mymysterycreations.goatcounter.com/count` (dashboard: https://mymysterycreations.goatcounter.com/). `js/app.js` loads `//gc.zgo.at/count.js` once per page with that endpoint, adds any stored utm_* values to the counted page, and strips the Stripe session id on success.html. Set it to "" to turn analytics off, and update privacy.html if you change providers.
 
 ## Payments
 
-Per-combination Stripe Payment Links are filled in `js/links.js` as `window.STORE_PAYMENT_LINKS` (keyed by tier id, then theme id). Each link is for one box size and one theme, and collects a U.S. shipping address, phone, an optional “who this box is for” note, and an optional gift note. Shipping is included in the box price. Stripe Checkout also collects the customer’s name, email, and address.
+Per-combination Stripe Payment Links are filled in `js/links.js` as `window.STORE_PAYMENT_LINKS` (keyed by tier id, then theme id). Each link is for one box size and one theme, and collects a U.S. shipping address, phone, an optional “who this box is for” note, and an optional gift note. Shipping is free on every gift and box; no link uses `shipping_options`. Mystery Gift links are in `window.STORE_GIFT_LINKS[giftTierId][themeId]` (gift-5 … gift-25), checkout appends `?client_reference_id=gift-N--themeId`, and their metadata has productType "gift", giftPrice, shipDirect "true", shippingCharged "0". Box links carry productType "box". Stripe Checkout also collects the customer’s name, email, and address.
 
 The site passes this order payload:
 
@@ -154,7 +153,7 @@ Edit only this line in `js/config.js`:
 name: "Mystery Creations",
 ```
 
-The store contact address lives in `STORE_CONFIG.contactEmail` in `js/config.js` (currently `help@mymysterycreations.com`). Instagram is set as `instagram` (https://www.instagram.com/beckywiththebox/).
+The store contact address lives in `STORE_CONFIG.contactEmail` in `js/config.js` (currently `help@mymysterycreations.com`). Instagram is set as `instagram` (https://www.instagram.com/beckywiththebox/), X as `x` (https://x.com/BeckyWithTheBox), and Pinterest as `pinterest`.
 
 ## Project layout
 
@@ -202,8 +201,8 @@ To post an approved review:
 
 ## Shipping and returns (summary)
 
-Shipping is included in the box price. Orders are processed and packed in 3–5 business days and ship via UPS within the United States, with tracking emailed to the customer. Typical transit is 1–5 business days after shipping.
+Shipping is free on every order (U.S. only). Mystery Gifts ($5–$25, one item) ship directly from a retailer to the recipient, gift-wrapped when available, with no price inside, and usually arrive within 2–7 business days. Gift boxes ($50–$500) are hand-packed at our shop in a quality gift box with a hand-tied ribbon and shipped via USPS Ground Advantage. Ships within 5 business days, arrives in 7–12 business days, with tracking emailed to the customer.
 
-Change-of-mind returns are not accepted. A box that arrives damaged, is missing items, or is not as described (wrong tier or theme), reported within 14 days of delivery with a photo, receives a replacement or a full refund (customer’s choice). Refunds go to the original payment method within 5–10 business days. Lost packages are handled through a UPS claim, then a replacement or refund. Orders may be cancelled for a full refund before they ship.
+Change-of-mind returns are not accepted. A gift or box that arrives damaged, wrong, or not as described, or that never arrives, reported within 14 days, receives a replacement or a full refund. Refunds go to the original payment method within 7 business days. Lost box packages are handled through a carrier claim, then a replacement or refund. Orders may be cancelled for a full refund before they ship. Footer links "Shipping" and "Refunds" point to `terms.html#shipping` and `terms.html#refunds`.
 
 These terms are also published on the store FAQ and in `terms.html`.

@@ -1393,3 +1393,47 @@ a, button, .tier-card, .theme-card, summary {
     gap: 22px;
   }
 }
+
+.tier-ship {
+  margin: 0.15rem 0 0.4rem;
+  font-size: 0.82rem;
+  opacity: 0.8;
+}
+
+.gift-panel {
+  display: grid;
+  gap: 18px;
+  max-width: 720px;
+}
+.gift-panel select {
+  width: 100%;
+}
+.gift-prices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.gift-prices .gift-price {
+  min-width: 88px;
+}
+.gift-points {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 6px;
+  opacity: 0.9;
+}
+
+/* v5: Mystery Gifts hero */
+.hero-prices { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 22px; }
+.hero-price {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 56px; padding: 8px 12px; border-radius: 999px;
+  border: 1px solid rgba(212, 176, 90, 0.55); color: var(--gold-bright, #e6c46a);
+  font-weight: 600; text-decoration: none;
+}
+.hero-price:hover, .hero-price:focus-visible { background: rgba(212, 176, 90, 0.14); }
+.gift-step { margin: 0; font-weight: 500; }
+.legal ul { padding-left: 1.2rem; display: grid; gap: 8px; }
+.footer-location { margin: 10px 0 0; opacity: 0.8; font-size: 0.9rem; }
+.contact-location { margin-top: 10px; opacity: 0.85; }

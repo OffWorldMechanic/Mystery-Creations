@@ -306,6 +306,7 @@
         <div class="tier-size">${escapeHtml(tier.size)}</div>
         <h3>${escapeHtml(tier.name)}</h3>
         <p class="tier-price">${money(tier.price)}</p>
+        ${shippingNote(tier)}
         <p class="blurb">${escapeHtml(tier.blurb)}</p>
       </div>
     `;
@@ -337,6 +338,9 @@
     hint.textContent = theme.blurb;
   }
 
+  function shippingNote() {
+    return `<p class="tier-ship">Free shipping</p>`;
+  }
   function renderTierOverview() {
     const root = document.getElementById("tier-overview");
     if (!root) return;
@@ -347,6 +351,7 @@
           <div class="tier-size">${escapeHtml(tier.size)}</div>
           <h3>${escapeHtml(tier.name)}</h3>
           <p class="tier-price">${money(tier.price)}</p>
+          ${shippingNote(tier)}
           <p class="blurb">${escapeHtml(tier.blurb)}</p>
         </div>
       </article>
@@ -428,7 +433,7 @@
         status.hidden = false;
         status.innerHTML = `<span class="stripe-badge">Stripe ready</span>
           <h3>Pay securely with Stripe</h3>
-          <p>You’ll be sent to Stripe Checkout to pay ${money(tier.price)} for ${escapeHtml(tier.name)} in the ${escapeHtml(theme.name)} theme. Name, email, shipping address, and optional notes are collected there.</p>`;
+          <p>You’ll be sent to Stripe Checkout to pay ${money(tier.price)} with free shipping for ${escapeHtml(tier.name)} in the ${escapeHtml(theme.name)} theme. Name, email, shipping address, and optional notes are collected there.</p>`;
       } else {
         status.hidden = false;
         status.innerHTML = `<span class="stripe-badge">Checkout</span>
@@ -757,7 +762,7 @@
       }
       root.hidden = false;
       root.innerHTML = links.map((link) =>
-        `<a href="${escapeHtml(link.href)}" rel="noopener me" target="_blank">${escapeHtml(link.label)}</a>`
+        `<a href="${escapeHtml(link.href)}" rel="noopener me" target="_blank" aria-label="${escapeHtml(link.label)}">${escapeHtml(link.label)}</a>`
       ).join("");
     });
   }
@@ -832,6 +837,61 @@
     });
   }
 
+  /* ---------- Mystery Gifts ---------- */
+  const giftState = { themeId: null };
+  function giftTiers() {
+    return ((config.gifts && config.gifts.tiers) || []).slice();
+  }
+  function getGiftLink(giftTierId, themeId) {
+    const map = window.STORE_GIFT_LINKS || {};
+    const byTier = map[giftTierId];
+    return byTier && typeof byTier === "object" ? String(byTier[themeId] || "").trim() : "";
+  }
+  function setupGifts() {
+    const select = document.getElementById("gift-theme-select");
+    const prices = document.getElementById("gift-prices");
+    const status = document.getElementById("gift-status");
+    if (!select || !prices) return;
+    (config.themes || []).forEach((t) => {
+      const opt = document.createElement("option");
+      opt.value = t.id;
+      opt.textContent = t.name;
+      select.appendChild(opt);
+    });
+    prices.innerHTML = giftTiers().map((g) =>
+      `<button class="btn btn-ghost gift-price is-disabled" type="button" data-gift-tier="${escapeHtml(g.id)}" disabled>${money(g.price)}</button>`
+    ).join("");
+    function refresh() {
+      const theme = (config.themes || []).find((t) => t.id === giftState.themeId) || null;
+      prices.querySelectorAll("[data-gift-tier]").forEach((btn) => {
+        const ok = !!(theme && getGiftLink(btn.dataset.giftTier, theme.id));
+        btn.disabled = !ok;
+        btn.classList.toggle("is-disabled", !ok);
+        const g = giftTiers().find((x) => x.id === btn.dataset.giftTier);
+        btn.setAttribute("aria-label", theme ? `Buy a ${money(g.price)} ${theme.name} Mystery Gift` : `${money(g.price)} Mystery Gift (choose a theme first)`);
+      });
+      if (status) {
+        status.textContent = theme
+          ? `Pick a price for your ${theme.name} Mystery Gift. Free shipping. You’ll enter the recipient’s address and an optional gift note at secure Stripe checkout.`
+          : "Choose a theme, then pick a price.";
+      }
+    }
+    select.addEventListener("change", () => {
+      giftState.themeId = select.value || null;
+      refresh();
+    });
+    prices.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-gift-tier]");
+      if (!btn || btn.disabled || !giftState.themeId) return;
+      const link = getGiftLink(btn.dataset.giftTier, giftState.themeId);
+      if (!link) return;
+      const url = new URL(link);
+      url.searchParams.set("client_reference_id", `${btn.dataset.giftTier}--${giftState.themeId}`);
+      window.location.href = url.toString();
+    });
+    refresh();
+  }
+
   applyBrand();
   renderTierSelect();
   renderThemeSelect();
@@ -841,6 +901,7 @@
   setupNav();
   setupContact();
   setupOrderForm();
+  setupGifts();
   renderReviews();
   setupReviewForm();
   setupSocialLinks();
