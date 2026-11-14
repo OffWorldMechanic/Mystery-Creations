@@ -1469,3 +1469,40 @@ a, button, .tier-card, .theme-card, summary {
   .compare-card dl > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
   .compare-card .btn { align-self: stretch; text-align: center; }
 }
+
+/* v7: one combined order section, Mystery Gift menu stacked above Mystery Box menu */
+.order-stack { display: grid; gap: 0; }
+.order-menu {
+  background: var(--ink-2); border: 1px solid var(--line); border-radius: 24px;
+  padding: 28px; display: grid; gap: 20px; min-width: 0;
+  scroll-margin-top: calc(var(--header-h) + 12px);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.order-menu.is-picked { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(240,215,138,.35); }
+.order-menu-head h3 { margin: 6px 0 8px; font-family: var(--font-serif); font-weight: 500; font-size: clamp(1.4rem, 2.6vw, 1.9rem); color: var(--gold-bright); }
+.order-menu-head p { margin: 0; color: var(--cream-dim); }
+.order-menu-head strong { color: var(--gold-bright); font-weight: 600; }
+.order-menu-tag { display: inline-block; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px 10px; }
+.order-menu .gift-panel { max-width: none; }
+.order-menu .order-fields { background: transparent; border: 0; padding: 0; }
+.order-menu .checkout-panel { padding: 22px; background: rgba(12,16,22,.35); }
+.order-or { display: flex; align-items: center; gap: 12px; margin: 14px 0; color: var(--gold); font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; }
+.order-or::before, .order-or::after { content: ""; flex: 1; height: 1px; background: var(--line-strong); }
+.checkout-steps { border: 1px dashed var(--line-strong); border-radius: 16px; padding: 16px 18px; background: rgba(240,215,138,.05); margin: 0; }
+.checkout-steps-head { margin: 0; }
+.checkout-steps-head .stripe-badge { margin-bottom: 6px; }
+.checkout-steps-lede { margin: 0 0 8px; color: var(--cream); font-weight: 500; }
+.checkout-steps ol { margin: 0; padding-left: 1.3rem; display: grid; gap: 10px; color: var(--cream); }
+.checkout-steps li strong { color: var(--gold-bright); font-weight: 600; }
+.checkout-steps .at-checkout { display: block; font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); margin-top: 3px; }
+.checkout-steps .example { display: block; font-style: italic; color: var(--mist); font-size: .88rem; overflow-wrap: anywhere; }
+.gift-price.is-suggested { border-color: var(--gold); color: var(--gold-bright); }
+@media (max-width: 760px) {
+  .order-menu { padding: 20px 16px; border-radius: 18px; }
+  .order-menu .checkout-panel { padding: 16px 0 0; background: transparent; border: 0; }
+  .checkout-steps { padding: 14px; }
+}
+.checkout-steps li { display: grid; gap: 2px; }
+.overview-order-link {
+  display: inline-block; margin-top: 10px; font-size: 0.9rem; font-weight: 500; color: var(--gold-bright);
+}

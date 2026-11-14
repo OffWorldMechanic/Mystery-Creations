@@ -6,7 +6,7 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 
 ## What’s on the site
 
-- Home page (`index.html`): Mystery Gifts hero and gift picker (first), email list (new themes and deals), how it works, dropdown order form (box and theme), compact box and theme overviews, checkout summary, reviews (from `js/reviews.js`), FAQ, and contact
+- Home page (`index.html`): Mystery Gifts hero, then ONE combined order section (`#order`, “Choose your Mystery Gift or Mystery Box”) with the Mystery Gift menu (`#gifts`) stacked directly above the Mystery Box menu (`#box-order`), then the comparison block, email list, how it works, box and theme overviews, reviews (from `js/reviews.js`), FAQ, and contact
 - **Terms** (`terms.html`) and **Privacy** (`privacy.html`)
 - A **thank-you** page (`success.html`) used as the Stripe success URL: `https://mymysterycreations.com/success.html` (this page is marked `noindex` and is not in the sitemap)
 - `robots.txt`, `sitemap.xml`, and a 1200×630 share image at `img/og-image.png`
@@ -20,8 +20,8 @@ Always use the two product names with "Mystery" in them; never drop the word "My
 
 - **Mystery Gift**: one single surprise item (not a box), $5–$25, shipped free and directly from a retailer to the recipient, no price inside, usually 2–7 business days. Never call a Mystery Gift a box.
 - **Mystery Box**: multiple themed gifts hand-packed in one box at our shop with a hand-tied ribbon, $50–$500, free USPS Ground Advantage, ships within 5 business days, arrives in 7–12. Every box contains multiple gifts. Tier cards show a relative sense of quantity (`contents` in `js/config.js`: "A handful of gifts", "A generous mix of gifts", "A big haul of gifts"); never publish exact item counts or values.
-- The home page has a "Mystery Gift vs. Mystery Box" comparison block (`#compare`) right after the gifts section, and the FAQ has "What’s the difference between a Mystery Gift and a Mystery Box?" (HTML and JSON-LD).
-- Optional checkout text fields (who it’s for, gift note) are limited to 100 characters.
+- The home page has a "Mystery Gift vs. Mystery Box" comparison block (`#compare`) right after the combined order section, and the FAQ has "What’s the difference between a Mystery Gift and a Mystery Box?" (HTML and JSON-LD).
+- Optional checkout text fields (who it’s for, gift note) are limited to 100 characters. They are Stripe Payment Link custom fields; Payment Link URLs cannot prefill custom fields (only prefilled_email, locked_prefilled_email, prefilled_promo_code, prefilled_amount, locale, client_reference_id and utm_*), so the site shows a “Next, at secure checkout you’ll add…” step list above each order button instead of site inputs. Never put free text into client_reference_id or any URL.
 
 ## Box tiers
 

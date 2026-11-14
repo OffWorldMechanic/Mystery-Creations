@@ -359,6 +359,7 @@
           ${contentsNote(tier)}
           ${shippingNote(tier)}
           <p class="blurb">${escapeHtml(tier.blurb)}</p>
+          <a class="overview-order-link" href="#box-order" data-pick-tier="${escapeHtml(tier.id)}">Order this Mystery Box</a>
         </div>
       </article>
     `).join("");
@@ -374,6 +375,7 @@
           <div class="theme-icon">${icon}</div>
           <h3>${escapeHtml(theme.name)}</h3>
           <p>${escapeHtml(theme.blurb)}</p>
+          <a class="overview-order-link" href="#order" data-pick-theme="${escapeHtml(theme.id)}">Use this theme</a>
         </article>
       `;
     }).join("");
@@ -898,6 +900,59 @@
     refresh();
   }
 
+  /* v7: jump links preselect the right menu in the combined order section */
+  function setupOrderJumps() {
+    function focusMenu(hash, giftPick) {
+      const id = hash === "#box-order" ? "box-order" : hash === "#gifts" ? "gifts" : null;
+      if (!id) return;
+      const menu = document.getElementById(id);
+      if (!menu) return;
+      document.querySelectorAll(".order-menu").forEach((m) => m.classList.toggle("is-picked", m === menu));
+      const sel = menu.querySelector("select");
+      if (giftPick) {
+        document.querySelectorAll("[data-gift-tier]").forEach((b) => b.classList.toggle("is-suggested", b.dataset.giftTier === giftPick));
+      }
+      if (sel) setTimeout(() => { try { sel.focus({ preventScroll: true }); } catch (_) { /* ignore */ } }, 350);
+    }
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest("a[href^='#']");
+      if (!a) return;
+      const href = a.getAttribute("href");
+      const pickTier = a.dataset.pickTier;
+      const pickTheme = a.dataset.pickTheme;
+      if (pickTier) {
+        const sel = document.getElementById("tier-select");
+        if (sel && [...sel.options].some((o) => o.value === pickTier)) {
+          sel.value = pickTier;
+          state.tierId = pickTier;
+          persist();
+          renderTierSummary();
+          updateSummary();
+        }
+      }
+      if (pickTheme) {
+        const boxSel = document.getElementById("theme-select");
+        const giftSel = document.getElementById("gift-theme-select");
+        if (boxSel && [...boxSel.options].some((o) => o.value === pickTheme)) {
+          boxSel.value = pickTheme;
+          state.themeId = pickTheme;
+          persist();
+          renderThemeHint();
+          updateSummary();
+        }
+        if (giftSel && [...giftSel.options].some((o) => o.value === pickTheme)) {
+          giftSel.value = pickTheme;
+          giftState.themeId = pickTheme;
+          giftSel.dispatchEvent(new Event("change"));
+        }
+      }
+      if (href === "#gifts" || href === "#box-order") {
+        focusMenu(href, a.dataset.giftPick || null);
+      }
+    });
+    if (location.hash) focusMenu(location.hash, null);
+  }
+
   applyBrand();
   renderTierSelect();
   renderThemeSelect();
@@ -908,6 +963,7 @@
   setupContact();
   setupOrderForm();
   setupGifts();
+  setupOrderJumps();
   renderReviews();
   setupReviewForm();
   setupSocialLinks();
