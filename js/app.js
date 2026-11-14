@@ -50,6 +50,10 @@
     });
 
     window.goatcounter = window.goatcounter || {};
+    // Never send the Stripe checkout session id (success.html?session_id=...) to analytics.
+    if (/success\.html$/i.test(window.location.pathname)) {
+      window.goatcounter.path = function () { return window.location.pathname; };
+    }
     if (query.toString()) {
       const previous = window.goatcounter.query;
       window.goatcounter.query = function () {
@@ -65,8 +69,8 @@
 
     const script = document.createElement("script");
     script.async = true;
-    script.src = "https://gc.zgo.at/count.js";
     script.setAttribute("data-goatcounter", endpoint);
+    script.src = "//gc.zgo.at/count.js";
     document.head.appendChild(script);
   }
 
@@ -732,7 +736,8 @@
       { key: "tiktok", label: "TikTok", base: "https://www.tiktok.com/@" },
       { key: "x", label: "X", base: "https://x.com/" },
       { key: "facebook", label: "Facebook", base: "https://www.facebook.com/" },
-      { key: "youtube", label: "YouTube", base: "https://www.youtube.com/" }
+      { key: "youtube", label: "YouTube", base: "https://www.youtube.com/" },
+      { key: "pinterest", label: "Pinterest", base: "https://www.pinterest.com/" }
     ];
     function hrefFor(base, value) {
       const v = String(value || "").trim();
@@ -813,9 +818,9 @@
         return;
       }
 
-      const subject = encodeURIComponent("Launch list signup");
+      const subject = encodeURIComponent("Email list signup");
       const body = encodeURIComponent(
-        "Launch list signup from the Mystery Creations site.\n\n" +
+        "Email list signup from the Mystery Creations site.\n\n" +
         "Email: " + email + "\n" +
         "Theme interest: " + payload.theme + "\n"
       );

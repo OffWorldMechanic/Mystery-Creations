@@ -16,19 +16,20 @@ window.STORE_CONFIG = {
   x: "",
   facebook: "",
   youtube: "",
-  // Launch list form: when waitlistEndpoint is set, the form POSTs { email, theme }.
+  pinterest: "https://www.pinterest.com/mymysterycreations/",
+  // Email list form: when waitlistEndpoint is set, the form POSTs { email, theme }.
   // When it is empty, the form opens a mailto: to contactEmail instead.
   waitlistEndpoint: "",
-  // Leave goatcounter empty to load no analytics script. When ready, set it to
-  // your GoatCounter endpoint, for example "https://yourcode.goatcounter.com/count".
-  analytics: { goatcounter: "" },
+  // GoatCounter (cookie-free page-view counts). Dashboard: https://mymysterycreations.goatcounter.com/
+  // Set to "" to load no analytics script.
+  analytics: { goatcounter: "https://mymysterycreations.goatcounter.com/count" },
   // Fulfillment and business details are not shown on the storefront.
   // Stripe Checkout will collect the customer's name, email, and shipping address.
 
   /**
    * Payments
    * --------
-   * Payment Links for each tier are filled in below.
+   * Live Payment Links (one per tier and theme) are in js/links.js.
    *
    * Option A — Stripe Payment Links (one link per tier and theme):
    *   The map lives in js/links.js as window.STORE_PAYMENT_LINKS[tierId][themeId].
@@ -44,19 +45,6 @@ window.STORE_CONFIG = {
    */
   stripe: {
     currency: "usd",
-    paymentLinks: {
-      glimpse: "https://buy.stripe.com/test_00w5kE99qa0JfEN8oBcjS0a",
-      whisper: "https://buy.stripe.com/test_cNi4gA4Ta0q9fEN9sFcjS00",
-      spark: "https://buy.stripe.com/test_00w9AUclC7SBdwF0W9cjS01",
-      curiosity: "https://buy.stripe.com/test_fZu5kE1GYb4NeAJ9sFcjS02",
-      secret: "https://buy.stripe.com/test_aFa6oIadufl364d8oBcjS03",
-      keepsake: "https://buy.stripe.com/test_5kQ7sM0CU7SB9gpgV7cjS04",
-      trove: "https://buy.stripe.com/test_7sY5kE85m0q978hfR3cjS05",
-      chamber: "https://buy.stripe.com/test_5kQ14oadufl3dwFcERcjS06",
-      relic: "https://buy.stripe.com/test_bJe9AU1GY0q9gIR5cpcjS07",
-      heist: "https://buy.stripe.com/test_4gM4gA1GYdcVaktgV7cjS08",
-      "grand-vault": "https://buy.stripe.com/test_7sY14o71ic8RgIRdIVcjS09"
-    },
     checkoutEndpoint: "",
     successUrl: "./success.html",
     cancelUrl: "./index.html#checkout"
