@@ -101,7 +101,7 @@
           "name": "Is the price fixed? Is this a game of chance?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Every Mystery Box and every Mystery Gift is a fixed price for the size or price and theme you choose. What you pay is what you get: a curated themed gift. There are no random prizes, odds, chances, rarity tiers, sweepstakes, or resale, trade-in, or buyback programs."
+            "text": "Every Mystery Box and every Mystery Gift is a fixed price for the size or price and theme you choose. What you pay is what you get: a curated themed gift. Applicable sales tax is added at checkout where it applies. There are no random prizes, odds, chances, rarity tiers, sweepstakes, or resale, trade-in, or buyback programs."
           }
         },
         {
@@ -181,7 +181,7 @@
           "name": "How are payments handled?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Payments are processed securely by Stripe. We never see or store your card number. You’ll pay the fixed price for the box or gift you chose, and shipping is always free. After payment, Stripe emails a receipt, and you’ll return to our thank-you page."
+            "text": "Payments are processed securely by Stripe. We never see or store your card number. You’ll pay the fixed price for the box or gift you chose, plus applicable sales tax at checkout where it applies, and shipping is always free. After payment, Stripe emails a receipt, and you’ll return to our thank-you page."
           }
         },
         {
@@ -656,6 +656,7 @@
           <div class="hero-prices" aria-label="Single-item Mystery Gift prices">
             <a class="hero-price" href="#gifts" data-gift-pick="gift-5">$5</a><a class="hero-price" href="#gifts" data-gift-pick="gift-10">$10</a><a class="hero-price" href="#gifts" data-gift-pick="gift-15">$15</a><a class="hero-price" href="#gifts" data-gift-pick="gift-20">$20</a><a class="hero-price" href="#gifts" data-gift-pick="gift-25">$25</a>
           </div>
+          <p class="hero-tax">Mystery Gifts $5–$25, Mystery Boxes $50–$500. Prices in USD, free shipping, plus applicable sales tax.</p>
           <div class="hero-actions">
             <a class="btn btn-gold" href="#gifts">Send a Mystery Gift</a>
             <a class="btn btn-ghost" href="#box-order">Mystery Boxes from $50</a>
@@ -727,6 +728,7 @@
                 <div class="summary-row"><span>Theme</span><strong data-gift-summary-theme>Choose a theme</strong></div>
                 <div class="summary-row summary-total"><span>Total</span><strong data-gift-summary-total>—</strong></div>
                 <p class="checkout-note" id="gift-status" aria-live="polite">Choose a theme and a Mystery Gift price, then continue to checkout. Your selected Mystery Gift, theme, and price go with you to Stripe.</p>
+                <p class="price-note">Prices in USD, free shipping, plus applicable sales tax.</p>
               </div>
               <div>
                 <div class="checkout-callout" id="gift-checkout-status"></div>
@@ -783,6 +785,7 @@
                   <div class="summary-row"><span>Theme</span><strong data-summary-theme>Choose a theme</strong></div>
                   <div class="summary-row summary-total"><span>Total</span><strong data-summary-price>—</strong></div>
                   <p class="checkout-note">Every box contains multiple gifts. One Mystery Box per checkout keeps packing simple. Want another? Place a second order after the first. Free shipping via USPS Ground Advantage, U.S. only. Ships within 5 business days, arrives in 7–12 business days.</p>
+                  <p class="price-note">Prices in USD, free shipping, plus applicable sales tax.</p>
                 </div>
                 <div>
                   <div class="checkout-callout" id="checkout-status"></div>
@@ -834,7 +837,8 @@
           <div class="waitlist-copy">
             <p class="eyebrow">Email list</p>
             <h2>New themes &amp; deals</h2>
-            <p>Join our email list and we’ll let you know when new themes drop and when we run deals.</p>
+            <p>Join our email list and we’ll let you know when new themes drop, when we run deals, and when subscriber promos are on.</p>
+            <p class="waitlist-perk"><strong>Subscriber Surprises:</strong> during occasional promos announced by email, list members may get a surprise upgrade or bonus.</p>
           </div>
           <form class="waitlist-form" id="waitlist-form" novalidate>
             <label for="waitlist-email">Email
@@ -846,7 +850,7 @@
               </select>
             </label>
             <button class="btn btn-gold" type="submit">Join the list</button>
-            <p class="hint">We’ll only use your email for new-theme and deal updates. You can unsubscribe or ask us to delete it any time at <a data-store-email href="mailto:help@mymysterycreations.com">help@mymysterycreations.com</a>.</p>
+            <p class="hint">We’ll only use your email for new-theme, deal and subscriber-promo updates. You can unsubscribe or ask us to delete it any time at <a data-store-email href="mailto:help@mymysterycreations.com">help@mymysterycreations.com</a>.</p>
             <p class="form-status" id="waitlist-status" role="status"></p>
           </form>
         </div>
@@ -983,7 +987,7 @@
           </details>
           <details class="faq">
             <summary>Is the price fixed? Is this a game of chance?</summary>
-            <p>Every Mystery Box and every Mystery Gift is a fixed price for the size or price and theme you choose. What you pay is what you get: a curated themed gift. There are no random prizes, odds, chances, rarity tiers, sweepstakes, or resale, trade-in, or buyback programs.</p>
+            <p>Every Mystery Box and every Mystery Gift is a fixed price for the size or price and theme you choose. What you pay is what you get: a curated themed gift. Applicable sales tax is added at checkout where it applies. There are no random prizes, odds, chances, rarity tiers, sweepstakes, or resale, trade-in, or buyback programs.</p>
           </details>
           <details class="faq">
             <summary>Can I choose specific items?</summary>
@@ -1023,7 +1027,7 @@
           </details>
           <details class="faq">
             <summary>How are payments handled?</summary>
-            <p>Payments are processed securely by Stripe. We never see or store your card number. You’ll pay the fixed price for the box or gift you chose, and shipping is always free. After payment, Stripe emails a receipt, and you’ll return to our thank-you page.</p>
+            <p>Payments are processed securely by Stripe. We never see or store your card number. You’ll pay the fixed price for the box or gift you chose, plus applicable sales tax at checkout where it applies, and shipping is always free. After payment, Stripe emails a receipt, and you’ll return to our thank-you page.</p>
           </details>
           <details class="faq">
             <summary>Are you affiliated with any brands?</summary>

@@ -399,7 +399,7 @@
     setText("[data-summary-tier]", tier ? tier.name : "Choose a Mystery Box size");
     setText("[data-summary-size]", tier ? tier.size : "—");
     setText("[data-summary-theme]", theme ? theme.name : "Choose a theme");
-    setText("[data-summary-price]", tier ? money(tier.price) : "—");
+    setText("[data-summary-price]", tier ? money(tier.price) + " · Free shipping, plus applicable sales tax" : "—");
 
     const bar = document.getElementById("order-bar");
     if (bar) {
@@ -447,7 +447,7 @@
         status.hidden = false;
         status.innerHTML = `<span class="stripe-badge">Stripe ready</span>
           <h3>Pay securely with Stripe</h3>
-          <p>You’ll be sent to Stripe Checkout to pay ${money(tier.price)} with free shipping for ${escapeHtml(tier.name)} Mystery Box (multiple gifts in one box) in the ${escapeHtml(theme.name)} theme. Name, email, shipping address, and optional notes are collected there.</p>`;
+          <p>You’ll be sent to Stripe Checkout to pay ${money(tier.price)}, plus applicable sales tax, with free shipping for ${escapeHtml(tier.name)} Mystery Box (multiple gifts in one box) in the ${escapeHtml(theme.name)} theme. Name, email, shipping address, and optional notes are collected there.</p>`;
       } else {
         status.hidden = false;
         status.innerHTML = `<span class="stripe-badge">Checkout</span>
@@ -895,14 +895,14 @@
       setText("[data-gift-summary-item]", "One single surprise item");
       setText("[data-gift-summary-price]", tier ? money(tier.price) : "Choose a price");
       setText("[data-gift-summary-theme]", theme ? theme.name : "Choose a theme");
-      setText("[data-gift-summary-total]", tier ? money(tier.price) + " · Free shipping" : "—");
+      setText("[data-gift-summary-total]", tier ? money(tier.price) + " · Free shipping, plus applicable sales tax" : "—");
       if (btn) {
         btn.disabled = !ready;
         btn.classList.toggle("is-disabled", !ready);
       }
       if (status) {
         if (ready) {
-          status.textContent = `Ready: ${money(tier.price)} ${theme.name} Single-item Mystery Gift (one single surprise item). Continue to checkout to pay — your Mystery Gift, theme, and price go with you to Stripe. Free shipping.`;
+          status.textContent = `Ready: ${money(tier.price)} ${theme.name} Single-item Mystery Gift (one single surprise item). Continue to checkout to pay — your Mystery Gift, theme, and price go with you to Stripe. Free shipping, plus applicable sales tax.`;
         } else if (theme && !tier) {
           status.textContent = `Choose a Mystery Gift price for your ${theme.name} Single-item Mystery Gift (one single surprise item).`;
         } else if (tier && !theme) {

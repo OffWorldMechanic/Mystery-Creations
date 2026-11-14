@@ -638,6 +638,7 @@ a { color: var(--gold-bright); text-decoration-thickness: 1px; text-underline-of
 }
 .checkout-callout p { margin: 0 0 14px; color: var(--mist); font-size: 0.9rem; }
 .hint { color: var(--mist); font-size: 0.82rem; margin: 10px 0 0; }
+.price-note { margin: 8px 0 0; font-size: 0.82rem; color: var(--mist); }
 
 
 /* Order form (dropdown checkout) */
@@ -1372,6 +1373,13 @@ a, button, .tier-card, .theme-card, summary {
   color: var(--cream-dim);
   max-width: 42ch;
 }
+.waitlist-copy p + p {
+  margin-top: 12px;
+}
+.waitlist-perk strong {
+  color: var(--gold-bright);
+  font-weight: 600;
+}
 .waitlist-form {
   display: grid;
   gap: 14px;
@@ -1425,7 +1433,8 @@ a, button, .tier-card, .theme-card, summary {
 }
 
 /* v5: Mystery Gifts hero */
-.hero-prices { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 22px; }
+.hero-prices { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 10px; }
+.hero-tax { margin: 0 0 20px; font-size: 0.86rem; color: var(--cream-dim); }
 .hero-price {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 56px; padding: 8px 12px; border-radius: 999px;
