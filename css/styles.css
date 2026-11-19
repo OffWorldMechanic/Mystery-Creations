@@ -2353,3 +2353,12 @@ html[data-shop-theme] .waitlist-section {
   background: rgba(255, 248, 238, 0.92);
 }
 html[data-shop-theme] .hero { background: transparent; }
+
+/* "Opening secure checkout…" overlay while the checkout Worker creates the Stripe session */
+.checkout-loading { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; background: rgba(255, 250, 243, 0.92); }
+.checkout-loading[hidden] { display: none; }
+.checkout-loading-card { display: grid; justify-items: center; gap: 14px; padding: 24px 28px; border-radius: 16px; background: #fff; border: 1px solid var(--line, #e6dccb); box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+.checkout-loading-card p { margin: 0; font-weight: 600; }
+.checkout-spinner { width: 34px; height: 34px; border-radius: 50%; border: 3px solid rgba(0,0,0,.12); border-top-color: var(--coral-deep, #d9534f); animation: mc-spin .8s linear infinite; }
+@keyframes mc-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .checkout-spinner { animation: none; } }
