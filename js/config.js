@@ -13,7 +13,7 @@ window.STORE_CONFIG = {
   // Business location shown on the site: city and state only (no street address or ZIP).
   location: "Laguna Vista, Texas",
   marketingEmail: "marketing@mymysterycreations.com",
-  instagram: "https://www.instagram.com/beckywiththebox/",
+  instagram: "",
   tiktok: "",
   x: "https://x.com/BeckyWithTheBox",
   facebook: "",
@@ -34,14 +34,21 @@ window.STORE_CONFIG = {
    *
    * Option A — Stripe Payment Links (one link per tier and theme):
    *   The map lives in js/links.js as window.STORE_PAYMENT_LINKS[tierId][themeId].
-   *   Checkout appends ?client_reference_id=<tierId>--<themeId>. Optional notes
-   *   about who the box is for and a gift message are entered at Stripe Checkout.
+   *   Checkout appends ?client_reference_id=<tierId>--<themeId> only.
+   *   That value stays alphanumeric with dashes (for example gift-15--anime).
+   *   Do not put the description or gift note in the URL or in client_reference_id.
+   *   Stripe custom fields on each Payment Link stay key "recipient" and key "giftnote"
+   *   (both optional, 100 characters). Payment Link URLs cannot prefill those fields.
    *
    * Option B — Stripe Checkout Sessions (recommended once you have a small backend):
    *   Set stripe.checkoutEndpoint to your function URL (e.g. a Cloudflare Worker
    *   or Netlify/Stripe function). The site POSTs JSON:
-   *   { tierId, themeId, tierName, themeName, recipient, giftNote, priceCents, currency, storeName }
-   *   and expects { url } pointing at the Stripe Checkout Session.
+   *   { tierId, themeId, tierName, themeName, productType, recipient, giftNote, price, priceCents, currency, storeName, clientReferenceId }
+   *   recipient and giftNote are empty strings when the customer skipped them.
+   *   Create a Checkout Session with client_reference_id unchanged, the same metadata
+   *   the Payment Links already use, and custom_fields keys recipient and giftnote.
+   *   Set text.default_value only when the string is non-empty so a skipped field stays blank.
+   *   The response is { url } pointing at the Stripe Checkout Session.
    *   Stripe Checkout itself collects name, email, and shipping address.
    */
   stripe: {
@@ -149,12 +156,14 @@ window.STORE_CONFIG = {
    * id: url-safe slug
    * name: customer-facing label (fan-style, not official brand names where risky)
    * blurb: short description
-   * accent: hex used for the theme plaque
+   * accent: hex used for the theme plaque and as a fallback tint
+   * image: full-page collage in img/themes/ (swapped in when this theme is selected)
    * icon: key used by the original SVG set in app.js (or a new one you add there)
    */
   themes: [
     {
       id: "anime",
+      image: "img/themes/anime.jpg",
       name: "Anime",
       blurb: "Bold color, collectible energy, and a little sparkle — inspired by anime fandom, never official studio art.",
       accent: "#e07a6a",
@@ -162,6 +171,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "pokemon-fans",
+      image: "img/themes/pokemon-fans.jpg",
       name: "Pocket Monster Fans",
       blurb: "Adventure-ready finds for fans of pocket-monster worlds. Genuine items only — no knockoffs.",
       accent: "#e6b84a",
@@ -169,6 +179,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "football",
+      image: "img/themes/football.jpg",
       name: "Football",
       blurb: "Game-day spirit, locker-room grit, and fan-cave staples. Not affiliated with any league or team.",
       accent: "#d07a3a",
@@ -176,6 +187,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "musician",
+      image: "img/themes/musician.jpg",
       name: "Musician",
       blurb: "For the always-humming, vinyl-stacking, late-night-jam kind of person.",
       accent: "#7b8cff",
@@ -183,6 +195,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "mechanic",
+      image: "img/themes/mechanic.jpg",
       name: "Mechanic",
       blurb: "Gears, grit, and garage-ready goods for people who like to take things apart.",
       accent: "#c4a574",
@@ -190,6 +203,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "gotham-fans",
+      image: "img/themes/gotham-fans.jpg",
       name: "Dark Knight Fans",
       blurb: "Moody city nights, art-deco shadows, and a dark-knight atmosphere. Theme name only — no official marks.",
       accent: "#6b7c9c",
@@ -197,6 +211,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "space-fans",
+      image: "img/themes/space-fans.jpg",
       name: "Space Explorer",
       blurb: "Orbit-minded gifts for launch watchers and stargazers.",
       accent: "#6ec4d8",
@@ -204,6 +219,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "gaming",
+      image: "img/themes/gaming.jpg",
       name: "Gaming",
       blurb: "Controller-side comforts and collectible energy for people who live in save files.",
       accent: "#6ea8ff",
@@ -211,6 +227,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "marvel-fans",
+      image: "img/themes/marvel-fans.jpg",
       name: "Superhero Fans",
       blurb: "Heroic color, comic-shelf energy, and everyday finds for superhero fans.",
       accent: "#d45a5a",
@@ -218,6 +235,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "star-wars-fans",
+      image: "img/themes/star-wars-fans.jpg",
       name: "Galaxy Saga Fans",
       blurb: "Far-galaxy atmosphere for saga lovers. Theme name only — no official marks.",
       accent: "#d4c07a",
@@ -225,6 +243,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "potter-fans",
+      image: "img/themes/potter-fans.jpg",
       name: "Wizarding School Fans",
       blurb: "Cozy, bookish magic for fans of a wizarding school. Theme name only — no official crests or logos.",
       accent: "#7a9a4a",
@@ -232,6 +251,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "disney-fans",
+      image: "img/themes/disney-fans.jpg",
       name: "Fairytale & Animation Fans",
       blurb: "Storybook warmth and classic animation energy.",
       accent: "#6a9ad8",
@@ -239,6 +259,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "basketball",
+      image: "img/themes/basketball.jpg",
       name: "Basketball",
       blurb: "Hardwood energy, gym-bag staples, and game-night spirit. Not affiliated with any league or team.",
       accent: "#e08a3a",
@@ -246,6 +267,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "baseball",
+      image: "img/themes/baseball.jpg",
       name: "Baseball",
       blurb: "Diamond days, ballpark snacks energy, and summer-night nostalgia. Not affiliated with any league or team.",
       accent: "#c45c4a",
@@ -253,6 +275,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "fishing-outdoors",
+      image: "img/themes/fishing-outdoors.jpg",
       name: "Fishing & Outdoors",
       blurb: "Early mornings, quiet water, and trail-ready goods for people who pack a tackle box.",
       accent: "#5a9a7a",
@@ -260,6 +283,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "cars-racing",
+      image: "img/themes/cars-racing.jpg",
       name: "Cars & Racing",
       blurb: "Garage weekends, pit-lane focus, and the smell of rubber on a warm day.",
       accent: "#d06050",
@@ -267,6 +291,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "cozy-self-care",
+      image: "img/themes/cozy-self-care.jpg",
       name: "Cozy Self-Care",
       blurb: "Soft evenings, warm light, and small comforts meant to slow the day down.",
       accent: "#d4a0b4",
@@ -274,6 +299,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "squishy",
+      image: "img/themes/squishy.jpg",
       name: "Squishy",
       blurb: "Slow-rise squishies, stress balls, mochi squish, and plush squishies — soft, silly, and very squeezeable.",
       accent: "#f0a8c0",
@@ -281,6 +307,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "halloween",
+      image: "img/themes/halloween.jpg",
       name: "Halloween",
       blurb: "Autumn nights, carved pumpkins, and a little friendly fright — treats and trinkets for spooky-season fans.",
       accent: "#e08a3a",
@@ -288,6 +315,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "christmas",
+      image: "img/themes/christmas.jpg",
       name: "Christmas",
       blurb: "Cozy winter light, wrapping-paper rustle, and small comforts for the holiday table.",
       accent: "#c45c4a",
@@ -295,6 +323,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "stpatricksday",
+      image: "img/themes/stpatricksday.jpg",
       name: "St. Patrick's Day Party",
       blurb: "Green-and-gold festivities, gathering energy, and luck-of-the-season party favors.",
       accent: "#3d8c5a",
@@ -302,6 +331,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "watches",
+      image: "img/themes/watches.jpg",
       name: "Watches",
       blurb: "Timepieces, watch straps, and clock-face finds for people who love a good watch. Theme name only — not an official brand shop.",
       accent: "#c4b07a",

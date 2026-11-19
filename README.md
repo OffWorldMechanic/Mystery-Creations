@@ -6,7 +6,7 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 
 ## What’s on the site
 
-- Home page (`index.html`): Mystery Gifts hero, then ONE combined order section (`#order`, “Choose your Mystery Gift or Mystery Box”) with the Mystery Gift menu (`#gifts`) stacked directly above the Mystery Box menu (`#box-order`), then the comparison block, email list, how it works, box and theme overviews, reviews (from `js/reviews.js`), FAQ, and contact
+- Home page (`index.html`): one phone-first order flow. Above the fold: branding, the slogan, the theme menu, then “tell us about the special person.” Scrolling continues with the gift note, Mystery Gift prices ($10–$25), Mystery Box sizes ($50–$500), and a large checkout section. Comparison, email list, how it works, overviews, reviews, FAQ, and contact follow that.
 - **Terms** (`terms.html`) and **Privacy** (`privacy.html`)
 - A **thank-you** page (`success.html`) used as the Stripe success URL: `https://mymysterycreations.com/success.html` (this page is marked `noindex` and is not in the sitemap)
 - `robots.txt`, `sitemap.xml`, and a 1200×630 share image at `img/og-image.png`
@@ -21,7 +21,8 @@ Always use the two product names with "Mystery" in them; never drop the word "My
 - **Mystery Gift**: one single surprise item (not a box), $10–$25, shipped free and directly from a retailer to the recipient, no price inside, usually 2–7 business days. Never call a Mystery Gift a box.
 - **Mystery Box**: multiple themed gifts hand-packed in one box at our shop with a hand-tied ribbon, $50–$500, free USPS Ground Advantage, ships within 5 business days, arrives in 7–12. Every box contains multiple gifts. Tier cards show a relative sense of quantity (`contents` in `js/config.js`: "A handful of gifts", "A generous mix of gifts", "A big haul of gifts"); never publish exact item counts or values.
 - The home page has a "Mystery Gift vs. Mystery Box" comparison block (`#compare`) right after the combined order section, and the FAQ has "What’s the difference between a Mystery Gift and a Mystery Box?" (HTML and JSON-LD).
-- Optional checkout text fields (who it’s for, gift note) are limited to 100 characters. They are Stripe Payment Link custom fields; Payment Link URLs cannot prefill custom fields (only prefilled_email, locked_prefilled_email, prefilled_promo_code, prefilled_amount, locale, client_reference_id and utm_*), so the site shows a “Next, at secure checkout you’ll add…” step list above each order button instead of site inputs. Never put free text into client_reference_id or any URL.
+- The description of the special person and the gift note are optional fields on the home page (100 characters each). The description affects which mystery gift is picked. The gift note does not. If a customer skips one, it stays blank.
+- Stripe Payment Links still collect the same two custom fields, keys `recipient` and `giftnote`. Checkout appends only `client_reference_id=<tierId>--<themeId>` (alphanumeric and dashes, for example `gift-15--anime`). Payment Link URLs cannot prefill custom fields, so do not put the description or the gift note in the URL or in `client_reference_id`. When `stripe.checkoutEndpoint` is set, the site POSTs `recipient` and `giftNote` (empty string if skipped) for a Checkout Session that can set those fields’ `default_value`.
 
 ## Box tiers
 
@@ -37,7 +38,7 @@ Always use the two product names with "Mystery" in them; never drop the word "My
 | `heist` | The Heist | Huge | $400 |
 | `grand-vault` | The Grand Vault | Legendary | $500 |
 
-Customers pick a **tier and a theme** from dropdowns and continue to a Stripe Payment Link for that exact combination. Optional notes about who the box is for and a gift message are entered once, at checkout. The recipient note is a non-binding guide for personalization — it does not guarantee specific items.
+Customers pick one theme, optionally describe the special person, optionally add a gift note, then choose either a Mystery Gift price or a Mystery Box size. Checkout continues to the Stripe Payment Link for that exact combination and appends `client_reference_id=<tierId>--<themeId>`. The description affects which mystery gift is picked. The gift note does not, and it does not guarantee a specific item. A skipped description or note stays blank.
 
 ## Themes
 
@@ -80,9 +81,9 @@ Configured in the `themes` array in `js/config.js`. Starting themes:
 }
 ```
 
-3. Save and refresh. The theme dropdown and overview are built from this array, so no HTML edit is required. Choosing a theme (Mystery Gift menu, Mystery Box menu, or “Use this theme”) tints the page background. With no theme selected, the page stays the default cream wash. A new theme uses its `accent` color for that wash automatically.
+3. Save and refresh. The theme dropdown and overview are built from this array, so no HTML edit is required. Choosing a theme swaps the full-page background to `image` (a collage in `img/themes/`). With no theme selected, the page stays the default cream look. A theme without an image falls back to its `accent` color.
 
-4. Optional: add a `html[data-shop-theme="gardening"]` block in `css/styles.css` (with the other theme washes) if you want a custom gradient or pattern. Keep it light so text and checkout stay readable, and use original art only — no logos or trademarked characters.
+4. Add the collage as `img/themes/<id>.jpg` and set `image` to that path. The photo should fill the frame, with the important objects near the center so a phone crop still reads as that theme.
 
 To give the new theme its own icon, add an SVG string under the matching key in the `ICONS` object in `js/app.js`. Keep icons original — no official logos or characters.
 
@@ -105,8 +106,10 @@ The site passes this order payload:
 ```js
 {
   tierId, themeId, tierName, themeName,
+  productType,            // "gift" or "box"
+  recipient, giftNote,    // "" when the customer skipped that field
   price, priceCents, currency, storeName,
-  clientReferenceId  // "<tierId>--<themeId>", e.g. "secret--musician"
+  clientReferenceId       // "<tierId>--<themeId>" only, e.g. "secret--musician"
 }
 ```
 
@@ -164,7 +167,7 @@ Edit only this line in `js/config.js`:
 name: "Mystery Creations",
 ```
 
-The store contact address lives in `STORE_CONFIG.contactEmail` in `js/config.js` (currently `help@mymysterycreations.com`). Instagram is set as `instagram` (https://www.instagram.com/beckywiththebox/), X as `x` (https://x.com/BeckyWithTheBox), and Pinterest as `pinterest`.
+The store contact address lives in `STORE_CONFIG.contactEmail` in `js/config.js` (currently `help@mymysterycreations.com`). X is set as `x` (https://x.com/BeckyWithTheBox) and Pinterest as `pinterest`. Instagram is left blank so the footer does not link it.
 
 ## Project layout
 

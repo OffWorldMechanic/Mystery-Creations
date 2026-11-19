@@ -99,9 +99,6 @@
     } catch (_) { /* ignore */ }
   }
 
-  function getTier() {
-    return (config.tiers || []).find((t) => t.id === state.tierId) || null;
-  }
   function getTheme() {
     return (config.themes || []).find((t) => t.id === state.themeId) || null;
   }
@@ -276,47 +273,85 @@
     }
   }
 
-  function optionLabel(tier) {
-    return `${tier.name} — ${money(tier.price)} (${tier.size})`;
+  function giftTiers() {
+    return ((config.gifts && config.gifts.tiers) || []).slice();
   }
 
-  function renderTierSelect() {
-    const select = document.getElementById("tier-select");
-    if (!select) return;
-    const current = select.value;
-    select.innerHTML = `<option value="">Select a Mystery Box…</option>` +
-      (config.tiers || []).map((tier) =>
-        `<option value="${escapeHtml(tier.id)}">${escapeHtml(optionLabel(tier))}</option>`
-      ).join("");
-    if (state.tierId && (config.tiers || []).some((t) => t.id === state.tierId)) {
-      select.value = state.tierId;
-    } else if (current) {
-      select.value = current;
-    }
-    renderTierSummary();
+  function productKind(tierId) {
+    if (!tierId) return null;
+    if (giftTiers().some((g) => g.id === tierId)) return "gift";
+    if ((config.tiers || []).some((t) => t.id === tierId)) return "box";
+    return null;
   }
 
-  function renderTierSummary() {
-    const card = document.getElementById("tier-summary");
-    if (!card) return;
-    const tier = getTier();
-    if (!tier) {
-      card.hidden = true;
-      card.innerHTML = "";
-      return;
+  function getSelection() {
+    const theme = getTheme();
+    const kind = productKind(state.tierId);
+    if (kind === "gift") {
+      const gift = giftTiers().find((g) => g.id === state.tierId);
+      if (!gift) return { kind: null, tier: null, theme: theme };
+      return {
+        kind: "gift",
+        tier: {
+          id: gift.id,
+          name: "Mystery Gift",
+          price: gift.price,
+          size: "One single item"
+        },
+        theme: theme
+      };
     }
-    card.hidden = false;
-    card.innerHTML = `
-      <div class="box-visual" style="color: var(--gold-bright)">${boxSvg(tier.price)}</div>
-      <div class="tier-summary-copy">
-        <div class="tier-size">${escapeHtml(tier.size)}</div>
-        <h3>${escapeHtml(tier.name)}</h3>
-        <p class="tier-price">${money(tier.price)}</p>
-        ${contentsNote(tier)}
-        ${shippingNote(tier)}
-        <p class="blurb">${escapeHtml(tier.blurb)}</p>
-      </div>
-    `;
+    if (kind === "box") {
+      const tier = (config.tiers || []).find((t) => t.id === state.tierId) || null;
+      return { kind: tier ? "box" : null, tier: tier, theme: theme };
+    }
+    return { kind: null, tier: null, theme: theme };
+  }
+
+  function fieldText(id) {
+    const el = document.getElementById(id);
+    if (!el) return "";
+    return String(el.value || "").trim().slice(0, 100);
+  }
+
+  function blankOr(value) {
+    return value ? value : "Left blank";
+  }
+
+  function applyQuerySelection() {
+    let params;
+    try { params = new URLSearchParams(window.location.search); }
+    catch (_) { return; }
+    const theme = params.get("theme");
+    const product = params.get("product");
+    if (theme && (config.themes || []).some((t) => t.id === theme)) state.themeId = theme;
+    if (product && productKind(product)) state.tierId = product;
+    if (state.tierId && !productKind(state.tierId)) state.tierId = null;
+  }
+
+  function renderProductChoices() {
+    const gifts = document.getElementById("gift-choices");
+    const boxes = document.getElementById("box-choices");
+    if (gifts) {
+      gifts.innerHTML = giftTiers().map((gift) => `
+        <label class="choice">
+          <input type="radio" name="product" value="${escapeHtml(gift.id)}"${state.tierId === gift.id ? " checked" : ""}>
+          <span class="choice-price">${escapeHtml(money(gift.price))}</span>
+          <span class="choice-name">Mystery Gift</span>
+          <span class="choice-meta">One single item</span>
+        </label>
+      `).join("");
+    }
+    if (boxes) {
+      boxes.innerHTML = (config.tiers || []).map((tier) => `
+        <label class="choice">
+          <input type="radio" name="product" value="${escapeHtml(tier.id)}"${state.tierId === tier.id ? " checked" : ""}>
+          <span class="choice-price">${escapeHtml(money(tier.price))}</span>
+          <span class="choice-name">${escapeHtml(tier.name)}</span>
+          <span class="choice-meta">${escapeHtml(tier.size)} · ${escapeHtml(tier.contents || "Multiple gifts")}</span>
+        </label>
+      `).join("");
+    }
   }
 
   function renderThemeSelect() {
@@ -387,21 +422,83 @@
     }).join("");
   }
 
-  function updateSummary() {
-    const tier = getTier();
-    const theme = getTheme();
-    const ready = !!(tier && theme);
+  function paymentLinkFor(kind, tierId, themeId) {
+    if (!kind || !tierId || !themeId) return "";
+    const map = kind === "gift" ? (window.STORE_GIFT_LINKS || {}) : (window.STORE_PAYMENT_LINKS || {});
+    const byTier = map[tierId];
+    if (!byTier || typeof byTier !== "object") return "";
+    return String(byTier[themeId] || "").trim();
+  }
 
-    const setText = (sel, text) => {
-      document.querySelectorAll(sel).forEach((el) => { el.textContent = text; });
+  function checkoutReference(tier, theme) {
+    return tier.id + "--" + theme.id;
+  }
+
+  function checkoutBody() {
+    const sel = getSelection();
+    const tier = sel.tier;
+    const theme = sel.theme;
+    const recipient = fieldText("recipient");
+    const giftNote = fieldText("gift-note");
+    const stripe = config.stripe || {};
+    if (!tier || !theme || !sel.kind) {
+      return { sel: sel, recipient: recipient, giftNote: giftNote, link: "", body: null };
+    }
+    const ref = checkoutReference(tier, theme);
+    return {
+      sel: sel,
+      recipient: recipient,
+      giftNote: giftNote,
+      link: paymentLinkFor(sel.kind, tier.id, theme.id),
+      body: {
+        tierId: tier.id,
+        themeId: theme.id,
+        tierName: sel.kind === "gift" ? "Mystery Gift" : tier.name,
+        themeName: theme.name,
+        productType: sel.kind,
+        recipient: recipient,
+        giftNote: giftNote,
+        price: tier.price,
+        priceCents: Math.round(Number(tier.price) * 100),
+        currency: stripe.currency || "usd",
+        storeName: config.name,
+        clientReferenceId: ref
+      }
     };
+  }
 
-    setText("[data-summary-tier]", tier ? tier.name : "Choose a Mystery Box size");
-    setText("[data-summary-size]", tier ? tier.size : "—");
+  // Payment Link URLs can only carry client_reference_id (tierId--themeId). Free text
+  // is not a valid client_reference_id and must not be put in the URL. Notes travel in
+  // the checkout payload (and, when checkoutEndpoint is set, into Stripe custom fields
+  // recipient / giftnote). A blank note stays an empty string.
+  function checkoutUrl(link, reference) {
+    const url = new URL(link);
+    url.searchParams.set("client_reference_id", reference);
+    return url.toString();
+  }
+
+  function updateSummary() {
+    const packed = checkoutBody();
+    const sel = packed.sel;
+    const tier = sel.tier;
+    const theme = sel.theme;
+    const ready = !!(tier && theme && packed.link && packed.body);
+    const setText = (selector, text) => {
+      document.querySelectorAll(selector).forEach((el) => { el.textContent = text; });
+    };
+    const itemLabel = !tier
+      ? "Choose a Mystery Gift or Mystery Box"
+      : (sel.kind === "gift"
+        ? "Mystery Gift · one single surprise item"
+        : tier.name + " Mystery Box · " + tier.size);
+    setText("[data-summary-item]", itemLabel);
+    setText("[data-summary-price]", tier ? money(tier.price) : "—");
     setText("[data-summary-theme]", theme ? theme.name : "Choose a theme");
-    setText("[data-summary-price]", tier ? money(tier.price) + " · Free shipping, plus applicable sales tax" : "—");
+    setText("[data-summary-recipient]", blankOr(packed.recipient));
+    setText("[data-summary-note]", blankOr(packed.giftNote));
 
     const bar = document.getElementById("order-bar");
+    const barLine = document.getElementById("order-bar-line");
     if (bar) {
       if (tier || theme) {
         bar.hidden = false;
@@ -413,10 +510,11 @@
         document.body.classList.remove("has-bar");
       }
     }
-
-    const barLine = document.getElementById("order-bar-line");
     if (barLine) {
-      const parts = [tier ? `${tier.name} · ${money(tier.price)}` : "Pick a size", theme ? theme.name : "Pick a theme"];
+      const parts = [];
+      if (tier) parts.push((sel.kind === "gift" ? "Mystery Gift" : tier.name) + " · " + money(tier.price));
+      else parts.push("Pick a Mystery Gift or Mystery Box");
+      parts.push(theme ? theme.name : "Pick a theme");
       barLine.textContent = parts.join("  ·  ");
     }
 
@@ -425,79 +523,58 @@
         btn.classList.remove("is-disabled");
         btn.removeAttribute("disabled");
         btn.setAttribute("aria-disabled", "false");
+        btn.setAttribute("data-checkout-href", checkoutUrl(packed.link, packed.body.clientReferenceId));
       } else {
         btn.classList.add("is-disabled");
         btn.setAttribute("disabled", "disabled");
         btn.setAttribute("aria-disabled", "true");
+        btn.removeAttribute("data-checkout-href");
       }
     });
 
     const status = document.getElementById("checkout-status");
-    const stripe = config.stripe || {};
-    const link = getPaymentLink(tier, theme);
-    const endpoint = (stripe.checkoutEndpoint || "").trim();
-
-    if (status) {
-      if (!ready) {
-        status.hidden = false;
-        status.innerHTML = `<span class="stripe-badge">Checkout</span>
-          <h3>Select a size and a theme to continue</h3>
-          <p>Your Mystery Box is a two-part choice: a size and a theme. Every box contains multiple gifts. Once both are selected, you can check out. Stripe will collect your name, email, shipping address, and optional notes.</p>`;
-      } else if (link || endpoint) {
-        status.hidden = false;
-        status.innerHTML = `<span class="stripe-badge">Stripe ready</span>
-          <h3>Pay securely with Stripe</h3>
-          <p>You’ll be sent to Stripe Checkout to pay ${money(tier.price)}, plus applicable sales tax, with free shipping for ${escapeHtml(tier.name)} Mystery Box (multiple gifts in one box) in the ${escapeHtml(theme.name)} theme. Name, email, shipping address, and optional notes are collected there.</p>`;
-      } else {
-        status.hidden = false;
-        status.innerHTML = `<span class="stripe-badge">Checkout</span>
-          <h3>This Mystery Box isn’t available right now</h3>
-          <p>Your selection — <strong>${escapeHtml(tier.name)}</strong> · <strong>${escapeHtml(theme.name)}</strong> · <strong>${money(tier.price)}</strong> — is saved on this device. Please try another size or write us at ${escapeHtml(config.contactEmail)}.</p>`;
-      }
+    if (!status) return;
+    if (!theme && !tier) {
+      status.textContent = "Choose a theme and either a Mystery Gift price or a Mystery Box. If you skip the description or the note, that part stays blank.";
+    } else if (!theme) {
+      status.textContent = "Choose a theme. It is sent with this checkout along with the price you picked.";
+    } else if (!tier) {
+      status.textContent = "Choose a Mystery Gift price or a Mystery Box for the " + theme.name + " theme.";
+    } else if (!packed.link) {
+      status.textContent = "That combination isn’t available right now. Please try another price or write us at " + config.contactEmail + ".";
+    } else if (sel.kind === "gift") {
+      status.textContent = "Ready: " + money(tier.price) + " " + theme.name + " Mystery Gift (one single surprise item). The description and gift note above go with this checkout. A field you left empty stays blank.";
+    } else {
+      status.textContent = "Ready: " + tier.name + " Mystery Box (" + money(tier.price) + ", multiple gifts) in the " + theme.name + " theme. The description and gift note above go with this checkout. A field you left empty stays blank.";
     }
-  }
-
-  function getPaymentLink(tier, theme) {
-    if (!tier || !theme) return "";
-    const map = window.STORE_PAYMENT_LINKS || {};
-    const byTier = map[tier.id];
-    if (byTier && typeof byTier === "object") {
-      return String(byTier[theme.id] || "").trim();
-    }
-    return "";
-  }
-
-  function checkoutReference(tier, theme) {
-    return `${tier.id}--${theme.id}`;
   }
 
   async function startCheckout() {
-    const tier = getTier();
-    const theme = getTheme();
-    if (!tier || !theme) return;
-
+    const packed = checkoutBody();
+    const tier = packed.sel.tier;
+    const theme = packed.sel.theme;
+    if (!theme) {
+      const el = document.getElementById("theme-select");
+      if (el) el.focus();
+      return;
+    }
+    if (!tier) {
+      const el = document.getElementById("gifts");
+      if (el && el.scrollIntoView) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
     const stripe = config.stripe || {};
     const endpoint = (stripe.checkoutEndpoint || "").trim();
-    const link = getPaymentLink(tier, theme);
+    try {
+      if (packed.body) sessionStorage.setItem("mc-checkout", JSON.stringify(packed.body));
+    } catch (_) { /* ignore */ }
 
-    const payload = {
-      tierId: tier.id,
-      themeId: theme.id,
-      tierName: tier.name,
-      themeName: theme.name,
-      price: tier.price,
-      priceCents: Math.round(tier.price * 100),
-      currency: stripe.currency || "usd",
-      storeName: config.name,
-      clientReferenceId: checkoutReference(tier, theme)
-    };
-
-    if (endpoint) {
+    if (endpoint && packed.body) {
       try {
         const res = await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(packed.body)
         });
         if (!res.ok) throw new Error("Checkout endpoint returned " + res.status);
         const data = await res.json();
@@ -511,13 +588,10 @@
       }
     }
 
-    if (link) {
-      const url = new URL(link);
-      url.searchParams.set("client_reference_id", payload.clientReferenceId);
-      window.location.href = url.toString();
+    if (packed.link && packed.body) {
+      window.location.href = checkoutUrl(packed.link, packed.body.clientReferenceId);
       return;
     }
-
     const panel = document.getElementById("checkout");
     if (panel) panel.scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -572,35 +646,66 @@
     });
   }
 
+  function restoreNotes() {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem("mc-notes") || "null");
+      if (!saved || typeof saved !== "object") return;
+      const recipient = document.getElementById("recipient");
+      const note = document.getElementById("gift-note");
+      if (recipient && typeof saved.recipient === "string") recipient.value = saved.recipient.slice(0, 100);
+      if (note && typeof saved.giftNote === "string") note.value = saved.giftNote.slice(0, 100);
+    } catch (_) { /* ignore */ }
+  }
+
+  function bindNote(id, countId) {
+    const input = document.getElementById(id);
+    const count = document.getElementById(countId);
+    if (!input) return;
+    const sync = () => {
+      if (input.value.length > 100) input.value = input.value.slice(0, 100);
+      if (count) count.textContent = input.value.length + " / 100";
+      try {
+        const recipient = document.getElementById("recipient");
+        const note = document.getElementById("gift-note");
+        sessionStorage.setItem("mc-notes", JSON.stringify({
+          recipient: recipient ? recipient.value : "",
+          giftNote: note ? note.value : ""
+        }));
+      } catch (_) { /* ignore */ }
+      updateSummary();
+    };
+    input.addEventListener("input", sync);
+    sync();
+  }
+
   function setupOrderForm() {
     const form = document.getElementById("order-form");
-    const tierSelect = document.getElementById("tier-select");
     const themeSelect = document.getElementById("theme-select");
-    if (tierSelect) {
-      tierSelect.addEventListener("change", () => {
-        state.tierId = tierSelect.value || null;
-        persist();
-        renderTierSummary();
-        updateSummary();
-      });
-    }
     if (themeSelect) {
       themeSelect.addEventListener("change", () => {
         state.themeId = themeSelect.value || null;
         persist();
         renderThemeHint();
         updateSummary();
-        syncBackdrop("box");
+        syncBackdrop();
       });
     }
     if (form) {
+      form.addEventListener("change", (e) => {
+        const target = e.target;
+        if (!target || target.name !== "product") return;
+        state.tierId = target.value || null;
+        persist();
+        updateSummary();
+      });
       form.addEventListener("submit", (e) => {
         e.preventDefault();
         startCheckout();
       });
     }
+    bindNote("recipient", "recipient-count");
+    bindNote("gift-note", "gift-note-count");
   }
-
 
   function starString(rating) {
     const n = Math.max(0, Math.min(5, Math.round(Number(rating) || 0)));
@@ -785,44 +890,22 @@
   // Email list (#waitlist) is a beehiiv embedded subscribe form (iframe in index.html).
   // No mailto fallback and no client-side API key.
 
-  /* ---------- Mystery Gifts ---------- */
-  const giftState = { themeId: null, tierId: null };
-  function giftTiers() {
-    return ((config.gifts && config.gifts.tiers) || []).slice();
-  }
-  function getGiftTier() {
-    return giftTiers().find((g) => g.id === giftState.tierId) || null;
-  }
-  function getGiftTheme() {
-    return (config.themes || []).find((t) => t.id === giftState.themeId) || null;
-  }
-  function getGiftLink(giftTierId, themeId) {
-    const map = window.STORE_GIFT_LINKS || {};
-    const byTier = map[giftTierId];
-    return byTier && typeof byTier === "object" ? String(byTier[themeId] || "").trim() : "";
-  }
-
-  /* Page wash follows the theme the customer just picked. Clearing both menus returns the default cream. */
-  let backdropOwner = null;
-  function themeById(id) {
-    return (config.themes || []).find((t) => t.id === id) || null;
-  }
-  function syncBackdrop(owner) {
-    if (owner === "gift" || owner === "box") backdropOwner = owner;
-    const giftTheme = themeById(giftState.themeId);
-    const boxTheme = themeById(state.themeId);
-    let theme = null;
-    if (backdropOwner === "gift" && giftTheme) theme = giftTheme;
-    else if (backdropOwner === "box" && boxTheme) theme = boxTheme;
-    else theme = giftTheme || boxTheme || null;
-
+  function syncBackdrop() {
+    if (!document.body.classList.contains("home")) return;
+    const theme = getTheme();
     const root = document.documentElement;
     if (theme) {
       root.dataset.shopTheme = theme.id;
       root.style.setProperty("--theme-accent", theme.accent || "#d13f27");
+      if (theme.image) {
+        const photo = new URL(theme.image, window.location.href).href;
+        root.style.setProperty("--theme-photo", "url(\"" + photo + "\")");
+      }
+      else root.style.removeProperty("--theme-photo");
     } else {
       delete root.dataset.shopTheme;
       root.style.removeProperty("--theme-accent");
+      root.style.removeProperty("--theme-photo");
     }
     document.querySelectorAll(".overview-theme").forEach((card) => {
       const link = card.querySelector("[data-pick-theme]");
@@ -830,158 +913,84 @@
       card.classList.toggle("is-active-theme", on);
     });
   }
-  function setupGifts() {
-    const form = document.getElementById("gift-order-form");
-    const themeSelect = document.getElementById("gift-theme-select");
-    const priceSelect = document.getElementById("gift-price-select");
-    const status = document.getElementById("gift-status");
-    const btn = document.querySelector("[data-gift-checkout-btn]");
-    if (!themeSelect || !priceSelect) return;
-    (config.themes || []).forEach((t) => {
-      const opt = document.createElement("option");
-      opt.value = t.id;
-      opt.textContent = t.name;
-      themeSelect.appendChild(opt);
+
+  function focusProduct(value) {
+    const inputs = document.querySelectorAll('input[name="product"]');
+    let found = false;
+    inputs.forEach((input) => {
+      if (input.value === value) {
+        input.checked = true;
+        found = true;
+      }
     });
-    priceSelect.innerHTML = `<option value="">Choose a Mystery Gift price</option>` +
-      giftTiers().map((g) =>
-        `<option value="${escapeHtml(g.id)}">${escapeHtml("Mystery Gift — " + money(g.price))}</option>`
-      ).join("");
-    function setText(sel, text) {
-      document.querySelectorAll(sel).forEach((el) => { el.textContent = text; });
-    }
-    function refresh() {
-      const theme = getGiftTheme();
-      const tier = getGiftTier();
-      const link = (theme && tier) ? getGiftLink(tier.id, theme.id) : "";
-      const ready = !!(link);
-      setText("[data-gift-summary-item]", "One single surprise item");
-      setText("[data-gift-summary-price]", tier ? money(tier.price) : "Choose a price");
-      setText("[data-gift-summary-theme]", theme ? theme.name : "Choose a theme");
-      setText("[data-gift-summary-total]", tier ? money(tier.price) + " · Free shipping, plus applicable sales tax" : "—");
-      if (btn) {
-        btn.disabled = !ready;
-        btn.classList.toggle("is-disabled", !ready);
-      }
-      if (status) {
-        if (ready) {
-          status.textContent = `Ready: ${money(tier.price)} ${theme.name} Single-item Mystery Gift (one single surprise item). Continue to checkout to pay — your Mystery Gift, theme, and price go with you to Stripe. Free shipping, plus applicable sales tax.`;
-        } else if (theme && !tier) {
-          status.textContent = `Choose a Mystery Gift price for your ${theme.name} Single-item Mystery Gift (one single surprise item).`;
-        } else if (tier && !theme) {
-          status.textContent = `Choose a theme for your ${money(tier.price)} Single-item Mystery Gift (one single surprise item).`;
-        } else {
-          status.textContent = "Choose a theme and a Mystery Gift price, then continue to checkout. Your selected Mystery Gift, theme, and price go with you to Stripe.";
-        }
-      }
-    }
-    themeSelect.addEventListener("change", () => {
-      giftState.themeId = themeSelect.value || null;
-      refresh();
-      syncBackdrop("gift");
-    });
-    priceSelect.addEventListener("change", () => {
-      giftState.tierId = priceSelect.value || null;
-      refresh();
-    });
-    function startGiftCheckout() {
-      const theme = getGiftTheme();
-      const tier = getGiftTier();
-      const callout = document.getElementById("gift-checkout-status");
-      if (!theme || !tier) {
-        if (callout) callout.textContent = "Choose a theme and a Mystery Gift price to continue.";
-        return;
-      }
-      const link = getGiftLink(tier.id, theme.id);
-      if (!link) {
-        if (callout) callout.textContent = "That Mystery Gift isn’t available for this theme yet. Please choose another combination.";
-        return;
-      }
-      const url = new URL(link);
-      url.searchParams.set("client_reference_id", `${tier.id}--${theme.id}`);
-      window.location.href = url.toString();
-    }
-    if (form) {
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        startGiftCheckout();
-      });
-    }
-    refresh();
+    if (!found) return false;
+    state.tierId = value;
+    persist();
+    updateSummary();
+    return true;
   }
 
-  /* v7: jump links preselect the right menu in the combined order section */
   function setupOrderJumps() {
-    function focusMenu(hash, giftPick) {
-      const id = hash === "#box-order" ? "box-order" : hash === "#gifts" ? "gifts" : null;
-      if (!id) return;
-      const menu = document.getElementById(id);
-      if (!menu) return;
-      document.querySelectorAll(".order-menu").forEach((m) => m.classList.toggle("is-picked", m === menu));
-      const sel = menu.querySelector("select");
-      if (giftPick) {
-        const priceSel = document.getElementById("gift-price-select");
-        if (priceSel && [...priceSel.options].some((o) => o.value === giftPick)) {
-          priceSel.value = giftPick;
-          giftState.tierId = giftPick;
-          priceSel.dispatchEvent(new Event("change"));
-        }
-      }
-      if (sel) setTimeout(() => { try { sel.focus({ preventScroll: true }); } catch (_) { /* ignore */ } }, 350);
-    }
     document.addEventListener("click", (e) => {
-      const a = e.target.closest("a[href^='#']");
+      const a = e.target.closest && e.target.closest("a[href^='#']");
       if (!a) return;
-      const href = a.getAttribute("href");
-      const pickTier = a.dataset.pickTier;
+      if (a.dataset.pickTier) focusProduct(a.dataset.pickTier);
+      if (a.dataset.giftPick) focusProduct(a.dataset.giftPick);
       const pickTheme = a.dataset.pickTheme;
-      if (pickTier) {
-        const sel = document.getElementById("tier-select");
-        if (sel && [...sel.options].some((o) => o.value === pickTier)) {
-          sel.value = pickTier;
-          state.tierId = pickTier;
-          persist();
-          renderTierSummary();
-          updateSummary();
-        }
-      }
       if (pickTheme) {
-        const boxSel = document.getElementById("theme-select");
-        const giftSel = document.getElementById("gift-theme-select");
-        if (boxSel && [...boxSel.options].some((o) => o.value === pickTheme)) {
-          boxSel.value = pickTheme;
+        const themeSelect = document.getElementById("theme-select");
+        if (themeSelect && [...themeSelect.options].some((o) => o.value === pickTheme)) {
+          themeSelect.value = pickTheme;
           state.themeId = pickTheme;
           persist();
           renderThemeHint();
           updateSummary();
-          syncBackdrop("box");
+          syncBackdrop();
         }
-        if (giftSel && [...giftSel.options].some((o) => o.value === pickTheme)) {
-          giftSel.value = pickTheme;
-          giftState.themeId = pickTheme;
-          giftSel.dispatchEvent(new Event("change"));
-        }
-      }
-      if (href === "#gifts" || href === "#box-order") {
-        focusMenu(href, a.dataset.giftPick || null);
       }
     });
-    if (location.hash) focusMenu(location.hash, null);
+  }
+
+  function renderCheckoutEcho() {
+    const root = document.getElementById("order-echo");
+    if (!root) return;
+    let saved = null;
+    try { saved = JSON.parse(sessionStorage.getItem("mc-checkout") || "null"); }
+    catch (_) { saved = null; }
+    if (!saved || typeof saved !== "object" || !saved.tierId) {
+      root.hidden = true;
+      return;
+    }
+    const recipient = String(saved.recipient || "").trim();
+    const giftNote = String(saved.giftNote || "").trim();
+    const price = Number(saved.price);
+    const priceLabel = price ? money(price) : "";
+    const name = saved.tierName || (saved.productType === "gift" ? "Mystery Gift" : "Mystery Box");
+    root.hidden = false;
+    root.innerHTML =
+      "<p><strong>" + escapeHtml(name) + "</strong>" +
+      (saved.themeName ? " · " + escapeHtml(saved.themeName) : "") +
+      (priceLabel ? " · " + escapeHtml(priceLabel) : "") + "</p>" +
+      "<p><strong>About them:</strong> " + escapeHtml(recipient || "Left blank") + "</p>" +
+      "<p><strong>Gift note:</strong> " + escapeHtml(giftNote || "Left blank") + "</p>" +
+      "<p class=\"pick-reminder\">The description of the special person affects which mystery gift is picked. The gift note does not.</p>";
   }
 
   applyBrand();
-  renderTierSelect();
+  applyQuerySelection();
   renderThemeSelect();
+  renderProductChoices();
   renderTierOverview();
   renderThemeOverview();
+  restoreNotes();
   updateSummary();
   setupNav();
   setupContact();
   setupOrderForm();
-  setupGifts();
   setupOrderJumps();
   renderReviews();
   setupReviewForm();
   setupSocialLinks();
   syncBackdrop();
+  renderCheckoutEcho();
 })();

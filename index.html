@@ -57,7 +57,6 @@
       "description": "Mystery Gift from $10: one single surprise item (not a box), matched to a theme and shipped free, direct to the recipient, with no price inside. Mystery Boxes from $50 to $500: multiple gifts hand-packed in one box with a ribbon.",
       "sameAs": [
         "https://www.pinterest.com/mymysterycreations/",
-        "https://www.instagram.com/beckywiththebox/",
         "https://x.com/BeckyWithTheBox"
       ],
       "address": {
@@ -117,7 +116,7 @@
           "name": "What does the “who is this gift for” field do?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "At checkout you can optionally tell us a little about who the Mystery Gift or Mystery Box is for. We’ll use it as a guide, but we can’t guarantee specific requests, brands, or items, and we aren’t obligated to fulfill every ask. That field is a non-binding guide, as described in our terms."
+            "text": "You can optionally describe the special person this is for. That description affects which mystery gift is picked. It is not a promise of a specific brand or item, and we can’t guarantee every request. The gift note is separate: it is a message for them and does not affect which gift is picked. If you leave either one blank, it stays blank."
           }
         },
         {
@@ -133,7 +132,7 @@
           "name": "Can I include a gift note?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. At checkout you can add an optional gift note (up to 100 characters). For a Mystery Box, we tuck it in the box. For a Mystery Gift, we pass it to the retailer that ships the item and it is included when the retailer supports gift messages. You can also add an optional note about who it’s for; that note is a guide only, and we can’t guarantee specific requests or items."
+            "text": "Yes. You can add an optional gift note (up to 100 characters). The gift note does not affect which mystery gift is picked — the description of the special person does. For a Mystery Box, we tuck the note in the box. For a Mystery Gift, we pass it to the retailer that ships the item and it is included when the retailer supports gift messages. If you leave the note blank, it stays blank."
           }
         },
         {
@@ -593,7 +592,7 @@
 }
   </script>
 </head>
-<body>
+<body class="home">
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
@@ -626,208 +625,77 @@
   </header>
 
   <main id="main">
-    <section class="hero">
-      <svg class="hero-confetti" viewBox="0 0 1200 640" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false">
-        <circle cx="700" cy="60" r="8" fill="#ffc845" opacity=".75"/>
-        <circle cx="1150" cy="90" r="6" fill="#7ed9c3" opacity=".8"/>
-        <circle cx="1130" cy="540" r="10" fill="#8cc8ff" opacity=".6"/>
-        <circle cx="760" cy="590" r="6" fill="#ff9eb5" opacity=".8"/>
-        <rect x="1080" y="300" width="16" height="6" rx="3" transform="rotate(-20 1088 303)" fill="#d13f27" opacity=".4"/>
-        <rect x="690" y="420" width="16" height="6" rx="3" transform="rotate(25 698 423)" fill="#ffc845" opacity=".8"/>
-        <path d="M1040 140l5 14 14 5-14 5-5 14-5-14-14-5 14-5z" fill="#ffc845" opacity=".85"/>
-        <path d="M780 250l4 11 11 4-11 4-4 11-4-11-11-4 11-4z" fill="#a993ff" opacity=".7"/>
-        <path d="M880 600l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#7ed9c3" opacity=".85"/>
-        <g transform="translate(1000 560) rotate(-12)" opacity=".6"><rect x="0" y="10" width="34" height="26" rx="4" fill="#ffd2c4"/><rect x="-3" y="4" width="40" height="9" rx="3" fill="#ffb3a0"/><rect x="14" y="4" width="6" height="32" fill="#ffc845"/></g>
-        <g transform="translate(900 30) rotate(10)" opacity=".55"><rect x="0" y="10" width="28" height="22" rx="4" fill="#d9f4ee"/><rect x="-3" y="4" width="34" height="8" rx="3" fill="#a8e6d6"/><rect x="11" y="4" width="6" height="28" fill="#a993ff"/></g>
-      </svg>
-      <div class="wrap hero-grid">
-        <div>
-          <p class="eyebrow">Single-item Mystery Gift · from $10 · Free shipping</p>
-          <h1>One single surprise item,<br><em>sent straight to their door.</em></h1>
-          <p class="lede" data-store-description>A Single-item Mystery Gift is one single surprise item, not a box. Pick a theme and a price, and we send one surprise item matched to it, shipped directly from a retailer to the recipient as a gift, with no price inside. Free shipping on every order.</p>
-          <div class="hero-prices" aria-label="Single-item Mystery Gift prices">
-            <a class="hero-price" href="#gifts" data-gift-pick="gift-10">$10</a><a class="hero-price" href="#gifts" data-gift-pick="gift-15">$15</a><a class="hero-price" href="#gifts" data-gift-pick="gift-20">$20</a><a class="hero-price" href="#gifts" data-gift-pick="gift-25">$25</a>
-          </div>
-          <p class="hero-tax">Mystery Gifts $10–$25, Mystery Boxes $50–$500. Prices in USD, free shipping, plus applicable sales tax.</p>
-          <div class="hero-actions">
-            <a class="btn btn-gold" href="#gifts">Send a Mystery Gift</a>
-            <a class="btn btn-ghost" href="#box-order">Mystery Boxes from $50</a>
-          </div>
-          <p class="hero-split"><strong>Mystery Gift</strong> = one single surprise item. <strong>Mystery Box</strong> = multiple gifts in one box. <a href="#compare">Compare</a></p>
-        </div>
-        <div class="hero-art">
-          <div class="hero-frame" aria-hidden="true">
-            <span class="orbit"></span>
-            <span class="orbit orbit-2"></span>
-            <img src="img/hero-gift.svg" alt="">
-            <span class="hero-raccoon"><svg class="raccoon-art" viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-  <ellipse cx="110" cy="190" rx="78" ry="8" fill="#1e1b2e" opacity=".10"/>
-  <g transform="rotate(-28 168 150)">
-    <rect x="150" y="96" width="34" height="96" rx="17" fill="#8d89a0"/>
-    <rect x="150" y="112" width="34" height="13" fill="#3b3650"/>
-    <rect x="150" y="140" width="34" height="13" fill="#3b3650"/>
-    <rect x="150" y="168" width="34" height="12" fill="#3b3650"/>
-    <path d="M150 113a17 17 0 0 1 34 0" fill="#3b3650"/>
-  </g>
-  <path d="M58 188c-6-44 10-74 52-74s58 30 52 74z" fill="#a19db3"/>
-  <path d="M82 188c-3-30 6-50 28-50s31 20 28 50z" fill="#f3eef8"/>
-  <path d="M50 52c-8-20-2-36 6-40 9-4 24 10 32 24z" fill="#8d89a0"/>
-  <path d="M170 52c8-20 2-36-6-40-9-4-24 10-32 24z" fill="#8d89a0"/>
-  <path d="M56 44c-3-12 0-21 4-23 5-2 13 6 18 15z" fill="#ffb3c4"/>
-  <path d="M164 44c3-12 0-21-4-23-5-2-13 6-18 15z" fill="#ffb3c4"/>
-  <path d="M110 24c40 0 66 24 66 58 0 30-26 50-66 50s-66-20-66-50c0-34 26-58 66-58z" fill="#a19db3"/>
-  <path d="M110 70c18 0 44 4 44 24s-20 34-44 34-44-14-44-34 26-24 44-24z" fill="#f7f3fb"/>
-  <path d="M56 78c6-16 26-20 40-12 6 4 10 8 14 8s8-4 14-8c14-8 34-4 40 12 4 12-6 24-20 24-12 0-18-8-26-12-4-2-12-2-16 0-8 4-14 12-26 12-14 0-24-12-20-24z" fill="#2f2b3f"/>
-  <path d="M74 56c8-6 20-6 26 0M120 56c6-6 18-6 26 0" stroke="#f7f3fb" stroke-width="6" stroke-linecap="round" fill="none"/>
-  <circle cx="84" cy="82" r="10" fill="#fff"/>
-  <circle cx="136" cy="82" r="10" fill="#fff"/>
-  <circle cx="86" cy="84" r="6.5" fill="#1e1b2e"/>
-  <circle cx="134" cy="84" r="6.5" fill="#1e1b2e"/>
-  <circle cx="88.5" cy="81" r="2.2" fill="#fff"/>
-  <circle cx="136.5" cy="81" r="2.2" fill="#fff"/>
-  <path d="M102 100c0-4 16-4 16 0 0 4-5 8-8 8s-8-4-8-8z" fill="#1e1b2e"/>
-  <path d="M100 113c4 5 16 5 20 0" stroke="#1e1b2e" stroke-width="3" stroke-linecap="round" fill="none"/>
-  <ellipse cx="72" cy="106" rx="9" ry="5" fill="#ff8fab" opacity=".55"/>
-  <ellipse cx="148" cy="106" rx="9" ry="5" fill="#ff8fab" opacity=".55"/>
-  <rect x="80" y="140" width="60" height="46" rx="6" fill="#e5533a"/>
-  <rect x="76" y="132" width="68" height="14" rx="5" fill="#f26b4f"/>
-  <rect x="104" y="132" width="12" height="54" fill="#ffc845"/>
-  <path d="M110 132c-6-12-22-14-24-6s14 8 24 6zM110 132c6-12 22-14 24-6s-14 8-24 6z" fill="#ffc845" stroke="#e0a91f" stroke-width="1.5"/>
-  <ellipse cx="80" cy="150" rx="11" ry="9" fill="#8d89a0"/>
-  <ellipse cx="140" cy="150" rx="11" ry="9" fill="#8d89a0"/>
-  <circle cx="196" cy="34" r="5" fill="#ffc845"/>
-  <path d="M28 30l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#7b5cff" opacity=".85"/>
-</svg></span>
-          </div>
-          <p class="hero-caption">Mystery Gift: one single surprise item, tagged and sent straight to them.</p>
-        </div>
-      </div>
-    </section>
-
-
-    <section class="section order-section" id="order">
-      <div class="wrap">
-        <div class="section-head">
-          <p class="eyebrow">Order here · Free shipping on everything</p>
-          <h2>Choose your Mystery Gift or Mystery Box</h2>
-          <p><strong>Mystery Gift</strong> = one single surprise item. <strong>Mystery Box</strong> = multiple gifts packed in one box. Both menus are right here, one above the other: pick one, choose a theme and a price, and continue to secure checkout.</p>
-        </div>
-        <div class="order-stack">
-        <article class="order-menu gift-menu" id="gifts" aria-labelledby="gift-menu-title">
-          <header class="order-menu-head">
-            <span class="order-menu-tag">Option 1 · $10 to $25</span>
-            <h3 id="gift-menu-title">Mystery Gift: one single surprise item (not a box)</h3>
-            <p>One surprise item matched to your theme, shipped free and directly from a retailer to the recipient as a gift, with no price inside. Usually arrives within 2–7 business days.</p>
-          </header>
-          <form class="order-form" id="gift-order-form">
-            <div class="order-fields">
+    <form class="shop-form order-form" id="order-form" novalidate>
+      <div class="above-fold" id="order">
+        <div class="wrap">
+          <div class="fold-stack">
+            <div class="fold-card">
+              <h1 class="slogan" data-store-tagline>Mystery gifts from $10, shipped free.</h1>
               <div class="field">
-                <label for="gift-theme-select">1. Choose a theme</label>
-                <select id="gift-theme-select" name="gift-theme" required autocomplete="off">
-                  <option value="">Select a theme…</option>
+                <label for="theme-select">Theme</label>
+                <select id="theme-select" name="theme" autocomplete="off">
+                  <option value="">Choose a theme…</option>
                 </select>
+                <p class="theme-hint" id="theme-hint" hidden></p>
               </div>
               <div class="field">
-                <label for="gift-price-select">2. Choose a Mystery Gift price</label>
-                <select id="gift-price-select" name="gift-price" required autocomplete="off">
-                  <option value="">Choose a Mystery Gift price</option>
-                </select>
+                <label for="recipient">Tell us about the special person <span class="optional">optional</span></label>
+                <textarea id="recipient" name="recipient" maxlength="100" rows="2" placeholder="Dad, 60s, loves fishing and old westerns" autocomplete="off"></textarea>
+                <div class="note-meta">
+                  <p class="hint" id="recipient-hint">This description affects which mystery gift is picked.</p>
+                  <span class="char-count" id="recipient-count" aria-live="polite">0 / 100</span>
+                </div>
               </div>
             </div>
-            <div class="checkout-steps" aria-label="What you’ll add at secure checkout">
-              <p class="checkout-steps-head"><span class="stripe-badge">At checkout</span></p>
-              <p class="checkout-steps-lede">Next, at secure checkout you’ll add: 1) a short description of the recipient (their interests, age, likes) so we can match the gift, and 2) an optional gift note. 100 characters each.</p>
-              <ol>
-                <li>
-                  <strong>Describe the recipient</strong>
-                  <span class="at-checkout">at checkout · optional · 100 characters</span>
-                  <span class="example">Example: “Dad, 60s, loves fishing and old westerns”</span>
-                </li>
-                <li>
-                  <strong>Gift note</strong>
-                  <span class="at-checkout">at checkout · optional · 100 characters</span>
-                  <span class="example">Example: “Happy birthday! Love, Sam”</span>
-                </li>
-              </ol>
-            </div>
-            <p class="gift-single-note" id="gift-single-note"><strong>This is one single item, not a box.</strong> Want multiple gifts? See our <a href="#box-order">Mystery Boxes from $50</a>.</p>
-            <div class="checkout-panel" id="gift-checkout">
-              <div class="order-summary">
-                <div class="summary-row"><span>Mystery Gift</span><strong data-gift-summary-item>One single surprise item</strong></div>
-                <div class="summary-row"><span>Price</span><strong data-gift-summary-price>Choose a price</strong></div>
-                <div class="summary-row"><span>Theme</span><strong data-gift-summary-theme>Choose a theme</strong></div>
-                <div class="summary-row summary-total"><span>Total</span><strong data-gift-summary-total>—</strong></div>
-                <p class="checkout-note" id="gift-status" aria-live="polite">Choose a theme and a Mystery Gift price, then continue to checkout. Your selected Mystery Gift, theme, and price go with you to Stripe.</p>
-                <p class="price-note">Prices in USD, free shipping, plus applicable sales tax.</p>
-              </div>
-              <div>
-                <div class="checkout-callout" id="gift-checkout-status"></div>
-                <button class="btn btn-gold btn-wide is-disabled" type="submit" data-gift-checkout-btn disabled>Continue to checkout</button>
-                <p class="hint">Payments run through Stripe. You’ll enter the recipient’s U.S. address at checkout. No account is required on this site.</p>
-              </div>
-            </div>
-          </form>
-        </article>
-        <div class="order-or" aria-hidden="true"><span>or, for multiple gifts</span></div>
-        <article class="order-menu box-menu" id="box-order" aria-labelledby="box-menu-title">
-          <header class="order-menu-head">
-            <span class="order-menu-tag">Option 2 · $50 to $500</span>
-            <h3 id="box-menu-title">Mystery Box: multiple gifts packed in one box</h3>
-            <p><strong>Every box contains multiple gifts.</strong> Multiple themed gifts, hand-packed at our shop in a quality gift box with a hand-tied ribbon, shipped free via USPS Ground Advantage. Smaller boxes hold a handful of gifts; bigger boxes hold a big haul of gifts.</p>
-          </header>
-            <form class="order-form" id="order-form">
-              <div class="order-fields">
-                <div class="field">
-                  <label for="tier-select">1. Choose a Mystery Box size</label>
-                  <select id="tier-select" name="tier" required autocomplete="off">
-                    <option value="">Select a Mystery Box…</option>
-                  </select>
-                  <div class="tier-summary" id="tier-summary" hidden></div>
-                </div>
-                <div class="field">
-                  <label for="theme-select">2. Choose a theme</label>
-                  <select id="theme-select" name="theme" required autocomplete="off">
-                    <option value="">Select a theme…</option>
-                  </select>
-                  <p class="theme-hint" id="theme-hint" hidden></p>
-                </div>
-              </div>
-              <div class="checkout-steps" aria-label="What you’ll add at secure checkout">
-                <p class="checkout-steps-head"><span class="stripe-badge">At checkout</span></p>
-                <p class="checkout-steps-lede">Next, at secure checkout you’ll add: 1) a short description of the recipient (their interests, age, likes) so we can match the gift, and 2) an optional gift note. 100 characters each.</p>
-                <ol>
-                  <li>
-                    <strong>Describe the recipient</strong>
-                    <span class="at-checkout">at checkout · optional · 100 characters</span>
-                    <span class="example">Example: “Dad, 60s, loves fishing and old westerns”</span>
-                  </li>
-                  <li>
-                    <strong>Gift note</strong>
-                    <span class="at-checkout">at checkout · optional · 100 characters</span>
-                    <span class="example">Example: “Happy birthday! Love, Sam”</span>
-                  </li>
-                </ol>
-              </div>
-              <div class="checkout-panel" id="checkout">
-                <div class="order-summary">
-                  <div class="summary-row"><span>Mystery Box</span><strong data-summary-tier>Choose a Mystery Box size</strong></div>
-                  <div class="summary-row"><span>Size</span><strong data-summary-size>—</strong></div>
-                  <div class="summary-row"><span>Theme</span><strong data-summary-theme>Choose a theme</strong></div>
-                  <div class="summary-row summary-total"><span>Total</span><strong data-summary-price>—</strong></div>
-                  <p class="checkout-note">Every box contains multiple gifts. One Mystery Box per checkout keeps packing simple. Want another? Place a second order after the first. Free shipping via USPS Ground Advantage, U.S. only. Ships within 5 business days, arrives in 7–12 business days.</p>
-                  <p class="price-note">Prices in USD, free shipping, plus applicable sales tax.</p>
-                </div>
-                <div>
-                  <div class="checkout-callout" id="checkout-status"></div>
-                  <button class="btn btn-gold btn-wide is-disabled" type="submit" data-checkout-btn disabled>Continue to checkout</button>
-                  <p class="hint">Payments run through Stripe. No account is required on this site. You’ll return here after payment.</p>
-                </div>
-              </div>
-            </form>
-        </article>
+          </div>
         </div>
       </div>
-    </section>
+
+      <div class="wrap shop-flow">
+        <div class="shop-panel field" id="note">
+          <label for="gift-note">Add a special note <span class="optional">optional</span></label>
+          <textarea id="gift-note" name="giftNote" maxlength="100" rows="3" placeholder="Happy birthday! Love, Sam" autocomplete="off"></textarea>
+          <div class="note-meta">
+            <p class="hint" id="gift-note-hint">The gift note does not affect which gift is picked. It is a message for them.</p>
+            <span class="char-count" id="gift-note-count" aria-live="polite">0 / 100</span>
+          </div>
+        </div>
+
+        <fieldset class="shop-panel choice-panel gift-menu" id="gifts">
+          <legend>
+            <span class="order-menu-tag">$10 to $25</span>
+            <span class="choice-title">Mystery Gift</span>
+          </legend>
+          <p class="choice-lede"><strong>One single surprise item, not a box.</strong> Choose a price. It ships free, directly from a retailer to the recipient, with no price inside, and usually arrives within 2–7 business days.</p>
+          <div class="choice-grid" id="gift-choices"></div>
+        </fieldset>
+
+        <fieldset class="shop-panel choice-panel box-menu" id="box-order">
+          <legend>
+            <span class="order-menu-tag">$50 to $500</span>
+            <span class="choice-title">Mystery Box</span>
+          </legend>
+          <p class="choice-lede"><strong>Multiple gifts, hand-packed in one box</strong> at our shop, with a hand-tied ribbon. Free shipping via USPS Ground Advantage. Ships within 5 business days, arrives in 7–12 business days. Smaller boxes hold a handful of gifts; bigger boxes hold a big haul of gifts.</p>
+          <div class="choice-grid choice-grid-boxes" id="box-choices"></div>
+        </fieldset>
+
+        <section class="shop-panel checkout-block" id="checkout" aria-labelledby="checkout-title">
+          <h2 id="checkout-title">Checkout</h2>
+          <div class="order-summary">
+            <div class="summary-row"><span>Order</span><strong data-summary-item>Choose a Mystery Gift or Mystery Box</strong></div>
+            <div class="summary-row"><span>Price</span><strong data-summary-price>—</strong></div>
+            <div class="summary-row"><span>Theme</span><strong data-summary-theme>Choose a theme</strong></div>
+            <div class="summary-row"><span>About them</span><strong data-summary-recipient>Left blank</strong></div>
+            <div class="summary-row"><span>Gift note</span><strong data-summary-note>Left blank</strong></div>
+          </div>
+          <p class="pick-reminder">The description of the special person affects which mystery gift is picked. The gift note does not.</p>
+          <p class="checkout-note" id="checkout-status" aria-live="polite">Choose a theme and either a Mystery Gift price or a Mystery Box. If you skip the description or the note, that part stays blank.</p>
+          <button class="btn btn-gold btn-checkout" type="submit" data-checkout-btn disabled>Continue to secure checkout</button>
+          <p class="hint">Payments run through Stripe. You’ll add the recipient’s U.S. address there. Theme, Mystery Gift or Mystery Box, and price are attached to this checkout, and so are the description and gift note exactly as typed — if you skipped one, that field stays blank. No account is required on this site.</p>
+          <p class="price-note">Prices in USD, free shipping, plus applicable sales tax.</p>
+        </section>
+      </div>
+    </form>
 
     <section class="section compare-section" id="compare">
       <div class="wrap">
@@ -890,13 +758,13 @@
         <div class="steps">
           <article class="step">
             <div class="step-num">01</div>
-            <h3>Pick a Mystery Gift or a Mystery Box</h3>
-            <p><strong>Mystery Gift</strong> = 1 item, shipped direct. <strong>Mystery Box</strong> = multiple gifts, packed by hand. Mystery Gifts are $10, $15, $20, or $25; Mystery Boxes come in nine sizes, from the Spark at $50 to the Grand Vault at $500.</p>
+            <h3>Choose a theme</h3>
+            <p>Twenty-two themes, from Anime and Gaming to seasonal picks like Halloween and Christmas, plus Watches. You can also tell us about the special person. That description affects which mystery gift is picked. A gift note does not.</p>
           </article>
           <article class="step">
             <div class="step-num">02</div>
-            <h3>Pick a theme</h3>
-            <p>Twenty-two themes, from Anime and Gaming to seasonal picks like Halloween and Christmas, plus Watches. We’ll add more over time.</p>
+            <h3>Pick a Mystery Gift or a Mystery Box</h3>
+            <p><strong>Mystery Gift</strong> = one single surprise item, shipped direct, $10, $15, $20, or $25. <strong>Mystery Box</strong> = multiple gifts, packed by hand, from the Spark at $50 to the Grand Vault at $500.</p>
           </article>
           <article class="step">
             <div class="step-num">03</div>
@@ -1018,7 +886,7 @@
           </details>
           <details class="faq">
             <summary>What does the “who is this gift for” field do?</summary>
-            <p>At checkout you can optionally tell us a little about who the Mystery Gift or Mystery Box is for. We’ll use it as a guide, but we can’t guarantee specific requests, brands, or items, and we aren’t obligated to fulfill every ask. That field is a non-binding guide, as described in our terms.</p>
+            <p>You can optionally describe the special person this is for. That description affects which mystery gift is picked. It is not a promise of a specific brand or item, and we can’t guarantee every request. The gift note is separate: it is a message for them and does not affect which gift is picked. If you leave either one blank, it stays blank.</p>
           </details>
           <details class="faq">
             <summary>Can I send a Mystery Box as a gift?</summary>
@@ -1026,7 +894,7 @@
           </details>
           <details class="faq">
             <summary>Can I include a gift note?</summary>
-            <p>Yes. At checkout you can add an optional gift note (up to 100 characters). For a Mystery Box, we tuck it in the box. For a Mystery Gift, we pass it to the retailer that ships the item and it is included when the retailer supports gift messages. You can also add an optional note about who it’s for; that note is a guide only, and we can’t guarantee specific requests or items.</p>
+            <p>Yes. You can add an optional gift note (up to 100 characters). The gift note does not affect which mystery gift is picked — the description of the special person does. For a Mystery Box, we tuck the note in the box. For a Mystery Gift, we pass it to the retailer that ships the item and it is included when the retailer supports gift messages. If you leave the note blank, it stays blank.</p>
           </details>
           <details class="faq" id="faq-shipping">
             <summary>How does shipping work?</summary>
@@ -1122,10 +990,10 @@
   <div class="order-bar" id="order-bar" hidden>
     <div class="wrap order-bar-inner">
       <div class="order-bar-copy">
-        <p>Your Mystery Box</p>
+        <p>Your order</p>
         <h2 id="order-bar-line">Pick a size and a theme</h2>
       </div>
-      <a class="btn btn-gold" href="#box-order">Checkout</a>
+      <a class="btn btn-gold" href="#checkout">Checkout</a>
     </div>
   </div>
 

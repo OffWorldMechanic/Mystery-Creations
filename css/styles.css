@@ -2122,3 +2122,234 @@ html[data-shop-theme="watches"] {
     transition: none;
   }
 }
+
+/* Homepage fold: branding, slogan, theme, then who it's for — one screen.
+   Theme photos replace the old CSS pattern washes. */
+.above-fold {
+  position: relative;
+  z-index: 2;
+  min-height: calc(100dvh - var(--header-h) - env(safe-area-inset-top, 0px));
+  min-height: calc(100svh - var(--header-h) - env(safe-area-inset-top, 0px));
+  padding: 18px 0 20px;
+  display: flex;
+  flex-direction: column;
+}
+.fold-stack,
+.shop-flow {
+  width: min(720px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+.slogan {
+  font-family: var(--font-serif);
+  font-weight: 560;
+  font-size: clamp(1.45rem, 4.6vw, 2.7rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--paper);
+  margin: 0 0 14px;
+}
+.fold-card,
+.shop-panel {
+  background: rgba(255, 252, 247, 0.94);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: var(--shadow-sm);
+  padding: 16px 16px 14px;
+}
+.fold-card {
+  display: grid;
+  gap: 14px;
+}
+.shop-flow {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 18px;
+  padding: 4px 0 56px;
+}
+.shop-panel.field,
+.fold-card .field {
+  display: grid;
+  gap: 6px;
+}
+.fold-card label,
+.shop-panel > label,
+.choice-panel legend {
+  font-weight: 600;
+}
+.above-fold textarea#recipient,
+.shop-panel textarea#gift-note {
+  min-height: 72px;
+  resize: vertical;
+}
+.theme-hint {
+  margin: 0;
+  color: var(--cream-dim);
+  font-size: 0.92rem;
+}
+.choice-panel {
+  border: 1px solid var(--line);
+  margin: 0;
+  min-width: 0;
+}
+.choice-panel.gift-menu { border-top: 6px solid var(--coral); }
+.choice-panel.box-menu { border-top: 6px solid var(--violet); }
+.choice-panel legend {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 0;
+  margin: 0 0 8px;
+  float: none;
+  width: 100%;
+}
+.choice-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--coral-deep);
+}
+.box-menu .choice-title { color: var(--violet); }
+.choice-lede {
+  margin: 0 0 14px;
+  color: var(--cream-dim);
+}
+.choice-lede strong { color: var(--coral-deep); }
+.box-menu .choice-lede strong { color: var(--violet); }
+.choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.choice-grid-boxes { grid-template-columns: 1fr; }
+.choice {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  align-content: start;
+  min-height: 92px;
+  padding: 12px 12px 10px;
+  border-radius: 16px;
+  border: 2px solid var(--line-strong);
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+}
+.choice input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.choice-price {
+  font-family: var(--font-serif);
+  font-size: 1.55rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--paper);
+  line-height: 1.1;
+}
+.choice-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.choice-meta {
+  color: var(--mist);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+.gift-menu .choice:has(input:checked) {
+  border-color: var(--coral);
+  background: var(--coral-soft);
+  box-shadow: 0 0 0 3px rgba(209, 63, 39, 0.18);
+}
+.box-menu .choice:has(input:checked) {
+  border-color: var(--violet);
+  background: var(--violet-soft);
+  box-shadow: 0 0 0 3px rgba(91, 63, 214, 0.18);
+}
+.choice:focus-within {
+  outline: 3px solid var(--violet);
+  outline-offset: 2px;
+}
+.checkout-block h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+.checkout-block .order-summary { gap: 10px; }
+.checkout-block .summary-row strong {
+  text-align: right;
+  max-width: 62%;
+  overflow-wrap: anywhere;
+}
+.pick-reminder {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--sun-soft);
+  color: #1e1b2e;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.btn-checkout {
+  width: 100%;
+  min-height: 68px;
+  margin-top: 14px;
+  padding: 16px 22px;
+  border-radius: 16px;
+  font-size: 1.2rem;
+}
+.order-echo {
+  margin: 0 0 18px;
+  padding: 14px 14px 6px;
+  border-radius: 16px;
+  background: var(--sun-soft);
+  text-align: left;
+}
+.order-echo p { margin: 0 0 10px; color: var(--cream); }
+.order-echo .pick-reminder { margin-top: 0; background: #fff; }
+
+@media (min-width: 800px) {
+  .choice-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .choice-grid-boxes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fold-card, .shop-panel { padding: 22px 22px 18px; }
+  .above-fold { padding-top: 28px; }
+}
+@media (max-height: 520px) {
+  .above-fold { min-height: 0; padding-top: 10px; }
+  .slogan { font-size: 1.3rem; margin-bottom: 8px; }
+  .above-fold textarea#recipient { min-height: 52px; }
+}
+
+/* Full-bleed theme photo. Default (no data-shop-theme) stays the cream brand wash. */
+html[data-shop-theme] body::before {
+  position: fixed;
+  opacity: 1;
+  background: var(--theme-photo) center center / cover no-repeat;
+}
+html[data-shop-theme] body::after {
+  opacity: 1;
+  background: linear-gradient(180deg, rgba(255, 248, 238, 0.55) 0%, rgba(255, 248, 238, 0.28) 24%, rgba(255, 248, 238, 0.08) 48%, rgba(12, 10, 14, 0.22) 100%);
+}
+html[data-shop-theme] .fold-card,
+html[data-shop-theme] .shop-panel,
+html[data-shop-theme] .site-header {
+  backdrop-filter: blur(10px);
+}
+html[data-shop-theme] #how,
+html[data-shop-theme] #themes,
+html[data-shop-theme] #faq,
+html[data-shop-theme] #reviews,
+html[data-shop-theme] #boxes,
+html[data-shop-theme] #contact,
+html[data-shop-theme] .compare-section,
+html[data-shop-theme] .waitlist-section {
+  background: rgba(255, 248, 238, 0.92);
+}
+html[data-shop-theme] .hero { background: transparent; }
