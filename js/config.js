@@ -53,7 +53,8 @@ window.STORE_CONFIG = {
    */
   stripe: {
     currency: "usd",
-    checkoutEndpoint: "",
+    // Cloudflare Worker (mc-checkout). Falls back to the Payment Link in js/links.js if it fails.
+    checkoutEndpoint: "https://mc-checkout.mymysterycreations.workers.dev/checkout",
     successUrl: "./success.html",
     cancelUrl: "./index.html#checkout"
   },

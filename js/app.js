@@ -549,6 +549,37 @@
     }
   }
 
+  let checkoutBusy = false;
+  function setCheckoutLoading(on) {
+    checkoutBusy = on;
+    document.body.classList.toggle("checkout-loading", on);
+    let overlay = document.getElementById("checkout-loading");
+    if (on && !overlay) {
+      overlay = document.createElement("div");
+      overlay.id = "checkout-loading";
+      overlay.className = "checkout-loading";
+      overlay.setAttribute("role", "status");
+      overlay.setAttribute("aria-live", "polite");
+      overlay.innerHTML = '<div class="checkout-loading-card"><span class="checkout-spinner" aria-hidden="true"></span><p>Opening secure checkout…</p></div>';
+      document.body.appendChild(overlay);
+    }
+    if (overlay) overlay.hidden = !on;
+    document.querySelectorAll("[data-checkout-btn]").forEach((btn) => {
+      if (on) {
+        btn.setAttribute("disabled", "disabled");
+        btn.setAttribute("aria-busy", "true");
+        if (!btn.dataset.label) btn.dataset.label = btn.textContent;
+        btn.textContent = "Opening secure checkout…";
+      } else {
+        btn.removeAttribute("aria-busy");
+        if (btn.dataset.label) btn.textContent = btn.dataset.label;
+        updateSummary();
+      }
+    });
+  }
+  // Coming back from Stripe with the Back button restores the page from bfcache; clear the spinner.
+  window.addEventListener("pageshow", (e) => { if (e.persisted && checkoutBusy) setCheckoutLoading(false); });
+
   async function startCheckout() {
     const packed = checkoutBody();
     const tier = packed.sel.tier;
@@ -568,28 +599,42 @@
     try {
       if (packed.body) sessionStorage.setItem("mc-checkout", JSON.stringify(packed.body));
     } catch (_) { /* ignore */ }
+    if (checkoutBusy) return;
+    const fallback = packed.link && packed.body ? checkoutUrl(packed.link, packed.body.clientReferenceId) : "";
 
     if (endpoint && packed.body) {
+      setCheckoutLoading(true);
+      const ctrl = typeof AbortController === "function" ? new AbortController() : null;
+      const timer = setTimeout(() => { if (ctrl) ctrl.abort(); }, 10000);
       try {
         const res = await fetch(endpoint, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(packed.body)
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(packed.body),
+          signal: ctrl ? ctrl.signal : undefined
         });
         if (!res.ok) throw new Error("Checkout endpoint returned " + res.status);
         const data = await res.json();
-        if (!data || !data.url) throw new Error("Checkout endpoint did not return a url");
+        if (!data || typeof data.url !== "string" || !/^https:\/\/checkout\.stripe\.com\//.test(data.url)) {
+          throw new Error("Checkout endpoint did not return a Stripe url");
+        }
         window.location.href = data.url;
         return;
       } catch (err) {
         console.error(err);
+        // Fall back to the Payment Link (fields won't be prefilled, but the sale still goes through).
+        if (fallback) { window.location.href = fallback; return; }
+        setCheckoutLoading(false);
         alert("We couldn’t start Stripe Checkout. Please try again, or contact " + config.contactEmail + ".");
         return;
+      } finally {
+        clearTimeout(timer);
       }
     }
 
-    if (packed.link && packed.body) {
-      window.location.href = checkoutUrl(packed.link, packed.body.clientReferenceId);
+    if (fallback) {
+      setCheckoutLoading(true);
+      window.location.href = fallback;
       return;
     }
     const panel = document.getElementById("checkout");
