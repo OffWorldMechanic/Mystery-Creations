@@ -590,6 +590,7 @@
         persist();
         renderThemeHint();
         updateSummary();
+        syncBackdrop("box");
       });
     }
     if (form) {
@@ -800,6 +801,35 @@
     const byTier = map[giftTierId];
     return byTier && typeof byTier === "object" ? String(byTier[themeId] || "").trim() : "";
   }
+
+  /* Page wash follows the theme the customer just picked. Clearing both menus returns the default cream. */
+  let backdropOwner = null;
+  function themeById(id) {
+    return (config.themes || []).find((t) => t.id === id) || null;
+  }
+  function syncBackdrop(owner) {
+    if (owner === "gift" || owner === "box") backdropOwner = owner;
+    const giftTheme = themeById(giftState.themeId);
+    const boxTheme = themeById(state.themeId);
+    let theme = null;
+    if (backdropOwner === "gift" && giftTheme) theme = giftTheme;
+    else if (backdropOwner === "box" && boxTheme) theme = boxTheme;
+    else theme = giftTheme || boxTheme || null;
+
+    const root = document.documentElement;
+    if (theme) {
+      root.dataset.shopTheme = theme.id;
+      root.style.setProperty("--theme-accent", theme.accent || "#d13f27");
+    } else {
+      delete root.dataset.shopTheme;
+      root.style.removeProperty("--theme-accent");
+    }
+    document.querySelectorAll(".overview-theme").forEach((card) => {
+      const link = card.querySelector("[data-pick-theme]");
+      const on = !!(theme && link && link.getAttribute("data-pick-theme") === theme.id);
+      card.classList.toggle("is-active-theme", on);
+    });
+  }
   function setupGifts() {
     const form = document.getElementById("gift-order-form");
     const themeSelect = document.getElementById("gift-theme-select");
@@ -848,6 +878,7 @@
     themeSelect.addEventListener("change", () => {
       giftState.themeId = themeSelect.value || null;
       refresh();
+      syncBackdrop("gift");
     });
     priceSelect.addEventListener("change", () => {
       giftState.tierId = priceSelect.value || null;
@@ -923,6 +954,7 @@
           persist();
           renderThemeHint();
           updateSummary();
+          syncBackdrop("box");
         }
         if (giftSel && [...giftSel.options].some((o) => o.value === pickTheme)) {
           giftSel.value = pickTheme;
@@ -951,4 +983,5 @@
   renderReviews();
   setupReviewForm();
   setupSocialLinks();
+  syncBackdrop();
 })();

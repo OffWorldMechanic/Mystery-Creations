@@ -5,7 +5,7 @@
  */
 window.STORE_CONFIG = {
   name: "Mystery Creations",
-  tagline: "Mystery gifts from $5, shipped free.",
+  tagline: "Mystery gifts from $10, shipped free.",
   description:
     "A Single-item Mystery Gift is one single surprise item, not a box. Pick a theme and a price, and we send one surprise item matched to it, shipped directly from a retailer to the recipient as a gift, with no price inside. Free shipping on every order.",
   // CONTACT EMAIL — single source of truth (HTML pages use the same address as a no-JS fallback).
@@ -60,7 +60,6 @@ window.STORE_CONFIG = {
    */
   gifts: {
     tiers: [
-      { id: "gift-5", price: 5 },
       { id: "gift-10", price: 10 },
       { id: "gift-15", price: 15 },
       { id: "gift-20", price: 20 },

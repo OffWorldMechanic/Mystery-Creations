@@ -220,30 +220,6 @@ window.STORE_PAYMENT_LINKS = {
 
 /* Mystery Gifts — LIVE Stripe Payment Links, one per gift price and theme. Free shipping, ships direct. */
 window.STORE_GIFT_LINKS = {
-  "gift-5": {
-    "anime": "https://buy.stripe.com/00wdRa0xneaHcOY71m0x305",
-    "pokemon-fans": "https://buy.stripe.com/9B628sa7X8QncOYady0x30k",
-    "football": "https://buy.stripe.com/4gM7sMcg52rZdT2dpK0x30d",
-    "musician": "https://buy.stripe.com/5kQ28s2FveaH6qAbhC0x30j",
-    "mechanic": "https://buy.stripe.com/7sY7sM2Fv2rZ2ak5Xi0x30i",
-    "gotham-fans": "https://buy.stripe.com/7sYbJ2cg56If16g0CY0x30f",
-    "space-fans": "https://buy.stripe.com/00w5kE93TaYv4isbhC0x30m",
-    "gaming": "https://buy.stripe.com/fZu3cweodd6DcOYfxS0x30e",
-    "marvel-fans": "https://buy.stripe.com/fZu6oI5RH4A73eo4Te0x30h",
-    "star-wars-fans": "https://buy.stripe.com/00w4gA5RH2rZ9CM3Pa0x30o",
-    "potter-fans": "https://buy.stripe.com/6oU14o3Jz3w39CMclG0x30l",
-    "disney-fans": "https://buy.stripe.com/3cIfZieod7Mjg1abhC0x30b",
-    "basketball": "https://buy.stripe.com/cNibJ293T9Ur5mw85q0x307",
-    "baseball": "https://buy.stripe.com/eVqbJ2cg52rZaGQetO0x306",
-    "fishing-outdoors": "https://buy.stripe.com/eVqaEYcg5d6DcOYfxS0x30c",
-    "cars-racing": "https://buy.stripe.com/dRm5kE93TaYv9CM85q0x308",
-    "cozy-self-care": "https://buy.stripe.com/eVq28sfshgiPeX6clG0x30a",
-    "squishy": "https://buy.stripe.com/6oU00keodfeLaGQ85q0x30n",
-    "halloween": "https://buy.stripe.com/aFa5kEgwl9Ur2akady0x30g",
-    "christmas": "https://buy.stripe.com/5kQ6oI7ZPd6D8yI2L60x309",
-    "stpatricksday": "https://buy.stripe.com/4gM4gAcg5giP4is5Xi0x30p",
-    "watches": "https://buy.stripe.com/14AaEYfsh1nV6qA2L60x31M"
-  },
   "gift-10": {
     "anime": "https://buy.stripe.com/bJe9AU7ZPaYv6qAady0x30q",
     "pokemon-fans": "https://buy.stripe.com/5kQ00ka7X1nV16gbhC0x30F",

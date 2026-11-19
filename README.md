@@ -1,6 +1,6 @@
 # Mystery Creations
 
-A static, mobile-friendly storefront for **Mystery Gifts** (one single surprise item, not a box; $5–$25, the lead offer) and **Mystery Boxes** (multiple themed gifts hand-packed in one box; $50–$500). Plain HTML, CSS, and JavaScript — no build step. Ready to deploy for free on GitHub Pages or Cloudflare Pages.
+A static, mobile-friendly storefront for **Mystery Gifts** (one single surprise item, not a box; $10–$25, the lead offer) and **Mystery Boxes** (multiple themed gifts hand-packed in one box; $50–$500). Plain HTML, CSS, and JavaScript — no build step. Ready to deploy for free on GitHub Pages or Cloudflare Pages.
 
 The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.name`. Change that value and the title, header, footer, contact copy, and legal pages follow it (the HTML also includes the current name as a no-JS fallback).
 
@@ -18,7 +18,7 @@ The public brand name lives in **one place**: `js/config.js`, as `STORE_CONFIG.n
 
 Always use the two product names with "Mystery" in them; never drop the word "Mystery" from a product name (it is always "Mystery Gift" or "Mystery Box").
 
-- **Mystery Gift**: one single surprise item (not a box), $5–$25, shipped free and directly from a retailer to the recipient, no price inside, usually 2–7 business days. Never call a Mystery Gift a box.
+- **Mystery Gift**: one single surprise item (not a box), $10–$25, shipped free and directly from a retailer to the recipient, no price inside, usually 2–7 business days. Never call a Mystery Gift a box.
 - **Mystery Box**: multiple themed gifts hand-packed in one box at our shop with a hand-tied ribbon, $50–$500, free USPS Ground Advantage, ships within 5 business days, arrives in 7–12. Every box contains multiple gifts. Tier cards show a relative sense of quantity (`contents` in `js/config.js`: "A handful of gifts", "A generous mix of gifts", "A big haul of gifts"); never publish exact item counts or values.
 - The home page has a "Mystery Gift vs. Mystery Box" comparison block (`#compare`) right after the combined order section, and the FAQ has "What’s the difference between a Mystery Gift and a Mystery Box?" (HTML and JSON-LD).
 - Optional checkout text fields (who it’s for, gift note) are limited to 100 characters. They are Stripe Payment Link custom fields; Payment Link URLs cannot prefill custom fields (only prefilled_email, locked_prefilled_email, prefilled_promo_code, prefilled_amount, locale, client_reference_id and utm_*), so the site shows a “Next, at secure checkout you’ll add…” step list above each order button instead of site inputs. Never put free text into client_reference_id or any URL.
@@ -80,7 +80,9 @@ Configured in the `themes` array in `js/config.js`. Starting themes:
 }
 ```
 
-3. Save and refresh. The theme dropdown and overview are built from this array, so no HTML edit is required.
+3. Save and refresh. The theme dropdown and overview are built from this array, so no HTML edit is required. Choosing a theme (Mystery Gift menu, Mystery Box menu, or “Use this theme”) tints the page background. With no theme selected, the page stays the default cream wash. A new theme uses its `accent` color for that wash automatically.
+
+4. Optional: add a `html[data-shop-theme="gardening"]` block in `css/styles.css` (with the other theme washes) if you want a custom gradient or pattern. Keep it light so text and checkout stay readable, and use original art only — no logos or trademarked characters.
 
 To give the new theme its own icon, add an SVG string under the matching key in the `ICONS` object in `js/app.js`. Keep icons original — no official logos or characters.
 
@@ -96,7 +98,7 @@ Fill in `tiktok`, `facebook`, or `youtube` in `js/config.js` when those accounts
 
 ## Payments
 
-Per-combination Stripe Payment Links are filled in `js/links.js` as `window.STORE_PAYMENT_LINKS` (keyed by tier id, then theme id). Each link is for one box size and one theme, and collects a U.S. shipping address, phone, an optional “who this box is for” note, and an optional gift note. Shipping is free on every gift and box; no link uses `shipping_options`. Mystery Gift links are in `window.STORE_GIFT_LINKS[giftTierId][themeId]` (gift-5 … gift-25), checkout appends `?client_reference_id=gift-N--themeId`, and their metadata has productType "gift", giftPrice, shipDirect "true", shippingCharged "0". Box links carry productType "box". Stripe Checkout also collects the customer’s name, email, and address.
+Per-combination Stripe Payment Links are filled in `js/links.js` as `window.STORE_PAYMENT_LINKS` (keyed by tier id, then theme id). Each link is for one box size and one theme, and collects a U.S. shipping address, phone, an optional “who this box is for” note, and an optional gift note. Shipping is free on every gift and box; no link uses `shipping_options`. Mystery Gift links are in `window.STORE_GIFT_LINKS[giftTierId][themeId]` (gift-10 … gift-25), checkout appends `?client_reference_id=gift-N--themeId`, and their metadata has productType "gift", giftPrice, shipDirect "true", shippingCharged "0". Box links carry productType "box". Stripe Checkout also collects the customer’s name, email, and address.
 
 The site passes this order payload:
 
@@ -210,7 +212,7 @@ To post an approved review:
 
 ## Shipping and returns (summary)
 
-Shipping is free on every order (U.S. only). Mystery Gifts ($5–$25, one single item) ship directly from a retailer to the recipient, gift-wrapped when available, with no price inside, and usually arrive within 2–7 business days. Mystery Boxes ($50–$500) are hand-packed at our shop in a quality gift box with a hand-tied ribbon and shipped via USPS Ground Advantage. Ships within 5 business days, arrives in 7–12 business days, with tracking emailed to the customer.
+Shipping is free on every order (U.S. only). Mystery Gifts ($10–$25, one single item) ship directly from a retailer to the recipient, gift-wrapped when available, with no price inside, and usually arrive within 2–7 business days. Mystery Boxes ($50–$500) are hand-packed at our shop in a quality gift box with a hand-tied ribbon and shipped via USPS Ground Advantage. Ships within 5 business days, arrives in 7–12 business days, with tracking emailed to the customer.
 
 Because every Mystery Gift and Mystery Box is a surprise, there are no returns or exchanges. You may cancel for a full refund any time before your order ships. To cancel, email help@mymysterycreations.com from the address you ordered with and say cancel. Once an order has shipped, it can no longer be cancelled, and all sales are final. We'll email tracking as soon as it ships. Refunds for cancelled orders go back to the original payment method. Footer links "Shipping" and "Refunds" point to `terms.html#shipping` and `terms.html#refunds`.
 
