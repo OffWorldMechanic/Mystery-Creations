@@ -21,6 +21,8 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Mystery Creations — Mystery gifts from $10, free shipping">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@BeckyWithTheBox">
+  <meta property="og:locale" content="en_US">
   <meta name="twitter:title" content="Mystery Creations — Mystery Gifts &amp; Themed Mystery Boxes">
   <meta name="twitter:description" content="Mystery Gift from $10: one single surprise item (not a box), matched to a theme and shipped free, direct to the recipient, with no price inside. Mystery Boxes from $50 to $500: multiple gifts hand-packed in one box with a ribbon.">
   <meta name="twitter:image" content="https://mymysterycreations.com/img/og-image.png">
@@ -101,6 +103,22 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Every Mystery Box and every Mystery Gift is a fixed price for the size or price and theme you choose. What you pay is what you get: a curated themed gift. Applicable sales tax is added at checkout where it applies. There are no random prizes, odds, chances, rarity tiers, sweepstakes, or resale, trade-in, or buyback programs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will I ever get the same item twice?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Ordering again? We track what we’ve sent you, so you’ll never get the same surprise item twice. We match on the email address you order with, so please use the same email each time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I send it to a friend, and can it be gift wrapped?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Tick the gift option in the order menu, add an optional note, and enter your friend’s U.S. address on the secure Stripe checkout step. You can also add optional gift wrap for $2.00. Gift orders ship with no price inside."
           }
         },
         {
@@ -638,6 +656,20 @@
                 </select>
                 <p class="theme-hint" id="theme-hint" hidden></p>
               </div>
+              <div class="field" id="pet-field" hidden>
+                <label for="pet-type">What’s your pet? <span class="required">required</span></label>
+                <select id="pet-type" name="petType" autocomplete="off">
+                  <option value="">Choose your pet…</option>
+                  <option value="beardeddragon">Bearded dragon</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                  <option value="other">Other</option>
+                </select>
+                <div id="pet-other-wrap" hidden>
+                  <label for="pet-other">Tell us your pet</label>
+                  <input type="text" id="pet-other" name="petOther" maxlength="40" placeholder="Hamster, parrot, gecko…" autocomplete="off">
+                </div>
+              </div>
               <div class="field">
                 <label for="recipient">Tell us about the special person <span class="optional">optional</span></label>
                 <textarea id="recipient" name="recipient" maxlength="100" rows="2" placeholder="Dad, 60s, loves fishing and old westerns" autocomplete="off"></textarea>
@@ -653,11 +685,17 @@
 
       <div class="wrap shop-flow">
         <div class="shop-panel field" id="note">
-          <label for="gift-note">Add a special note <span class="optional">optional</span></label>
-          <textarea id="gift-note" name="giftNote" maxlength="100" rows="3" placeholder="Happy birthday! Love, Sam" autocomplete="off"></textarea>
-          <div class="note-meta">
-            <p class="hint" id="gift-note-hint">The gift note does not affect which gift is picked. It is a message for them.</p>
-            <span class="char-count" id="gift-note-count" aria-live="polite">0 / 100</span>
+          <label class="check-row" for="gift-toggle">
+            <input type="checkbox" id="gift-toggle" name="shipToFriend">
+            <span><strong>This is a gift — ship it to a friend</strong><br><small>You’ll enter their U.S. address on the secure Stripe checkout step. Tick this to add a gift note for them.</small></span>
+          </label>
+          <div id="gift-note-wrap" hidden>
+            <label for="gift-note">Add a special note <span class="optional">optional</span></label>
+            <textarea id="gift-note" name="giftNote" maxlength="100" rows="3" placeholder="Happy birthday! Love, Sam" autocomplete="off"></textarea>
+            <div class="note-meta">
+              <p class="hint" id="gift-note-hint">The gift note does not affect which gift is picked. It is a message for them.</p>
+              <span class="char-count" id="gift-note-count" aria-live="polite">0 / 100</span>
+            </div>
           </div>
         </div>
 
@@ -667,6 +705,7 @@
             <span class="choice-title">Mystery Gift</span>
           </legend>
           <p class="choice-lede"><strong>One single surprise item, not a box.</strong> Choose a price. It ships free, directly from a retailer to the recipient, with no price inside, and usually arrives within 2–7 business days.</p>
+          <p class="guarantee-line">Ordering again? We track what we’ve sent you, so you’ll never get the same surprise item twice.</p>
           <div class="choice-grid" id="gift-choices"></div>
         </fieldset>
 
@@ -676,6 +715,7 @@
             <span class="choice-title">Mystery Box</span>
           </legend>
           <p class="choice-lede"><strong>Multiple gifts, hand-packed in one box</strong> at our shop, with a hand-tied ribbon. Free shipping via USPS Ground Advantage. Ships within 5 business days, arrives in 7–12 business days. Smaller boxes hold a handful of gifts; bigger boxes hold a big haul of gifts.</p>
+          <p class="guarantee-line">Ordering again? We track what we’ve sent you, so you’ll never get the same surprise item twice.</p>
           <div class="choice-grid choice-grid-boxes" id="box-choices"></div>
         </fieldset>
 
@@ -685,9 +725,17 @@
             <div class="summary-row"><span>Order</span><strong data-summary-item>Choose a Mystery Gift or Mystery Box</strong></div>
             <div class="summary-row"><span>Price</span><strong data-summary-price>—</strong></div>
             <div class="summary-row"><span>Theme</span><strong data-summary-theme>Choose a theme</strong></div>
+            <div class="summary-row" data-pet-row hidden><span>Pet</span><strong data-summary-pet>Choose your pet</strong></div>
             <div class="summary-row"><span>About them</span><strong data-summary-recipient>Left blank</strong></div>
             <div class="summary-row"><span>Gift note</span><strong data-summary-note>Left blank</strong></div>
+            <div class="summary-row"><span>Ship to a friend</span><strong data-summary-friend>No</strong></div>
+            <div class="summary-row"><span>Gift wrap</span><strong data-summary-wrap>No</strong></div>
           </div>
+          <label class="check-row" for="gift-wrap">
+            <input type="checkbox" id="gift-wrap" name="giftWrap">
+            <span><strong>Add gift wrap — $2.00</strong><br><small>Optional. Added to your order total before tax.</small></span>
+          </label>
+          <div class="hp-field" aria-hidden="true"><label for="hp-website">Leave this field empty</label><input type="text" id="hp-website" name="website" tabindex="-1" autocomplete="off"></div>
           <p class="pick-reminder">The description of the special person affects which mystery gift is picked. The gift note does not.</p>
           <p class="checkout-note" id="checkout-status" aria-live="polite">Choose a theme and either a Mystery Gift price or a Mystery Box. If you skip the description or the note, that part stays blank.</p>
           <button class="btn btn-gold btn-checkout" type="submit" data-checkout-btn disabled>Continue to secure checkout</button>
@@ -731,6 +779,7 @@
 
     <section class="section waitlist-section" id="waitlist">
       <div class="wrap">
+        <img class="raccoon-peek" src="img/raccoon-peek.svg" alt="" aria-hidden="true" width="150" height="94" loading="lazy" decoding="async">
         <div class="waitlist-card">
           <div class="waitlist-copy">
             <p class="eyebrow">Email list</p>
@@ -748,7 +797,9 @@
       </div>
     </section>
 
-    <section class="section" id="how">
+    <div class="paw-divider" aria-hidden="true"></div>
+
+    <section class="section paw-bg" id="how">
       <div class="wrap">
         <div class="section-head">
           <p class="eyebrow">Three easy steps</p>
@@ -759,7 +810,7 @@
           <article class="step">
             <div class="step-num">01</div>
             <h3>Choose a theme</h3>
-            <p>Twenty-two themes, from Anime and Gaming to seasonal picks like Halloween and Christmas, plus Watches. You can also tell us about the special person. That description affects which mystery gift is picked. A gift note does not.</p>
+            <p>Twenty-three themes, from Anime and Gaming to seasonal picks like Halloween and Christmas, plus Watches and Pets. You can also tell us about the special person. That description affects which mystery gift is picked. A gift note does not.</p>
           </article>
           <article class="step">
             <div class="step-num">02</div>
@@ -789,7 +840,7 @@
     <section class="section" id="themes">
       <div class="wrap">
         <div class="section-head">
-          <p class="eyebrow">Twenty-two themes</p>
+          <p class="eyebrow">Twenty-three themes</p>
           <h2>Theme ideas</h2>
           <p>Collections built around an interest — not official brand shops. Items are genuine, new products purchased from authorized retailers; Mystery Creations is not affiliated with or endorsed by any brand.</p>
         </div>
@@ -857,7 +908,9 @@
       </div>
     </section>
 
-    <section class="section" id="faq">
+    <div class="paw-divider" aria-hidden="true"></div>
+
+    <section class="section paw-bg" id="faq">
       <div class="wrap">
         <div class="section-head">
           <p class="eyebrow">A few details</p>
@@ -891,6 +944,14 @@
           <details class="faq">
             <summary>Can I send a Mystery Box as a gift?</summary>
             <p>Yes. At checkout, enter the recipient’s U.S. shipping address so the Mystery Box goes to them. You can add an optional gift note (up to 100 characters) to tuck in the box, and optionally tell us a little about who it’s for so we can use that as a guide when we pack it.</p>
+          </details>
+          <details class="faq" id="faq-no-repeats">
+            <summary>Will I ever get the same item twice?</summary>
+            <p>No. Ordering again? We track what we’ve sent you, so you’ll never get the same surprise item twice. We match on the email address you order with, so please use the same email each time.</p>
+          </details>
+          <details class="faq" id="faq-gift-option">
+            <summary>Can I send it to a friend, and can it be gift wrapped?</summary>
+            <p>Yes. Tick <strong>This is a gift — ship it to a friend</strong> in the order menu, add an optional note, and enter your friend’s U.S. address on the secure Stripe checkout step. You can also add optional gift wrap for $2.00. Gift orders ship with no price inside.</p>
           </details>
           <details class="faq">
             <summary>Can I include a gift note?</summary>
@@ -958,6 +1019,7 @@
   </main>
 
   <footer class="site-footer">
+    <img class="raccoon-walk" src="img/raccoon-walk.svg" alt="" aria-hidden="true" width="240" height="112" loading="lazy" decoding="async">
     <div class="wrap">
       <div class="footer-row">
         <div>

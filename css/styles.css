@@ -2116,6 +2116,13 @@ html[data-shop-theme="watches"] {
   --theme-c: rgba(212, 184, 130, 0.24);
   --theme-motif: repeating-radial-gradient(circle at 92% 12%, transparent 0 16px, rgba(160, 130, 70, 0.16) 16px 17px, transparent 17px 34px);
 }
+html[data-shop-theme="pets"] {
+  --theme-base: #fbf3e8;
+  --theme-a: rgba(185, 130, 74, 0.42);
+  --theme-b: rgba(120, 170, 110, 0.28);
+  --theme-c: rgba(230, 180, 120, 0.26);
+  --theme-motif: radial-gradient(circle at 10px 10px, rgba(150, 100, 55, 0.2) 0 2.4px, transparent 3px) 0 0 / 30px 30px;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html, html[data-shop-theme] body, html[data-shop-theme] body::before, body::after {
@@ -2362,3 +2369,67 @@ html[data-shop-theme] .hero { background: transparent; }
 .checkout-spinner { width: 34px; height: 34px; border-radius: 50%; border: 3px solid rgba(0,0,0,.12); border-top-color: var(--coral-deep, #d9534f); animation: mc-spin .8s linear infinite; }
 @keyframes mc-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .checkout-spinner { animation: none; } }
+
+/* Gift option, gift wrap, guarantee line, honeypot */
+.check-row { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; margin: 4px 0 12px; line-height: 1.35; }
+.check-row input[type="checkbox"] { width: 22px; height: 22px; margin-top: 2px; flex: 0 0 auto; accent-color: var(--coral-deep, #d9534f); }
+.check-row small { color: inherit; opacity: .8; }
+#gift-note-wrap { margin-top: 10px; }
+.guarantee-line { margin: 6px 0 14px; font-weight: 600; font-size: .95rem; }
+.hp-field { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.field .required { font-size: .75rem; font-weight: 700; color: var(--coral-deep); text-transform: uppercase; letter-spacing: .04em; margin-left: 6px; }
+#pet-field input[type="text"], #pet-field select { width: 100%; }
+#pet-other-wrap { margin-top: 10px; }
+
+/* Raccoon brand art: decorative only (aria-hidden), original line-art SVGs in the brand purple. */
+.paw-divider {
+  position: relative;
+  z-index: 2;
+  height: 44px;
+  margin: 8px auto;
+  max-width: 1100px;
+  background: url("../img/paw-trail.svg") center / 580px 44px repeat-x;
+  opacity: 0.22;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+.paw-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("../img/paw-tile.svg") 0 0 / 120px 120px repeat;
+  opacity: 0.045;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+}
+.waitlist-section .wrap { position: relative; }
+.raccoon-peek {
+  position: absolute;
+  right: clamp(24px, 9%, 120px);
+  top: 0;
+  width: clamp(104px, 18vw, 150px);
+  height: auto;
+  transform: translateY(-97%);
+  pointer-events: none;
+  z-index: 3;
+}
+.site-footer .raccoon-walk {
+  position: absolute;
+  right: clamp(12px, 6%, 80px);
+  top: 0;
+  width: clamp(130px, 22vw, 210px);
+  height: auto;
+  transform: translateY(-91%);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .raccoon-peek { animation: mc-peek 700ms ease-out both; }
+  @keyframes mc-peek { from { transform: translateY(-62%); } to { transform: translateY(-97%); } }
+}
+@media (max-width: 560px) {
+  .paw-divider { height: 34px; background-size: 450px 34px; }
+}
