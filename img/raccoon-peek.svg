@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 100" fill="none" stroke="#4a2378" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  <!-- ears -->
+  <path d="M36 40C28 24 31 11 45 13c9 1 16 9 19 18z" fill="#b9a6d4"/>
+  <path d="M124 40c8-16 5-29-9-27-9 1-16 9-19 18z" fill="#b9a6d4"/>
+  <path d="M40 33c-3-9-1-14 5-14 4 1 8 5 10 10zM120 33c3-9 1-14-5-14-4 1-8 5-10 10z" fill="#4a2378" stroke="none"/>
+  <!-- head with cheek tufts -->
+  <path d="M30 62C28 40 48 25 80 25s52 15 50 37l9 5-9 4 6 8-12-2c-7 12-22 20-44 20s-37-8-44-20l-12 2 6-8-9-4z" fill="#b9a6d4"/>
+  <!-- engraving hatch -->
+  <path d="M70 31l-2 9M78 29l-1 11M86 29l1 11M94 31l2 9M58 34l-3 7M102 34l3 7M44 62l-6 3M116 62l6 3M46 70l-6 5M114 70l6 5M52 78l-5 6M108 78l5 6" stroke-width="1.1" opacity=".75"/>
+  <!-- mask band -->
+  <path d="M33 58c11-12 29-13 45-3l2 2 2-2c16-10 34-9 45 3-6 12-27 13-39 5l-8 2-8-2c-12 8-33 7-39-5z" fill="#4a2378"/>
+  <ellipse cx="62" cy="47" rx="8" ry="3.2" fill="#efe7f6" stroke="none"/>
+  <ellipse cx="98" cy="47" rx="8" ry="3.2" fill="#efe7f6" stroke="none"/>
+  <circle cx="61" cy="57" r="4.2" fill="#1d1530" stroke="#efe7f6" stroke-width="1"/>
+  <circle cx="99" cy="57" r="4.2" fill="#1d1530" stroke="#efe7f6" stroke-width="1"/>
+  <circle cx="62.2" cy="55.6" r="1.1" fill="#fff" stroke="none"/>
+  <circle cx="100.2" cy="55.6" r="1.1" fill="#fff" stroke="none"/>
+  <!-- muzzle -->
+  <ellipse cx="80" cy="75" rx="20" ry="14" fill="#efe7f6"/>
+  <path d="M71 69q9-6 18 0-2 8-9 9-7-1-9-9z" fill="#1d1530"/>
+  <path d="M80 78v5m0 0q-6 4-10 0m10 0q6 4 10 0" stroke-width="1.3"/>
+  <path d="M60 74L38 70M60 79l-20 6M100 74l22-4M100 79l20 6" stroke-width="1" opacity=".8"/>
+  <!-- paws gripping the edge -->
+  <g fill="#b9a6d4"><path d="M38 100c-1-8 3-13 10-13s11 5 10 13z"/><path d="M122 100c1-8-3-13-10-13s-11 5-10 13z"/></g>
+  <path d="M42 90v-5M48 88v-6M54 90v-5M106 90v-5M112 88v-6M118 90v-5" stroke-width="2.4"/>
+</svg>

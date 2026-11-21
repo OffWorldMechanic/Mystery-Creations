@@ -173,8 +173,8 @@ window.STORE_CONFIG = {
     {
       id: "pokemon-fans",
       image: "img/themes/pokemon-fans.jpg",
-      name: "Pocket Monster Fans",
-      blurb: "Adventure-ready finds for fans of pocket-monster worlds. Genuine items only — no knockoffs.",
+      name: "Poke Mon",
+      blurb: "Adventure-ready finds for Poke Mon fans. Genuine items only — no knockoffs.",
       accent: "#e6b84a",
       icon: "pokemon-fans"
     },
@@ -337,6 +337,14 @@ window.STORE_CONFIG = {
       blurb: "Timepieces, watch straps, and clock-face finds for people who love a good watch. Theme name only — not an official brand shop.",
       accent: "#c4b07a",
       icon: "watches"
+    },
+    {
+      id: "pets",
+      image: "img/themes/pets.jpg",
+      name: "Pets",
+      blurb: "Treats, toys, and comforts for bearded dragon, dog, and cat people. Tell us what kind of pet you have so the picks fit.",
+      accent: "#b9824a",
+      icon: "pets"
     }
   ],
 

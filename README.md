@@ -45,7 +45,7 @@ Customers pick one theme, optionally describe the special person, optionally add
 Configured in the `themes` array in `js/config.js`. Starting themes:
 
 - Anime
-- Pocket Monster Fans
+- Poke Mon
 - Football
 - Musician
 - Mechanic
@@ -65,6 +65,8 @@ Configured in the `themes` array in `js/config.js`. Starting themes:
 - Halloween
 - Christmas
 - St. Patrick's Day Party
+- Watches
+- Pets (required pet-type choice: bearded dragon, dog, cat, other; see `petType` in the Worker)
 
 ### Adding a theme later
 
