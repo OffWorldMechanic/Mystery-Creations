@@ -342,7 +342,7 @@ window.STORE_CONFIG = {
       id: "pets",
       image: "img/themes/pets.jpg",
       name: "Pets",
-      blurb: "Treats, toys, and comforts for bearded dragon, dog, and cat people. Tell us what kind of pet you have so the picks fit.",
+      blurb: "Treats, toys, and comforts for bearded dragon, dog, and cat people. If you pick this theme, tell us your pet so the picks fit.",
       accent: "#b9824a",
       icon: "pets"
     }

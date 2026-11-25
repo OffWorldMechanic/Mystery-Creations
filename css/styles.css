@@ -2379,14 +2379,12 @@ html[data-shop-theme] .hero { background: transparent; }
 .hp-field { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 .field .required { font-size: .75rem; font-weight: 700; color: var(--coral-deep); text-transform: uppercase; letter-spacing: .04em; margin-left: 6px; }
-#pet-field input[type="text"], #pet-field select { width: 100%; }
-#pet-other-wrap { margin-top: 10px; }
+#pet-field input[type="text"] { width: 100%; }
 
 /* The HTML hidden attribute is display:none in the browser default stylesheet,
    but author rules such as .fold-card .field { display: grid } and
-   .summary-row { display: flex } override it. That kept "What's your pet?"
-   (labeled required) and the summary Pet row visible on every checkout,
-   even when a non-Pets theme was selected. Honor hidden everywhere. */
+   .summary-row { display: flex } override it. Honor hidden everywhere so
+   "What's your pet?" stays hidden until the Pets theme is selected. */
 [hidden] { display: none !important; }
 
 /* Raccoon brand art: decorative only (aria-hidden), original line-art SVGs in the brand purple. */
