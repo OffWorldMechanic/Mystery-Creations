@@ -120,7 +120,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "chamber",
-      contents: "A big haul of gifts",
+      contents: "A large chamber of gifts",
       name: "The Chamber",
       price: 250,
       size: "Large",
@@ -128,7 +128,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "relic",
-      contents: "A big haul of gifts",
+      contents: "An extra-large trunk of gifts",
       name: "The Relic",
       price: 300,
       size: "Extra large",
@@ -136,7 +136,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "heist",
-      contents: "A big haul of gifts",
+      contents: "A huge score of gifts",
       name: "The Heist",
       price: 400,
       size: "Huge",
@@ -144,7 +144,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "grand-vault",
-      contents: "A big haul of gifts",
+      contents: "A legendary vault of gifts",
       name: "The Grand Vault",
       price: 500,
       size: "Legendary",
