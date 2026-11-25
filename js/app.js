@@ -105,7 +105,9 @@
     const saved = JSON.parse(localStorage.getItem("mc-selection") || "null");
     if (saved) {
       if (saved.tierId) state.tierId = saved.tierId;
-      if (saved.themeId) state.themeId = saved.themeId;
+      if (saved.themeId && (config.themes || []).some((t) => t.id === saved.themeId)) {
+        state.themeId = saved.themeId;
+      }
     }
   } catch (_) { /* ignore */ }
 
@@ -113,6 +115,10 @@
     try {
       localStorage.setItem("mc-selection", JSON.stringify(state));
     } catch (_) { /* ignore */ }
+  }
+
+  function isRealThemeId(id) {
+    return !!(id && (config.themes || []).some((t) => t.id === id));
   }
 
   function getTheme() {
@@ -380,12 +386,16 @@
   function renderThemeSelect() {
     const select = document.getElementById("theme-select");
     if (!select) return;
-    select.innerHTML = `<option value="">Select a theme…</option>` +
+    select.required = true;
+    select.innerHTML = `<option value="" disabled selected>Choose your theme</option>` +
       (config.themes || []).map((theme) =>
         `<option value="${escapeHtml(theme.id)}">${escapeHtml(theme.name)}</option>`
       ).join("");
-    if (state.themeId && (config.themes || []).some((t) => t.id === state.themeId)) {
+    if (isRealThemeId(state.themeId)) {
       select.value = state.themeId;
+    } else {
+      state.themeId = null;
+      select.value = "";
     }
     renderThemeHint();
   }
@@ -588,10 +598,8 @@
 
     const status = document.getElementById("checkout-status");
     if (!status) return;
-    if (!theme && !tier) {
-      status.textContent = "Choose a theme and either a Mystery Gift price or a Mystery Box. If you skip the description or the note, that part stays blank.";
-    } else if (!theme) {
-      status.textContent = "Choose a theme. It is sent with this checkout along with the price you picked.";
+    if (!theme) {
+      status.textContent = "Please pick a theme";
     } else if (!tier) {
       status.textContent = "Choose a Mystery Gift price or a Mystery Box for the " + theme.name + " theme.";
     } else if (!pet.ok) {
@@ -640,9 +648,14 @@
     const packed = checkoutBody();
     const tier = packed.sel.tier;
     const theme = packed.sel.theme;
-    if (!theme) {
+    if (!isRealThemeId(theme && theme.id) || !theme) {
+      const status = document.getElementById("checkout-status");
+      if (status) status.textContent = "Please pick a theme";
       const el = document.getElementById("theme-select");
-      if (el) el.focus();
+      if (el) {
+        el.focus();
+        if (el.scrollIntoView) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
       return;
     }
     if (!tier) {
@@ -800,7 +813,7 @@
     const themeSelect = document.getElementById("theme-select");
     if (themeSelect) {
       themeSelect.addEventListener("change", () => {
-        state.themeId = themeSelect.value || null;
+        state.themeId = isRealThemeId(themeSelect.value) ? themeSelect.value : null;
         persist();
         renderThemeHint();
         updateSummary();

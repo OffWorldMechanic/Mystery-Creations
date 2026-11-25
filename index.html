@@ -650,9 +650,9 @@
             <div class="fold-card">
               <h1 class="slogan" data-store-tagline>Mystery gifts from $10, shipped free.</h1>
               <div class="field">
-                <label for="theme-select">Theme</label>
-                <select id="theme-select" name="theme" autocomplete="off">
-                  <option value="">Choose a theme…</option>
+                <label for="theme-select">Theme <span class="required">required</span></label>
+                <select id="theme-select" name="theme" autocomplete="off" required>
+                  <option value="" disabled selected>Choose your theme</option>
                 </select>
                 <p class="theme-hint" id="theme-hint" hidden></p>
               </div>
