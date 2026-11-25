@@ -658,17 +658,7 @@
               </div>
               <div class="field" id="pet-field" hidden>
                 <label for="pet-type">What’s your pet? <span class="required">required</span></label>
-                <select id="pet-type" name="petType" autocomplete="off">
-                  <option value="">Choose your pet…</option>
-                  <option value="beardeddragon">Bearded dragon</option>
-                  <option value="dog">Dog</option>
-                  <option value="cat">Cat</option>
-                  <option value="other">Other</option>
-                </select>
-                <div id="pet-other-wrap" hidden>
-                  <label for="pet-other">Tell us your pet</label>
-                  <input type="text" id="pet-other" name="petOther" maxlength="40" placeholder="Hamster, parrot, gecko…" autocomplete="off">
-                </div>
+                <input type="text" id="pet-type" name="petType" maxlength="40" placeholder="Bearded dragon, dog, cat…" autocomplete="off">
               </div>
               <div class="field">
                 <label for="recipient">Tell us about the special person <span class="optional">optional</span></label>
@@ -725,7 +715,7 @@
             <div class="summary-row"><span>Order</span><strong data-summary-item>Choose a Mystery Gift or Mystery Box</strong></div>
             <div class="summary-row"><span>Price</span><strong data-summary-price>—</strong></div>
             <div class="summary-row"><span>Theme</span><strong data-summary-theme>Choose a theme</strong></div>
-            <div class="summary-row" data-pet-row hidden><span>Pet</span><strong data-summary-pet>Choose your pet</strong></div>
+            <div class="summary-row" data-pet-row hidden><span>Pet</span><strong data-summary-pet></strong></div>
             <div class="summary-row"><span>About them</span><strong data-summary-recipient>Left blank</strong></div>
             <div class="summary-row"><span>Gift note</span><strong data-summary-note>Left blank</strong></div>
             <div class="summary-row"><span>Ship to a friend</span><strong data-summary-friend>No</strong></div>

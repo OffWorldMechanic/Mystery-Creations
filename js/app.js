@@ -453,16 +453,11 @@
     return String(byTier[themeId] || "").trim();
   }
 
-  const PET_LABELS = { beardeddragon: "Bearded dragon", dog: "Dog", cat: "Cat", other: "Other" };
   function petState() {
     const theme = getTheme();
-    if (!theme || theme.id !== "pets") return { on: false, type: "", other: "", ok: true, label: "" };
-    const sel = document.getElementById("pet-type");
-    const type = sel && PET_LABELS[sel.value] ? sel.value : "";
-    const other = fieldText("pet-other").replace(/[^\p{L}\p{N} '\-.]/gu, " ").replace(/\s+/g, " ").trim().slice(0, 40);
-    const ok = !!type && (type !== "other" || !!other);
-    const label = !type ? "" : (type === "other" ? "Other: " + other : PET_LABELS[type]);
-    return { on: true, type: type, other: type === "other" ? other : "", ok: ok, label: label };
+    if (!theme || theme.id !== "pets") return { on: false, text: "", ok: true, label: "" };
+    const text = fieldText("pet-type").replace(/[^\p{L}\p{N} '\-.]/gu, " ").replace(/\s+/g, " ").trim().slice(0, 40);
+    return { on: true, text: text, ok: !!text, label: text };
   }
 
   function isChecked(id) {
@@ -509,8 +504,7 @@
         giftWrap: giftWrap,
         shipToFriend: shipToFriend,
         website: honeypot,
-        petType: pet.type,
-        petOther: pet.other,
+        petType: pet.on ? pet.text : "",
         price: tier.price,
         priceCents: Math.round(Number(tier.price) * 100),
         currency: stripe.currency || "usd",
@@ -538,8 +532,6 @@
     const pet = packed.pet || petState();
     const petField = document.getElementById("pet-field");
     if (petField) petField.hidden = !pet.on;
-    const petOtherWrap = document.getElementById("pet-other-wrap");
-    if (petOtherWrap) petOtherWrap.hidden = !(pet.on && document.getElementById("pet-type") && document.getElementById("pet-type").value === "other");
     document.querySelectorAll("[data-pet-row]").forEach((el) => { el.hidden = !pet.on; });
     const ready = !!(tier && theme && packed.link && packed.body && pet.ok);
     const setText = (selector, text) => {
@@ -552,7 +544,7 @@
         : tier.name + " Mystery Box · " + tier.size);
     setText("[data-summary-item]", itemLabel);
     setText("[data-summary-price]", tier ? money(tier.price) + (packed.giftWrap ? " + $2.00 gift wrap" : "") : "—");
-    setText("[data-summary-pet]", pet.label || "Choose your pet");
+    setText("[data-summary-pet]", pet.label || "Type your pet");
     setText("[data-summary-friend]", packed.shipToFriend ? "Yes" : "No");
     setText("[data-summary-wrap]", packed.giftWrap ? "Yes (+$2.00)" : "No");
     setText("[data-summary-theme]", theme ? theme.name : "Choose a theme");
@@ -603,7 +595,7 @@
     } else if (!tier) {
       status.textContent = "Choose a Mystery Gift price or a Mystery Box for the " + theme.name + " theme.";
     } else if (!pet.ok) {
-      status.textContent = pet.type === "other" ? "Tell us what kind of pet you have (a few words)." : "Choose what kind of pet you have. This is required for the Pets theme.";
+      status.textContent = "Tell us what kind of pet you have. This is required for the Pets theme.";
     } else if (!packed.link) {
       status.textContent = "That combination isn’t available right now. Please try another price or write us at " + config.contactEmail + ".";
     } else if (sel.kind === "gift") {
@@ -773,10 +765,8 @@
       const note = document.getElementById("gift-note");
       if (recipient && typeof saved.recipient === "string") recipient.value = saved.recipient.slice(0, 100);
       if (note && typeof saved.giftNote === "string") note.value = saved.giftNote.slice(0, 100);
-      const petSel = document.getElementById("pet-type");
-      const petOth = document.getElementById("pet-other");
-      if (petSel && typeof saved.petType === "string" && PET_LABELS[saved.petType]) petSel.value = saved.petType;
-      if (petOth && typeof saved.petOther === "string") petOth.value = saved.petOther.slice(0, 40);
+      const petInput = document.getElementById("pet-type");
+      if (petInput && typeof saved.petType === "string") petInput.value = saved.petType.slice(0, 40);
       const toggle = document.getElementById("gift-toggle");
       if (toggle && (saved.shipToFriend || (note && note.value))) { toggle.checked = true; syncGiftToggle(); }
     } catch (_) { /* ignore */ }
@@ -796,8 +786,7 @@
           recipient: recipient ? recipient.value : "",
           giftNote: note ? note.value : "",
           shipToFriend: isChecked("gift-toggle"),
-          petType: (document.getElementById("pet-type") || {}).value || "",
-          petOther: (document.getElementById("pet-other") || {}).value || ""
+          petType: (document.getElementById("pet-type") || {}).value || ""
         }));
       } catch (_) { /* ignore */ }
       updateSummary();
@@ -833,21 +822,20 @@
     }
     bindNote("recipient", "recipient-count");
     bindNote("gift-note", "gift-note-count");
-    const petSelect = document.getElementById("pet-type");
-    const petOther = document.getElementById("pet-other");
-    const petChanged = () => {
-      try {
-        const r = document.getElementById("recipient");
-        const n = document.getElementById("gift-note");
-        sessionStorage.setItem("mc-notes", JSON.stringify({
-          recipient: r ? r.value : "", giftNote: n ? n.value : "", shipToFriend: isChecked("gift-toggle"),
-          petType: petSelect ? petSelect.value : "", petOther: petOther ? petOther.value : ""
-        }));
-      } catch (_) { /* ignore */ }
-      updateSummary();
-    };
-    if (petSelect) petSelect.addEventListener("change", petChanged);
-    if (petOther) petOther.addEventListener("input", petChanged);
+    const petInput = document.getElementById("pet-type");
+    if (petInput) {
+      petInput.addEventListener("input", () => {
+        try {
+          const r = document.getElementById("recipient");
+          const n = document.getElementById("gift-note");
+          sessionStorage.setItem("mc-notes", JSON.stringify({
+            recipient: r ? r.value : "", giftNote: n ? n.value : "", shipToFriend: isChecked("gift-toggle"),
+            petType: petInput.value
+          }));
+        } catch (_) { /* ignore */ }
+        updateSummary();
+      });
+    }
     const toggle = document.getElementById("gift-toggle");
     if (toggle) {
       toggle.addEventListener("change", () => {
@@ -1132,7 +1120,7 @@
       (priceLabel ? " · " + escapeHtml(priceLabel) : "") + "</p>" +
       "<p><strong>About them:</strong> " + escapeHtml(recipient || "Left blank") + "</p>" +
       "<p><strong>Gift note:</strong> " + escapeHtml(giftNote || "Left blank") + "</p>" +
-      (saved.petType ? "<p><strong>Pet:</strong> " + escapeHtml(saved.petType === "other" ? "Other: " + (saved.petOther || "") : ({ beardeddragon: "Bearded dragon", dog: "Dog", cat: "Cat" })[saved.petType] || "") + "</p>" : "") +
+      (saved.petType ? "<p><strong>Pet:</strong> " + escapeHtml(saved.petType) + "</p>" : "") +
       (saved.shipToFriend ? "<p><strong>Ship to a friend:</strong> Yes</p>" : "") +
       (saved.giftWrap ? "<p><strong>Gift wrap:</strong> Yes (+$2.00)</p>" : "") +
       "<p class=\"pick-reminder\">The description of the special person affects which mystery gift is picked. The gift note does not.</p>";

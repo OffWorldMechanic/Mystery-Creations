@@ -66,7 +66,7 @@ Configured in the `themes` array in `js/config.js`. Starting themes:
 - Christmas
 - St. Patrick's Day Party
 - Watches
-- Pets (required pet-type choice: bearded dragon, dog, cat, other; see `petType` in the Worker)
+- Pets (when this theme is chosen, a required short text field asks what the pet is; see `petType` in the Worker)
 
 ### Adding a theme later
 
