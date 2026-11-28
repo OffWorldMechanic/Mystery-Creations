@@ -85,7 +85,7 @@ Configured in the `themes` array in `js/config.js`. Starting themes:
 
 3. Save and refresh. The theme dropdown and overview are built from this array, so no HTML edit is required. Choosing a theme swaps the full-page background to `image` (a collage in `img/themes/`). With no theme selected, the page stays the default cream look. A theme without an image falls back to its `accent` color.
 
-4. Add the collage as `img/themes/<id>.jpg` and set `image` to that path. The photo should fill the frame, with the important objects near the center so a phone crop still reads as that theme.
+4. Add the collage as `img/themes/<id>.webp` and set `image` to that path. The photo should fill the frame, with the important objects near the center so a phone crop still reads as that theme.
 
 To give the new theme its own icon, add an SVG string under the matching key in the `ICONS` object in `js/app.js`. Keep icons original — no official logos or characters.
 
