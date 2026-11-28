@@ -164,7 +164,7 @@ window.STORE_CONFIG = {
   themes: [
     {
       id: "anime",
-      image: "img/themes/anime.jpg",
+      image: "img/themes/anime.webp",
       name: "Anime",
       blurb: "Bold color, collectible energy, and a little sparkle — inspired by anime fandom, never official studio art.",
       accent: "#e07a6a",
@@ -172,7 +172,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "pokemon-fans",
-      image: "img/themes/pokemon-fans.jpg",
+      image: "img/themes/pokemon-fans.webp",
       name: "Poke Mon",
       blurb: "Adventure-ready finds for Poke Mon fans. Genuine items only — no knockoffs.",
       accent: "#e6b84a",
@@ -180,7 +180,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "football",
-      image: "img/themes/football.jpg",
+      image: "img/themes/football.webp",
       name: "Football",
       blurb: "Game-day spirit, locker-room grit, and fan-cave staples. Not affiliated with any league or team.",
       accent: "#d07a3a",
@@ -188,7 +188,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "musician",
-      image: "img/themes/musician.jpg",
+      image: "img/themes/musician.webp",
       name: "Musician",
       blurb: "For the always-humming, vinyl-stacking, late-night-jam kind of person.",
       accent: "#7b8cff",
@@ -196,7 +196,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "mechanic",
-      image: "img/themes/mechanic.jpg",
+      image: "img/themes/mechanic.webp",
       name: "Mechanic",
       blurb: "Gears, grit, and garage-ready goods for people who like to take things apart.",
       accent: "#c4a574",
@@ -204,7 +204,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "gotham-fans",
-      image: "img/themes/gotham-fans.jpg",
+      image: "img/themes/gotham-fans.webp",
       name: "Dark Knight Fans",
       blurb: "Moody city nights, art-deco shadows, and a dark-knight atmosphere. Theme name only — no official marks.",
       accent: "#6b7c9c",
@@ -212,7 +212,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "space-fans",
-      image: "img/themes/space-fans.jpg",
+      image: "img/themes/space-fans.webp",
       name: "Space Explorer",
       blurb: "Orbit-minded gifts for launch watchers and stargazers.",
       accent: "#6ec4d8",
@@ -220,7 +220,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "gaming",
-      image: "img/themes/gaming.jpg",
+      image: "img/themes/gaming.webp",
       name: "Gaming",
       blurb: "Controller-side comforts and collectible energy for people who live in save files.",
       accent: "#6ea8ff",
@@ -228,7 +228,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "marvel-fans",
-      image: "img/themes/marvel-fans.jpg",
+      image: "img/themes/marvel-fans.webp",
       name: "Superhero Fans",
       blurb: "Heroic color, comic-shelf energy, and everyday finds for superhero fans.",
       accent: "#d45a5a",
@@ -236,7 +236,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "star-wars-fans",
-      image: "img/themes/star-wars-fans.jpg",
+      image: "img/themes/star-wars-fans.webp",
       name: "Galaxy Saga Fans",
       blurb: "Far-galaxy atmosphere for saga lovers. Theme name only — no official marks.",
       accent: "#d4c07a",
@@ -244,7 +244,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "potter-fans",
-      image: "img/themes/potter-fans.jpg",
+      image: "img/themes/potter-fans.webp",
       name: "Wizarding School Fans",
       blurb: "Cozy, bookish magic for fans of a wizarding school. Theme name only — no official crests or logos.",
       accent: "#7a9a4a",
@@ -252,7 +252,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "disney-fans",
-      image: "img/themes/disney-fans.jpg",
+      image: "img/themes/disney-fans.webp",
       name: "Fairytale & Animation Fans",
       blurb: "Storybook warmth and classic animation energy.",
       accent: "#6a9ad8",
@@ -260,7 +260,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "basketball",
-      image: "img/themes/basketball.jpg",
+      image: "img/themes/basketball.webp",
       name: "Basketball",
       blurb: "Hardwood energy, gym-bag staples, and game-night spirit. Not affiliated with any league or team.",
       accent: "#e08a3a",
@@ -268,7 +268,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "baseball",
-      image: "img/themes/baseball.jpg",
+      image: "img/themes/baseball.webp",
       name: "Baseball",
       blurb: "Diamond days, ballpark snacks energy, and summer-night nostalgia. Not affiliated with any league or team.",
       accent: "#c45c4a",
@@ -276,7 +276,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "fishing-outdoors",
-      image: "img/themes/fishing-outdoors.jpg",
+      image: "img/themes/fishing-outdoors.webp",
       name: "Fishing & Outdoors",
       blurb: "Early mornings, quiet water, and trail-ready goods for people who pack a tackle box.",
       accent: "#5a9a7a",
@@ -284,7 +284,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "cars-racing",
-      image: "img/themes/cars-racing.jpg",
+      image: "img/themes/cars-racing.webp",
       name: "Cars & Racing",
       blurb: "Garage weekends, pit-lane focus, and the smell of rubber on a warm day.",
       accent: "#d06050",
@@ -292,7 +292,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "cozy-self-care",
-      image: "img/themes/cozy-self-care.jpg",
+      image: "img/themes/cozy-self-care.webp",
       name: "Cozy Self-Care",
       blurb: "Soft evenings, warm light, and small comforts meant to slow the day down.",
       accent: "#d4a0b4",
@@ -300,7 +300,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "squishy",
-      image: "img/themes/squishy.jpg",
+      image: "img/themes/squishy.webp",
       name: "Squishy",
       blurb: "Slow-rise squishies, stress balls, mochi squish, and plush squishies — soft, silly, and very squeezeable.",
       accent: "#f0a8c0",
@@ -308,7 +308,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "halloween",
-      image: "img/themes/halloween.jpg",
+      image: "img/themes/halloween.webp",
       name: "Halloween",
       blurb: "Autumn nights, carved pumpkins, and a little friendly fright — treats and trinkets for spooky-season fans.",
       accent: "#e08a3a",
@@ -316,7 +316,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "christmas",
-      image: "img/themes/christmas.jpg",
+      image: "img/themes/christmas.webp",
       name: "Christmas",
       blurb: "Cozy winter light, wrapping-paper rustle, and small comforts for the holiday table.",
       accent: "#c45c4a",
@@ -324,7 +324,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "stpatricksday",
-      image: "img/themes/stpatricksday.jpg",
+      image: "img/themes/stpatricksday.webp",
       name: "St. Patrick's Day Party",
       blurb: "Green-and-gold festivities, gathering energy, and luck-of-the-season party favors.",
       accent: "#3d8c5a",
@@ -332,7 +332,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "watches",
-      image: "img/themes/watches.jpg",
+      image: "img/themes/watches.webp",
       name: "Watches",
       blurb: "Timepieces, watch straps, and clock-face finds for people who love a good watch. Theme name only — not an official brand shop.",
       accent: "#c4b07a",
@@ -340,7 +340,7 @@ window.STORE_CONFIG = {
     },
     {
       id: "pets",
-      image: "img/themes/pets.jpg",
+      image: "img/themes/pets.webp",
       name: "Pets",
       blurb: "Treats, toys, and comforts for bearded dragon, dog, and cat people. If you pick this theme, tell us your pet so the picks fit.",
       accent: "#b9824a",
